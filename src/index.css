@@ -10,3 +10,14 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+:root {
+	--bg-header: #f0f0f0;
+	--btn-primary: #5793fb;
+}
+.bg-header {
+	background-color: var(--bg-header);
+}
+.btn-primary {
+	background-color: var(--btn-primary) !important;
+}
