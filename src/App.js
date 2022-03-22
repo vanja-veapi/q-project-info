@@ -6,7 +6,9 @@ import Header from "./components/layouts/Header/Header";
 
 // Routes
 import { Routes, Route } from "react-router-dom";
+// Pages
 import MyProfile from "./components/pages/MyProfile/MyProfile";
+import Register from "./components/pages/Register/Register";
 
 function App() {
 	return (
@@ -17,6 +19,7 @@ function App() {
 				</div>
 				<Routes>
 					<Route exact path="/" element={<MyProfile />} />
+					<Route path="/register" element={<Register />} />
 				</Routes>
 			</div>
 		</div>
