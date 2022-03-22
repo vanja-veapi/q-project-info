@@ -57,8 +57,8 @@ const Register = () => {
 						</button>
 					</div>
 
-					<div className="alert alert-success mt-3">Success message</div>
-					<div className="alert alert-danger mt-3">Error message</div>
+					{/* <div className="alert alert-success mt-3">Success message</div>
+					<div className="alert alert-danger mt-3">Error message</div> */}
 				</div>
 			</div>
 		</div>
