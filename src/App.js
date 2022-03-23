@@ -7,6 +7,7 @@ import Header from "./components/layouts/Header/Header";
 // Routes
 import { Routes, Route } from "react-router-dom";
 import MyProfile from "./components/pages/MyProfile/MyProfile";
+import Login from "./components/pages/Login/Login";
 
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 				</div>
 				<Routes>
 					<Route exact path="/" element={<MyProfile />} />
+					<Route exact path="/login" element={<Login />} />
 				</Routes>
 			</div>
 		</div>
