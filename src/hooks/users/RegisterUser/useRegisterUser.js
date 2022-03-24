@@ -27,7 +27,7 @@ export const useRegisterUser = () => {
 				};
 			});
 			// setTimeout(() => queryClient.removeQueries("register-info"), 1000);
-			// Ovo setTimeout mi mozda zatreba, ali vrv ne posto ce korisnik da bude dalje redirektovan
+			// Ovo setTimeout mi mozda zatreba, ali vrv ne posto ce korisnik da bude dalje redirektovn
 		},
 	});
 };
