@@ -1,0 +1,11 @@
+.loader {
+	bottom: 0;
+	width: 100%;
+	min-height: 100vh;
+	background-color: rgba(0, 0, 0, 0.8);
+	background-image: url(../../../assets/quantox-loader.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	position: fixed;
+	z-index: 999;
+}

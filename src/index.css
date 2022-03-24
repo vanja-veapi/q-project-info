@@ -12,12 +12,36 @@ code {
 }
 
 :root {
+	/* HEX */
 	--bg-header: #f0f0f0;
 	--btn-primary: #5793fb;
+	--bg-green: #e7fde8;
+
+	/* RGB */
+	--btn-green: rgba(49, 151, 149, 1);
 }
 .bg-header {
 	background-color: var(--bg-header);
 }
+.bg-green {
+	background-color: var(--bg-green);
+}
 .btn-primary {
 	background-color: var(--btn-primary) !important;
+
+}
+.btn-success {
+	background-color: var(--btn-green) !important;
+	border: unset !important;
+}
+.register.container-fluid,
+.login.container-fluid {
+	padding-left: unset;
+	padding-right: unset;
+}
+.card {
+	max-width: 615px;
+	margin: 0 auto;
+	background-color: var(--bg-header) !important;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

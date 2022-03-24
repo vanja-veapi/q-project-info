@@ -6,22 +6,41 @@ import Header from "./components/layouts/Header/Header";
 
 // Routes
 import { Routes, Route } from "react-router-dom";
+// Pages
 import MyProfile from "./components/pages/MyProfile/MyProfile";
+
+import Register from "./components/pages/Register/Register";
+// React Query
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+const queryClient = new QueryClient();
+
 import Login from "./components/pages/Login/Login";
+
 
 function App() {
 	return (
-		<div className="App">
-			<div className="container-fluid">
-				<div className="w-100 h-auto bg-header">
-					<Header />
+		<QueryClientProvider client={queryClient}>
+			<div className="App">
+				<div className="container-fluid">
+					<div className="w-100 h-auto bg-header">
+						<Header />
+					</div>
+					<Routes>
+						<Route exact path="/" element={<MyProfile />} />
+						<Route path="/register" element={<Register />} />
+						{/* <Route path="/quantox" element={<QuantoxSpinner />} /> */}
+					</Routes>
 				</div>
+
 				<Routes>
 					<Route exact path="/" element={<MyProfile />} />
 					<Route exact path="/login" element={<Login />} />
 				</Routes>
 			</div>
-		</div>
+
+			<ReactQueryDevtools initialIsOpen={false} />
+		</QueryClientProvider>
 	);
 }
 
