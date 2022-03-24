@@ -21,10 +21,13 @@ export const useRegisterUser = () => {
 		},
 		onSuccess: (success) => {
 			queryClient.setQueryData("register-info", () => {
+				localStorage.setItem("token", success.data.jwt);
 				return {
 					success,
 				};
 			});
+			// setTimeout(() => queryClient.removeQueries("register-info"), 1000);
+			// Ovo setTimeout mi mozda zatreba, ali vrv ne posto ce korisnik da bude dalje redirektovan
 		},
 	});
 };
