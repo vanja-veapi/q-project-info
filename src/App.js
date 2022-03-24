@@ -8,9 +8,10 @@ import Header from "./components/layouts/Header/Header";
 import { Routes, Route } from "react-router-dom";
 // Pages
 import MyProfile from "./components/pages/MyProfile/MyProfile";
-
 import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
+
+import { MyProject } from "./components/pages/ProjectManager/MyProject/MyProject";
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -26,16 +27,16 @@ function App() {
 					</div>
 
 					<Routes>
-						<Route exact path="/" element={<MyProfile />} />
+						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-						{/* <Route path="/quantox" element={<QuantoxSpinner />} /> */}
+
+						{/* PM Home */}
+						<Route path="/home" element={<MyProject bgColor={"bg-green-light"} />} />
+
+						{/* Employee */}
+						{/* <Route path="/home" element={<MyProject bgColor={"bg-blue-light"} />} /> */}
 					</Routes>
 				</div>
-
-				<Routes>
-					<Route exact path="/" element={<MyProfile />} />
-					<Route exact path="/login" element={<Login />} />
-				</Routes>
 			</div>
 
 			<ReactQueryDevtools initialIsOpen={false} />

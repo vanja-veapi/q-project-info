@@ -1,0 +1,46 @@
+.under-header {
+	width: 100%;
+	min-height: 165px;
+	padding-top: 39px;
+	padding-bottom: 30px;
+}
+.bg-green-light {
+	background-color: #f5fde7;
+}
+.bg-blue-light {
+	background-color: #e7fdfd;
+}
+.rocket h1 {
+	font-size: 28px;
+}
+.rocket p {
+	font-size: 22px;
+}
+.container-project {
+	max-width: 1216px;
+}
+.conainer-project h1,
+.conainer-project p {
+	margin-bottom: 0;
+}
+.search-container {
+	gap: 21px;
+}
+.search-container button {
+	font-weight: 500;
+}
+.search {
+	padding-left: 30px;
+	max-width: 320px;
+}
+.icon {
+	left: 10px;
+}
+.cards {
+	gap: 30px;
+	margin: 39px auto auto auto;
+}
+.container-project.m-auto > .row {
+	margin-right: 0;
+	margin-left: 0;
+}

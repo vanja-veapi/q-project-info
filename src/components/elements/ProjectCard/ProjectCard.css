@@ -1,0 +1,71 @@
+.project-card {
+	min-width: 495px;
+	background-color: rgba(240, 240, 240, 1);
+	max-height: 114px;
+	border-radius: 12px;
+	padding: 23px 25px 14px 19px;
+	transition: 0.4s;
+	cursor: pointer;
+	overflow: hidden;
+}
+/* PROBA */
+.project-card::before {
+	border-radius: 12px;
+	box-sizing: border-box;
+	transform: translateX(100%);
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 99.5%;
+	height: 2px;
+	border-bottom: 2px solid transparent;
+	border-left: 2px solid transparent;
+
+	transform: scale(1);
+}
+.project-card::after {
+	border-radius: 12px;
+	box-sizing: border-box;
+	transform: translateX(-100%);
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 99.5%;
+	height: 2px;
+	border-top: 2px solid transparent;
+	border-right: 2px solid transparent;
+}
+.project-card:hover::before {
+	transition: 0.1s transform linear, 0.1s height linear 0.1s;
+	transform: translateX(0);
+	height: 100%;
+	border-color: purple;
+}
+.project-card:hover::after {
+	transition: 0.1s transform linear, 0.2s height linear 0.1s;
+	transform: translateX(0);
+	height: 100%;
+	border-color: purple;
+}
+/* PROBA KRAJ */
+.project-card:hover {
+	transform: translateY(-15px);
+	box-shadow: -5px 10px 10px rgba(94, 94, 94, 0.2);
+}
+.project-data {
+	width: 80%;
+}
+.project-card img {
+	max-width: 77px;
+	max-height: 77px;
+	border-radius: 50%;
+}
+.bs-box-font {
+	font-size: 20px;
+}
+
+.project-title h2 {
+	font-size: 24px;
+}
