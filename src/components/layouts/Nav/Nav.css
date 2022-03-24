@@ -1,0 +1,38 @@
+nav ul {
+	font-size: 24px;
+	margin: 0;
+	padding: 25px 0 20px 0;
+	min-width: 446px;
+}
+nav.nav.navbar {
+	padding: 0;
+}
+nav ul li.nav-item {
+	list-style-type: none;
+}
+nav ul .nav-link {
+	background-color: unset;
+	border: unset;
+	font-weight: 600;
+	padding: unset !important;
+}
+nav ul .nav-link {
+	color: #999999;
+}
+.nav-link:hover {
+	color: #5793fb;
+}
+nav ul .nav-link::before {
+	content: "> ";
+}
+nav ul .nav-link.active {
+	color: #000;
+	background-color: unset;
+}
+.hamburger {
+	margin-top: 17px;
+	margin-bottom: 18px;
+}
+.hamburger-font {
+	font-size: 32px !important;
+}
