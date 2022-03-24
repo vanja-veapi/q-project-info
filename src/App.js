@@ -24,6 +24,7 @@ function App() {
 					<div className="w-100 h-auto bg-header">
 						<Header />
 					</div>
+
 					<Routes>
 						<Route exact path="/" element={<MyProfile />} />
 						<Route path="/register" element={<Register />} />
