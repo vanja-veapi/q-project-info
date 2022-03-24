@@ -26,15 +26,11 @@ function App() {
 					</div>
 					<Routes>
 						<Route exact path="/" element={<MyProfile />} />
+						<Route exact path="/login" element={<Login />} />
 						<Route path="/register" element={<Register />} />
 						{/* <Route path="/quantox" element={<QuantoxSpinner />} /> */}
 					</Routes>
 				</div>
-
-				<Routes>
-					<Route exact path="/" element={<MyProfile />} />
-					<Route exact path="/login" element={<Login />} />
-				</Routes>
 			</div>
 
 			<ReactQueryDevtools initialIsOpen={false} />
