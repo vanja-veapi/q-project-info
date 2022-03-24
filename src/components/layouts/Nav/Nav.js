@@ -8,7 +8,7 @@ const Nav = () => {
 	return (
 		<nav className="nav navbar justify-content-end">
 			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}
-			<ul className="justify-content-around d-none d-lg-flex">
+			<ul className="justify-content-center d-none d-lg-flex">
 				{/* <li className="nav-item">
 					<NavLink to="/" className="nav-link">
 						My profile

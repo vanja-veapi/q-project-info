@@ -28,7 +28,6 @@ code {
 }
 .btn-primary {
 	background-color: var(--btn-primary) !important;
-
 }
 .btn-success {
 	background-color: var(--btn-green) !important;

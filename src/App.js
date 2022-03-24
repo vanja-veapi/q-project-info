@@ -10,13 +10,11 @@ import { Routes, Route } from "react-router-dom";
 import MyProfile from "./components/pages/MyProfile/MyProfile";
 
 import Register from "./components/pages/Register/Register";
+import Login from "./components/pages/Login/Login";
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 const queryClient = new QueryClient();
-
-import Login from "./components/pages/Login/Login";
-
 
 function App() {
 	return (
