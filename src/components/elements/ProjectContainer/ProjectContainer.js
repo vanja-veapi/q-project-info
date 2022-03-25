@@ -4,11 +4,17 @@ import "./ProjectContainer.css";
 import rocket from "../../../assets/rocket.png";
 import { FaReact } from "react-icons/fa";
 import ProjectCard from "../ProjectCard/ProjectCard";
+import useLoggedUser from "../../../hooks/users/useLoggedUser";
 
-const ProjectContainer = ({ bgColor }) => {
-	console.log(bgColor);
+const ProjectContainer = ({ bgColor, isPM }) => {
+	const fetchUser = useLoggedUser();
+	const username = fetchUser.data?.data.username;
+	const roleName = fetchUser.data?.data.role.name;
+
 	return (
 		<>
+			<h1>Welcome back {username}</h1>
+			<h2>Your role is: {roleName}</h2>
 			<div className={`${bgColor} under-header`}>
 				<div className="container-project m-auto">
 					<div className="row justify-content-md-center">
@@ -31,7 +37,7 @@ const ProjectContainer = ({ bgColor }) => {
 							</div>
 
 							{/* If user has project role, then he'll see this button */}
-							<button className="btn btn-success">New Project</button>
+							{!isPM ? "" : <button className="btn btn-success">New Project</button>}
 						</div>
 					</div>
 				</div>

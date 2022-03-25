@@ -44,3 +44,9 @@
 	margin-right: 0;
 	margin-left: 0;
 }
+
+@media screen and (max-width: 1070px) {
+	.container-project {
+		justify-content: center !important;
+	}
+}
