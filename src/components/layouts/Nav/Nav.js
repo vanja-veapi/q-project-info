@@ -7,9 +7,8 @@ import { useQuery } from "react-query";
 
 const Nav = () => {
 	const { data } = useQuery("register-info", () => {});
-	// U prvoj iteraciji ce ga naci data.success.data.jwt, a posle nece
-	let token = useQuery("token", () => {}, { refetchOnMount: false, refetchOnWindowFocus: false });
 
+	const token = useQuery("token", () => {}, { refetchOnMount: false, refetchOnWindowFocus: false });
 	return (
 		<nav className="nav navbar justify-content-end">
 			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}

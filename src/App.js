@@ -11,7 +11,7 @@ import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
 import NotFound from "./components/pages/NotFound/NotFound";
 import Logout from "./components/pages/Logout/Logout";
-import { MyProject } from "./components/pages/ProjectManager/MyProject/MyProject";
+import { MyProject } from "./components/pages/MyProject/MyProject";
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";

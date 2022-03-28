@@ -1,7 +1,7 @@
 import React from "react";
-import useLoggedUser from "../../../../hooks/users/useLoggedUser";
-import ProjectContainer from "../../../elements/ProjectContainer/ProjectContainer";
-import QuantoxSpinner from "../../../elements/QuantoxSpinner/QuantoxSpinner";
+import useLoggedUser from "../../../hooks/users/useLoggedUser";
+import ProjectContainer from "../../elements/ProjectContainer/ProjectContainer";
+import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 
 export const MyProject = () => {
 	const fetchUsers = useLoggedUser();

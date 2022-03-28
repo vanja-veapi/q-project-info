@@ -41,13 +41,13 @@
 	transition: 0.1s transform linear, 0.1s height linear 0.1s;
 	transform: translateX(0);
 	height: 100%;
-	border-color: purple;
+	border-color: #ed5d71;
 }
 .project-card:hover::after {
 	transition: 0.1s transform linear, 0.2s height linear 0.1s;
 	transform: translateX(0);
 	height: 100%;
-	border-color: purple;
+	border-color: #ed5d71;
 }
 /* PROBA KRAJ */
 .project-card:hover {

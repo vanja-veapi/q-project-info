@@ -1,20 +1,36 @@
 import React from "react";
 import "./ProjectContainer.css";
-
+// IMG
 import rocket from "../../../assets/rocket.png";
 import { FaReact } from "react-icons/fa";
+// Elements
 import ProjectCard from "../ProjectCard/ProjectCard";
+import QuantoxSpinner from "../QuantoxSpinner/QuantoxSpinner";
+// React Query
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
+import { useFindProject } from "../../../hooks/projects/useFindProject";
 
 const ProjectContainer = ({ bgColor, isPM }) => {
 	const fetchUser = useLoggedUser();
 	const username = fetchUser.data?.data.username;
 	const roleName = fetchUser.data?.data.role.name;
+	const id = fetchUser.data?.data.id;
 
+	const { data, isLoading, isError, error } = useFindProject(id);
+	const projects = data?.data.data;
+
+	if (isLoading) {
+		return <QuantoxSpinner />;
+	}
+
+	if (isError) {
+		return <h1>{error}</h1>;
+	}
 	return (
 		<>
 			<h1>Welcome back {username}</h1>
 			<h2>Your role is: {roleName}</h2>
+			<h3>Your id is: {id}</h3>
 			<div className={`${bgColor} under-header`}>
 				<div className="container-project m-auto">
 					<div className="row justify-content-md-center">
@@ -42,11 +58,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 					</div>
 				</div>
 			</div>
-			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-			</div>
+			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects.length === 0 ? <h1>This user has no project</h1> : projects.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees.data.length} />)}</div>
 		</>
 	);
 };
