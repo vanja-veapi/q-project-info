@@ -9,7 +9,6 @@ import QuantoxSpinner from "../QuantoxSpinner/QuantoxSpinner";
 // React Query
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
 import { useFindProject } from "../../../hooks/projects/useFindProject";
-import { useFindProjectByName } from "../../../hooks/projects/useFindProjectByName";
 
 const ProjectContainer = ({ bgColor, isPM }) => {
 	let html = "";
