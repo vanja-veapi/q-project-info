@@ -2,6 +2,11 @@ import { useQueryClient } from "react-query";
 
 export const useLogoutUser = () => {
 	const queryClient = useQueryClient();
-	queryClient.setQueryData("token", null);
-	return queryClient.removeQueries("users");
+	for (let query of queryClient.queryCache.queries) {
+		if (query.options.queryKey === "token") {
+			queryClient.setQueryData("token", null);
+		} else {
+			queryClient.removeQueries(query.options.queryKey);
+		}
+	}
 };

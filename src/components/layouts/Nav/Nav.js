@@ -7,8 +7,12 @@ import { useQuery } from "react-query";
 
 const Nav = () => {
 	const { data } = useQuery("register-info", () => {});
+	let lsToken = localStorage.getItem("token");
+	let token = useQuery("token", () => {}, { refetchOnMount: false, refetchOnWindowFocus: false });
 
-	const token = useQuery("token", () => {}, { refetchOnMount: false, refetchOnWindowFocus: false });
+	if (lsToken === null) {
+		token.data = null;
+	}
 	return (
 		<nav className="nav navbar justify-content-end">
 			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}
