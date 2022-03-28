@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ProjectContainer.css";
 // IMG
 import rocket from "../../../assets/rocket.png";
@@ -9,15 +9,32 @@ import QuantoxSpinner from "../QuantoxSpinner/QuantoxSpinner";
 // React Query
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
 import { useFindProject } from "../../../hooks/projects/useFindProject";
+import { useFindProjectByName } from "../../../hooks/projects/useFindProjectByName";
 
 const ProjectContainer = ({ bgColor, isPM }) => {
+	let html = "";
+	// SearchQuery
+	const [search, setSearch] = useState("");
+
 	const fetchUser = useLoggedUser();
-	const username = fetchUser.data?.data.username;
-	const roleName = fetchUser.data?.data.role.name;
 	const id = fetchUser.data?.data.id;
 
 	const { data, isLoading, isError, error } = useFindProject(id);
-	const projects = data?.data.data;
+	//Projekti
+	const [projects, setProjects] = useState(data?.data.data);
+	const { data: searchData } = useFindProjectByName(id, search);
+
+	const handleSearch = (e) => {
+		if (e.target.value.toLowerCase() === "") {
+			return setProjects(data?.data.data);
+		}
+		setSearch(e.target.value.toLowerCase());
+		setProjects(searchData?.data.data);
+	};
+
+	useEffect(() => {
+		setProjects(searchData?.data.data);
+	}, [searchData]);
 
 	if (isLoading) {
 		return <QuantoxSpinner />;
@@ -26,11 +43,20 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 	if (isError) {
 		return <h1>{error}</h1>;
 	}
+
+	if (projects?.length === 0 && search !== "") {
+		html = <h1>There are no project with that name...</h1>;
+	} else if (projects?.length === 0) {
+		html = <h1>This user has no project</h1>;
+	} else {
+		html = projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees.data.length} />);
+	}
+
+	if (projects?.length === 0 && data.data.meta.pagination.total === 0) {
+		html = <h1>This user has no project</h1>;
+	}
 	return (
 		<>
-			<h1>Welcome back {username}</h1>
-			<h2>Your role is: {roleName}</h2>
-			<h3>Your id is: {id}</h3>
 			<div className={`${bgColor} under-header`}>
 				<div className="container-project m-auto">
 					<div className="row justify-content-md-center">
@@ -48,7 +74,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 						{/* Right Container */}
 						<div className="search-container col-md-12 col-lg-6 d-flex align-items-center justify-content-center mt-3 mt-lg-0">
 							<div className="input d-flex align-items-center position-relative">
-								<input type="text" id="search" placeholder="Search Project" className="search form-control" />
+								<input type="text" id="search" placeholder="Search Project" className="search form-control" onInput={handleSearch} />
 								<FaReact className="icon position-absolute text-muted" />
 							</div>
 
@@ -58,7 +84,8 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 					</div>
 				</div>
 			</div>
-			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects.length === 0 ? <h1>This user has no project</h1> : projects.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees.data.length} />)}</div>
+			{/* <div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects.length === 0 ? <h1>This user has no project</h1> : projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees.data.length} />)}</div> */}
+			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{html}</div>
 		</>
 	);
 };

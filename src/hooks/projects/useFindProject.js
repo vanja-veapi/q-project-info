@@ -6,7 +6,6 @@ const findProject = (rqObject) => {
 	return instance.get(`/api/projects?filters[employees][id][$eq]=${userId}&populate=*`);
 };
 
-export const useFindProject = (projectId) => {
-	console.log(projectId);
-	return useQuery(["user-projects", projectId], findProject);
+export const useFindProject = (employeeId) => {
+	return useQuery(["user-projects", employeeId], findProject);
 };

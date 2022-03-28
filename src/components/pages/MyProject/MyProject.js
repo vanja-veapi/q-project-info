@@ -5,7 +5,6 @@ import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 
 export const MyProject = () => {
 	const fetchUsers = useLoggedUser();
-	console.log(fetchUsers);
 	const role = fetchUsers.data?.data.role.id;
 	const isLoading = fetchUsers.status;
 
