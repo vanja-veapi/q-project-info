@@ -1,0 +1,6 @@
+.rectangle {
+	width: 100%;
+	min-height: 385px;
+	position: relative;
+	z-index: -1;
+}

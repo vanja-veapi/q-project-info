@@ -7,8 +7,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 const Nav = () => {
 	return (
 		<nav className="nav navbar justify-content-end">
-			<ul className="justify-content-around d-none d-lg-flex">
-				<li className="nav-item">
+			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}
+			<ul className="justify-content-center d-none d-lg-flex">
+				{/* <li className="nav-item">
 					<NavLink to="/" className="nav-link">
 						My profile
 					</NavLink>
@@ -22,8 +23,8 @@ const Nav = () => {
 					<NavLink to="/ruta-3" className="nav-link">
 						Logout
 					</NavLink>
-				</li>
-				{/* <li className="nav-item">
+				</li> */}
+				<li className="nav-item">
 					<NavLink to="/login" className="nav-link">
 						Login
 					</NavLink>
@@ -32,7 +33,7 @@ const Nav = () => {
 					<NavLink to="/register" className="nav-link">
 						Register
 					</NavLink>
-				</li> */}
+				</li>
 			</ul>
 			<button className="btn btn-primary d-md-block d-lg-none hamburger">
 				<GiHamburgerMenu className="hamburger-font" />
