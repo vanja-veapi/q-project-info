@@ -11,10 +11,6 @@ import useLoggedUser from "../../../hooks/users/useLoggedUser";
 import { useFindProject } from "../../../hooks/projects/useFindProject";
 
 const ProjectContainer = ({ bgColor, isPM }) => {
-	let html = "";
-	// SearchQuery
-	const [search, setSearch] = useState("");
-
 	const fetchUser = useLoggedUser();
 	const id = fetchUser.data?.data.id;
 
@@ -29,8 +25,6 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 		}
 
 		setProjects(data?.data.data.filter((project) => project?.attributes.name.toLowerCase().includes(e.target.value.toLowerCase())));
-		// setSearch(e.target.value.toLowerCase());
-		// setProjects(searchData?.data.data);
 	};
 
 	useEffect(() => {
@@ -47,17 +41,6 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 		return <h1>{error}</h1>;
 	}
 
-	// if (projects?.length === 0 && search !== "") {
-	// 	html = <h1>This user has no project</h1>;
-	// } else if (projects?.length === 0) {
-	// 	html = <h1>There are no project with that name...</h1>;
-	// } else {
-	// 	html = projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees.data.length} />);
-	// }
-
-	// if (projects?.length === 0 && data.data.meta.pagination.total === 0) {
-	// 	html = <h1>This user has no project - OVO JE DRUGI </h1>;
-	// }
 	return (
 		<>
 			<div className={`${bgColor} under-header`}>
