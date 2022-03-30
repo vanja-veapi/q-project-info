@@ -44,7 +44,6 @@ persistQueryClient({
 	persistor: localStoragePersistor,
 });
 
-import CreateNote from "./components/pages/CreateNote/CreateNote";
 const queryClient = new QueryClient();
 
 
@@ -69,14 +68,12 @@ function App() {
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />
 							<Route path="*" element={<NotFound />} />
+							<Route path="/project" element={<ProjectView />} />
+							<Route path="/create-note" element={<CreateNote />} />
 						</Route>
 
-						{/* Employee */}
-						{/* <Route path="/home" element={<MyProject bgColor={"bg-blue-light"} />} /> */}
 
-            <Route exact path="/project" element={<ProjectView />} />
-						{/* <Route path="/quantox" element={<QuantoxSpinner />} /> */}
-						<Route path="/create-note" element={<CreateNote />} />
+						
 					</Routes>
 				</div>
 			</div>
