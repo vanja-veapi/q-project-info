@@ -42,7 +42,7 @@ const Register = () => {
 
 	// const { data, isLoading, refetch } = useQuery("register-info", { enabled: false });
 	const { data, isLoading, refetch } = useQuery("register-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
-	console.log(data);
+
 	return (
 		<>
 			{isLoading ? <QuantoxSpinner /> : ""}
