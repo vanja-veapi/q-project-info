@@ -1,0 +1,79 @@
+h6 {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+}
+
+.btn-back {
+    background-color: #eaeaea;
+    border: none;
+    font-size: 11px;
+    margin-right: 25px;
+}
+
+.icon-arrow {
+    width: 12px;
+}
+
+.note-data {
+    display: inline-block;
+    padding-left: 85px;
+}
+
+.note-label {
+    font-size: 11px;
+}
+
+input {
+    border: 1px solid #E2E8F0;
+    box-sizing: border-box;
+    border-radius: 6px;
+}
+
+.note-titile {
+    max-width: 220px;
+    height: 30px;
+}
+
+.note-description {
+    max-width: 400px;
+}
+
+.chategory {
+    max-width: 180px;
+}
+
+.btn-upload {
+    width: 93px;
+    height: 27px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #2D3748;
+    border: 1px solid #E2E8F0;;
+}
+
+.cursor-default:hover {
+    cursor: default;
+}
+
+/* =============== Bootstrap overrides =============== */
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #eaeaea !important;
+    border-color: #eaeaea;
+}
+
+.text-start {
+    padding-left: 45px;
+}
+
+.form-control {
+    font-size: 12px;
+    border: 1px solid #E2E8F0;
+}
+
+.form-select {
+    font-size: 12px;
+    border: 1px solid #E2E8F0;
+
+}
