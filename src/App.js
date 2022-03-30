@@ -44,9 +44,6 @@ persistQueryClient({
 	persistor: localStoragePersistor,
 });
 
-const queryClient = new QueryClient();
-
-
 function App() {
 	const token = localStorage.getItem("token");
 	console.log(token);
