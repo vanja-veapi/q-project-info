@@ -1,5 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 // Layouts
 import Header from "./components/layouts/Header/Header";
@@ -7,6 +8,12 @@ import Header from "./components/layouts/Header/Header";
 // Routes
 import { Routes, Route } from "react-router-dom";
 // Pages
+
+import MyProfile from "./components/pages/MyProfile/MyProfile";
+import ProjectView from "./components/pages/ProjectView/ProjectView";
+import CreateNote from "./components/pages/CreateNote/CreateNote";
+
+
 import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
 import NotFound from "./components/pages/NotFound/NotFound";
@@ -17,6 +24,7 @@ import Profile from "./components/pages/Profile/Profile";
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 
@@ -36,6 +44,10 @@ persistQueryClient({
 	persistor: localStoragePersistor,
 });
 
+import CreateNote from "./components/pages/CreateNote/CreateNote";
+const queryClient = new QueryClient();
+
+
 function App() {
 	const token = localStorage.getItem("token");
 	console.log(token);
@@ -48,6 +60,7 @@ function App() {
 					</div>
 
 					<Routes>
+
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
 						<Route element={<ProtectedRoutes />}>
@@ -60,6 +73,10 @@ function App() {
 
 						{/* Employee */}
 						{/* <Route path="/home" element={<MyProject bgColor={"bg-blue-light"} />} /> */}
+
+            <Route exact path="/project" element={<ProjectView />} />
+						{/* <Route path="/quantox" element={<QuantoxSpinner />} /> */}
+						<Route path="/create-note" element={<CreateNote />} />
 					</Routes>
 				</div>
 			</div>
