@@ -14,6 +14,7 @@ import Login from "./components/pages/Login/Login";
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import CreateNote from "./components/pages/CreateNote/CreateNote";
 const queryClient = new QueryClient();
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
 						<Route exact path="/login" element={<Login />} />
 						<Route path="/register" element={<Register />} />
 						{/* <Route path="/quantox" element={<QuantoxSpinner />} /> */}
+						<Route path="/create-note" element={<CreateNote />} />
 					</Routes>
 				</div>
 			</div>
