@@ -1,0 +1,17 @@
+.profile .card {
+	position: initial;
+	display: block;
+	max-width: unset;
+	margin: unset;
+	box-shadow: none;
+	text-align: left;
+}
+.profile-image-box {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.profile-image-box img {
+	width: 320px;
+}

@@ -12,6 +12,8 @@ import Login from "./components/pages/Login/Login";
 import NotFound from "./components/pages/NotFound/NotFound";
 import Logout from "./components/pages/Logout/Logout";
 import { MyProject } from "./components/pages/MyProject/MyProject";
+import Profile from "./components/pages/Profile/Profile";
+
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -52,6 +54,7 @@ function App() {
 							{/* PM Home || Employee */}
 							<Route path="/home" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
+							<Route path="/profile" element={<Profile />} />
 							<Route path="*" element={<NotFound />} />
 						</Route>
 

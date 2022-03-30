@@ -39,7 +39,7 @@ const Nav = () => {
 							</NavLink>
 						</li>
 						<li className="nav-item">
-							<NavLink to="/ruta-2" className="nav-link">
+							<NavLink to="/profile" className="nav-link">
 								Account
 							</NavLink>
 						</li>
