@@ -12,6 +12,7 @@ import { Routes, Route } from "react-router-dom";
 import MyProfile from "./components/pages/MyProfile/MyProfile";
 import ProjectView from "./components/pages/ProjectView/ProjectView";
 import CreateNote from "./components/pages/CreateNote/CreateNote";
+import CreateProject from "./components/pages/CreateProject/CreateProject";
 
 
 import Register from "./components/pages/Register/Register";
@@ -59,14 +60,18 @@ function App() {
 
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
+
+            
+
 						<Route element={<ProtectedRoutes />}>
 							{/* PM Home || Employee */}
 							<Route path="/home" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />
-							<Route path="*" element={<NotFound />} />
 							<Route path="/project" element={<ProjectView />} />
 							<Route path="/create-note" element={<CreateNote />} />
+              <Route path="/create-project" element={<CreateProject />} />
+              <Route path="*" element={<NotFound />} />
 						</Route>
 
 

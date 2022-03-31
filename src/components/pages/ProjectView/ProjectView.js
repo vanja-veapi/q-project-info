@@ -64,13 +64,13 @@ const ProjectView = () => {
                 <div className='tab-content text-start' id='myTabContent'>
                     <div className='tab-pane fade show active p-4' id='menagment' role='tabpanel' aria-labelledby='menagment-tab'>
                         <div className='col-12'>
-                            <input type='text' className='search mb-3' placeholder='Search notes'></input>
-                            <select className='select'></select>
+                            <input type='text' className='search form-control mb-3' placeholder='Search notes'></input>
+                            <select className='select form-select'></select>
                             {userRole === 'pm' && <button className='btn btn-success btn-add' onClick={createNote}>ADD NOTE</button>}
                         </div>
                         <div className='row mt-4'>
                             <div className='col-lg-4 col-md-6 col-xs-12'>
-                                <div className='card mb-3'>
+                                <div className='card card-project mb-3'>
                                     <div className='card-body'>
                                         {userRole === 'pm' && 
                                             <div className='mb-3'>
@@ -95,7 +95,7 @@ const ProjectView = () => {
                                 </div>
                             </div>
                             <div className='col-lg-4 col-md-6 col-xs-12'>
-                                <div className='card mb-3'>
+                                <div className='card card-project mb-3'>
                                     <div className='card-body'>
                                         {userRole === 'pm' && 
                                             <div className='mb-3'>

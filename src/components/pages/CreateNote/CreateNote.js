@@ -17,7 +17,6 @@ const CreateNote = () => {
         navigate(`/project`);
     }
 
-
     return (
         <div className='col-xs-12'>
             <div className='container-top'>
@@ -71,7 +70,7 @@ const CreateNote = () => {
                                 <input className='note-titile form-control mt-1 mb-3' type='text' placeholder='Hello'></input>
                                 <br />
                                 <label className='note-label'>Note Description</label>
-                                    <textarea className='note-description form-control mt-1 mb-3' placeholder='Hello'></textarea>
+                                <textarea className='note-description form-control mt-1 mb-3' placeholder='Hello'></textarea>
                                 <br />
                                 <select className='chategory form-select mb-3'>
                                     <option hidden >Chategory</option>

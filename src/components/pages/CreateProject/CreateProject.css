@@ -1,0 +1,46 @@
+.container-header {
+    background-color: #E7FDFD;
+    padding: 39px 0 30px 12%;
+    text-align: left;
+}
+
+.rocket-img {
+    width: 96px;
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.display-inline {
+    display: inline-block;
+}
+
+.form-create {
+    background-color: #F8F8F8;
+    border-radius: 13px;
+    padding: 35px 20px 30px 30px;
+    text-align: left;
+}
+
+.btn-choose-logo {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2D3748;
+    border: 1px solid #E2E8F0;;
+}
+
+.mr-15 {
+    margin-right: 15px;
+}
+
+.project-employee {
+    max-width: 284px;
+    padding: 5px 15px 5px 12px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+
+.icon-x {
+    width: 13px;
+    float: right;
+    margin-top: 8px;
+}
