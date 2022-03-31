@@ -74,7 +74,7 @@ const Profile = () => {
 			<div className="row">
 				<div className="col-4">
 					<div className="card">
-						<p>text</p>
+						<p>Active task</p>
 					</div>
 				</div>
 			</div>
