@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { useLogoutUser } from "../hooks/users/LogoutUser/useLogoutUser";
 const instance = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 
 // instance.defaults.headers.post["Content-Type"] = "application/json";
@@ -12,6 +13,8 @@ instance.interceptors.request.use(
 			const currentDate = new Date();
 			if (decodedToken.exp * 1000 < currentDate.getTime()) {
 				localStorage.removeItem("token");
+				useLogoutUser();
+
 				console.log("Token expired.");
 				return (window.location.href = "/");
 			} else {
