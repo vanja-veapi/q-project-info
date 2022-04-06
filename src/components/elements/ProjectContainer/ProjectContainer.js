@@ -48,7 +48,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 					<div className="row justify-content-md-center">
 						{/* Left container */}
 						<div className="col-md-12 col-lg-6">
-							<div className="rocket d-flex justify-content-center mb-sm-3 md-0">
+							<div className="rocket d-flex justify-content-center align-items-center mb-sm-3 md-0">
 								<img src={rocket} alt="Rocket" />
 								<div className="text text-start ms-2">
 									<h1>My Projects</h1>
@@ -70,7 +70,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 					</div>
 				</div>
 			</div>
-			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects?.length === 0 ? <h1>No project</h1> : projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} />)}</div>
+			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects?.length === 0 ? <h1>No project</h1> : projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} />)}</div>
 			{/* <div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{html}</div> */}
 		</>
 	);
