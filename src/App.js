@@ -14,7 +14,6 @@ import ProjectView from "./components/pages/ProjectView/ProjectView";
 import CreateNote from "./components/pages/CreateNote/CreateNote";
 import CreateProject from "./components/pages/CreateProject/CreateProject";
 
-
 import Register from "./components/pages/Register/Register";
 import Login from "./components/pages/Login/Login";
 import NotFound from "./components/pages/NotFound/NotFound";
@@ -57,11 +56,8 @@ function App() {
 					</div>
 
 					<Routes>
-
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-
-            
 
 						<Route element={<ProtectedRoutes />}>
 							{/* PM Home || Employee */}
@@ -70,12 +66,9 @@ function App() {
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/project" element={<ProjectView />} />
 							<Route path="/create-note" element={<CreateNote />} />
-              <Route path="/create-project" element={<CreateProject />} />
-              <Route path="*" element={<NotFound />} />
+							<Route path="/create-project" element={<CreateProject />} />
+							<Route path="*" element={<NotFound />} />
 						</Route>
-
-
-						
 					</Routes>
 				</div>
 			</div>

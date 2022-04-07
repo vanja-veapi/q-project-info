@@ -3,8 +3,9 @@ import jwt_decode from "jwt-decode";
 import { useLogoutUser } from "../hooks/users/LogoutUser/useLogoutUser";
 const instance = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 
-// instance.defaults.headers.post["Content-Type"] = "application/json";
-// instance.defaults.headers.post["Accept"] = "application/json";
+//Ako mi se nekad bude pravio PROBLEM TO JE ZATO STO SAM OTKOMENTARISAO OVDE
+instance.defaults.headers.post["Content-Type"] = "application/json";
+instance.defaults.headers.post["Accept"] = "application/json";
 instance.interceptors.request.use(
 	function (config) {
 		const token = localStorage.getItem("token");

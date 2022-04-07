@@ -4,6 +4,9 @@
 	padding-top: 39px;
 	padding-bottom: 30px;
 }
+.under-header p {
+	margin-bottom: 0;
+}
 .bg-green-light {
 	background-color: #f5fde7;
 }
