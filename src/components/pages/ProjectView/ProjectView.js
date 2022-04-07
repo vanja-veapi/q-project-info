@@ -71,14 +71,14 @@ const ProjectView = () => {
                         <div className='row mt-4'>
                             <div className='col-lg-4 col-md-6 col-xs-12'>
                                 <div className='card card-project mb-3'>
-                                    <div className='card-body'>
+                                    <div className='card-body override-padding'>
                                         {userRole === 'pm' && 
                                             <div className='mb-3'>
                                                 <button type='button' className='btn-edit'><img className='vector-icon' src={vectorImg} /> EDIT</button>
                                             </div>
                                         }
-                                        <h5 className='card-title'>Project menagment tool</h5>
-                                        <p className='card-text'>Monday.com for client task management. Internally, we use ActiveCollab.</p>
+                                        <h5 className='card-title fz-18'>Project menagment tool</h5>
+                                        <p className='card-text override-text'>Monday.com for client task management. Internally, we use ActiveCollab.</p>
                                         <div className='row mt-3'>
                                             <div className='col-6'>
                                                 <img className='note-img' src={iconNote} />
@@ -96,14 +96,14 @@ const ProjectView = () => {
                             </div>
                             <div className='col-lg-4 col-md-6 col-xs-12'>
                                 <div className='card card-project mb-3'>
-                                    <div className='card-body'>
+                                    <div className='card-body override-padding'>
                                         {userRole === 'pm' && 
                                             <div className='mb-3'>
                                                 <button type='button' className='btn-edit'><img className='vector-icon' src={vectorImg} /> EDIT</button>
                                             </div>
                                         }
-                                        <h5 className='card-title'>Client info</h5>
-                                        <p className='card-text'>There are 3 people in the client’s team - Adam, Elwin and Jessica.</p>
+                                        <h5 className='card-title fz-18'>Client info</h5>
+                                        <p className='card-text override-text'>There are 3 people in the client’s team - Adam, Elwin and Jessica.</p>
                                         <div className='row mt-3'>
                                             <div className='col-6'>
                                                 <img className='note-img' src={iconImg} />

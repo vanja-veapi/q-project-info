@@ -99,6 +99,7 @@ h6 {
 .select {
     max-width: 145px;
     display: inline-block;
+    margin-right: 5px;
 }
 
 .btn-add {
@@ -110,10 +111,11 @@ h6 {
 }
 
 .card-project {
+    background-color: #FFFFFF !important;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);
     border-radius: 12px;
     max-width: 380px;
-    min-width: 238px;
+    min-width: 160px;
     position: sticky;
 }
 
@@ -155,7 +157,6 @@ h6 {
 .member-data {
     display: inline-block;
     padding-left: 32px;
-    min-width: 110px;
 }
 
 .member-name {
@@ -169,6 +170,19 @@ h6 {
     font-size: 8px;
     color: #4A5568;
     margin: 0;
+}
+
+.override-padding {
+    padding: 20px 30px 17px 22px;
+}
+
+.fz-18 {
+    font-size: 18px;
+}
+
+.override-text {
+    font-size: 12px;
+    color: #717171;
 }
 
 /* =============== Bootstrap overrides =============== */
@@ -187,17 +201,4 @@ h6 {
 .nav-tabs {
     background-color: #eaeaea;
     border: none;
-}
-
-.card-body {
-    padding: 20px 30px 17px 22px;
-}
-
-.card-title {
-    font-size: 18px;
-}
-
-.card-text {
-    font-size: 12px;
-    color: #717171;
 }
