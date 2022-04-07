@@ -69,14 +69,14 @@ const Register = () => {
 						<label className="mt-3">Password</label>
 						<br />
 						{!regExGlobal.test(state.password) && submitRegister ? <small className="text-danger">Password is required</small> : ""}
-						<input type="text" className="form-control" placeholder="Password" onChange={(e) => setState({ ...state, password: e.target.value })} />
+						<input type="password" className="form-control" placeholder="Password" onChange={(e) => setState({ ...state, password: e.target.value })} />
 
 						{/* Confirm password */}
 						<label className="mt-3">Confirm Password</label>
 						<br />
 
 						{state.password !== state.confirmPassword && submitRegister ? <small className="text-danger">Confirm password valid must be same as password field</small> : ""}
-						<input type="text" className="form-control" placeholder="Confirm password" onChange={(e) => setState({ ...state, confirmPassword: e.target.value })} />
+						<input type="password" className="form-control" placeholder="Confirm password" onChange={(e) => setState({ ...state, confirmPassword: e.target.value })} />
 
 						<div className="d-flex justify-content-end">
 							<button className="btn btn-success mt-3" onClick={onRegister}>

@@ -145,7 +145,7 @@ const Profile = () => {
 					</div>
 				</div>
 				<div className="col-sm-12 col-md-8">
-					<div className="card mt-sm-4 mt-md-0">
+					<div className="card mt-4 mt-md-0">
 						<div className="card-header bg-green">
 							<h1 className="text-muted">Data</h1>
 						</div>
@@ -176,7 +176,7 @@ const Profile = () => {
 			</div>
 			<div className="row">
 				<div className="col-sm-12 col-md-4">
-					<div className="card mt-sm-4 mt-md-0">
+					<div className="card mt-4 mt-md-0">
 						<div className="card-header">
 							<h1 className="h2 text-center text-muted">Active projects</h1>
 						</div>
