@@ -29,6 +29,7 @@ import { persistQueryClient } from "react-query/persistQueryClient-experimental"
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 
 import ProtectedRoutes from "./routes/ProtectedRoutes";
+import AdminDashboard from "./components/pages/AdminDashboard/AdminDashboard";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -51,14 +52,14 @@ function App() {
 		<QueryClientProvider client={queryClient}>
 			<div className="App">
 				<div className="container-fluid">
-					<div className="w-100 h-auto bg-header">
+					{/* <div className="w-100 h-auto bg-header">
 						<Header />
-					</div>
+					</div> */}
 
 					<Routes>
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-
+						<Route path="/dashboard" element={<AdminDashboard />} />
 						<Route element={<ProtectedRoutes />}>
 							{/* PM Home || Employee */}
 							<Route path="/home" element={<MyProject />} />
