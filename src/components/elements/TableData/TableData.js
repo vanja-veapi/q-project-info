@@ -1,6 +1,7 @@
 import React from "react";
 import { useDestroyUser } from "../../../hooks/users/useDestroyUser";
 import { useDestroyCategory } from "../../../hooks/categories/useDestroyCategory";
+import { Link, Navigate, NavLink } from "react-router-dom";
 
 const TableData = ({ id, name, email, type }) => {
 	const { mutate: destroyUser } = useDestroyUser();
@@ -16,28 +17,15 @@ const TableData = ({ id, name, email, type }) => {
 				break;
 		}
 	};
-
-	const handleEdit = () => {
-		switch (type) {
-			case "users":
-				console.log(id);
-				console.log("USER");
-				break;
-			case "categories":
-				console.log(id);
-				console.log("CATEG");
-				break;
-		}
-	};
 	return (
 		<tr>
 			<td>{id}</td>
 			<td>{name}</td>
 			{email ? <td>{email}</td> : null}
 			<td>
-				<button className="btn text-white bg-warning" onClick={handleEdit}>
-					Edit
-				</button>
+				<NavLink to={`/dashboard/${type}/${id}/edit`}>
+					<button className="btn text-white bg-warning">Edit</button>
+				</NavLink>
 			</td>
 			<td>
 				<button id={id} className="btn text-white bg-danger" onClick={handleDestory}>

@@ -37,14 +37,15 @@ const AdminDashboard = () => {
 		previousTableName = e.currentTarget.classList[1];
 	};
 
-	if (userData?.role.name !== "System Administrator") {
+	console.log(userData);
+	if (userData?.role?.id !== 3) {
 		return <Navigate to="/home" />;
 	}
 	return (
 		<div className="admin-dashboard d-flex">
 			{userLoading ? <QuantoxSpinner /> : null}
 
-			<Aside toggleTable={toggleTable} userData={userData} />
+			<Aside toggleTable={toggleTable} />
 			<div className="container-fluid content-wrapper">
 				<nav className="w-100 h-auto bg-white text-end">
 					<ul className="w-100 d-flex justify-content-responsive">
