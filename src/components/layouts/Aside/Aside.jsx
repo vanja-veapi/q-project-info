@@ -37,7 +37,7 @@ const Aside = ({ toggleTable, userData }) => {
 						<li className="list-group-item">
 							<div className="d-flex align-items-center gap-2">
 								<FaUserAlt className="icon" />
-								<NavLink to="#">Profile</NavLink>
+								<NavLink to="/profile">Profile</NavLink>
 							</div>
 						</li>
 					</ul>

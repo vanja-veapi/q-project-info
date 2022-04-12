@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 
 import instance from "../../../config/config";
 // Layouts
@@ -25,6 +25,7 @@ const AdminDashboard = () => {
 
 	let tableName = null;
 	let previousTableName = null;
+
 	const toggleTable = (e) => {
 		console.log(previousTableName, e.currentTarget.classList[1]);
 		if (previousTableName !== null && previousTableName !== e.currentTarget.classList[1]) {
@@ -36,8 +37,11 @@ const AdminDashboard = () => {
 		previousTableName = e.currentTarget.classList[1];
 	};
 
+	if (userData?.role.name !== "System Administrator") {
+		return <Navigate to="/home" />;
+	}
 	return (
-		<div className="d-flex">
+		<div className="admin-dashboard d-flex">
 			{userLoading ? <QuantoxSpinner /> : null}
 
 			<Aside toggleTable={toggleTable} userData={userData} />
@@ -82,7 +86,7 @@ const AdminDashboard = () => {
 							</div>
 						</div>
 						{/* Display All users, you can edit/delete/update user and block him */}
-						<div id="users" className="col-md-12 col-lg-8 mb-3 d-none">
+						<div id="users" className="col-md-12 col-lg-12 mb-3 d-none">
 							<div className={styles.card + " card"}>
 								<div className="card-body table-responsive">
 									<table className="table table-striped">
@@ -102,7 +106,7 @@ const AdminDashboard = () => {
 						</div>
 
 						{/* Display all Categories... */}
-						<div id="categories" className="col-md-12 col-lg-8 mb-3 d-none">
+						<div id="categories" className="col-md-12 col-lg-12 mb-3 d-none">
 							<div className={styles.card + " card"}>
 								<div className="card-body table-responsive">
 									<table className="table table-striped">
@@ -125,7 +129,7 @@ const AdminDashboard = () => {
 						</div>
 
 						{/* To Do List Component/Element */}
-						<div className="col-md-12 col-lg-4">
+						{/* <div className="col-md-12 col-lg-4">
 							<div className={styles.card + " card"}>
 								<div className="card-header">
 									<TiClipboard />
@@ -147,7 +151,7 @@ const AdminDashboard = () => {
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

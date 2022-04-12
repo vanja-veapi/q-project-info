@@ -59,9 +59,9 @@ function App() {
 					<Routes>
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-						<Route path="/dashboard" element={<AdminDashboard />} />
 						<Route element={<ProtectedRoutes />}>
 							{/* PM Home || Employee */}
+							<Route path="/dashboard" element={<AdminDashboard />} />
 							<Route path="/home" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />

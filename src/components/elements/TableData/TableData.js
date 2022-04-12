@@ -16,13 +16,28 @@ const TableData = ({ id, name, email, type }) => {
 				break;
 		}
 	};
+
+	const handleEdit = () => {
+		switch (type) {
+			case "users":
+				console.log(id);
+				console.log("USER");
+				break;
+			case "categories":
+				console.log(id);
+				console.log("CATEG");
+				break;
+		}
+	};
 	return (
 		<tr>
 			<td>{id}</td>
 			<td>{name}</td>
 			{email ? <td>{email}</td> : null}
 			<td>
-				<button className="btn text-white bg-warning">Edit</button>
+				<button className="btn text-white bg-warning" onClick={handleEdit}>
+					Edit
+				</button>
 			</td>
 			<td>
 				<button id={id} className="btn text-white bg-danger" onClick={handleDestory}>
