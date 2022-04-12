@@ -1,3 +1,9 @@
+.profile p {
+	margin-bottom: 0;
+}
+.profile .card h1 {
+	margin-bottom: 0;
+}
 .profile .card {
 	position: initial;
 	display: block;
@@ -14,4 +20,5 @@
 }
 .profile-image-box img {
 	width: 320px;
+	scale: 1.4;
 }

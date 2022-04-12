@@ -1,5 +1,8 @@
+.project-card-container {
+	width: 495px;
+}
 .project-card {
-	min-width: 495px;
+	width: 100%;
 	background-color: rgba(240, 240, 240, 1);
 	max-height: 114px;
 	border-radius: 12px;

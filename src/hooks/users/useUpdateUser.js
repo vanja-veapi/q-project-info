@@ -3,7 +3,6 @@ import instance from "../../config/config";
 import useLoggedUser from "./useLoggedUser";
 
 const updateUser = (data) => {
-	console.log(data);
 	return instance.put(`/api/users/${data.id}`, data);
 };
 

@@ -26,13 +26,12 @@ code {
 .bg-green {
 	background-color: var(--bg-green);
 }
-.btn-primary {
+/* .btn-primary {
 	background-color: var(--btn-primary) !important;
-}
-.btn-success {
+} */
+/* .btn-success {
 	background-color: var(--btn-green) !important;
-	border: unset !important;
-}
+} */
 .register.container-fluid,
 .login.container-fluid {
 	padding-left: unset;
