@@ -11,13 +11,14 @@ import { useQuery } from "react-query";
 
 import instance from "../../../config/config";
 
-const UserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
+const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 	const { mutate: updateUser } = useUpdateUser();
 	const { mutate: removeImage } = useRemoveImage();
 	const { mutate: uploadPhoto } = useUploadPhoto();
 
 	//Mozda bi trebalo da u useQuery ili useLoggedUser da odradim async/await da bi se dobio odgovor
 	const { data: imageObj, refetch: uploadRefetch } = useQuery("upload-info", () => {}, { cacheTime: 0, retry: true, refetchOnMount: false, refetchOnWindowFocus: false });
+	const { data: messageInfo } = useQuery("user-update", () => {});
 
 	// /^[a-zžšđčćA-ZŽŠĐČĆ!@_\d]{2,30}$/
 	const usernameRegEx = /^([a-zžšđčćA-ZŽŠĐČĆ!@_]{2,30})+(\d)*/;
@@ -111,7 +112,7 @@ const UserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 		setMessage(null);
 		handleView();
 
-		setNewUserData({ ...newUserData, profileImage: null, password: null });
+		setNewUserData({ ...newUserData, profileImage: null, password: null, email: undefined });
 	};
 
 	const handleView = () => {
@@ -187,6 +188,7 @@ const UserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 
 								{profileImage && editView ? <input type="button" value="Remove picture" className="btn btn-danger float-end" onClick={handleRemoveImage} /> : null}
 							</div>
+							{messageInfo?.status >= 400 ? <div className="alert alert-danger">{messageInfo?.message}</div> : null}
 						</div>
 					</div>
 				</div>
@@ -209,4 +211,4 @@ const UserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 	);
 };
 
-export default UserForm;
+export default EditUserForm;

@@ -31,6 +31,8 @@ import { createWebStoragePersistor } from "react-query/createWebStoragePersistor
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import AdminDashboard from "./components/pages/AdminDashboard/AdminDashboard";
 import EditUser from "./components/pages/EditData/EditUser";
+import InsertUser from "./components/pages/InsertData/InsertUser";
+import InsertCategory from "./components/pages/InsertData/InsertCategory";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -64,6 +66,8 @@ function App() {
 							{/* PM Home || Employee */}
 							<Route path="/dashboard" element={<AdminDashboard />} />
 							<Route path="/dashboard/users/:id/edit" element={<EditUser />} />
+							<Route path="/dashboard/user/add" element={<InsertUser />} />
+							<Route path="/dashboard/category/add" element={<InsertCategory />} />
 							<Route path="/home" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />

@@ -37,7 +37,7 @@ const AdminDashboard = () => {
 		previousTableName = e.currentTarget.classList[1];
 	};
 
-	console.log(userData);
+	// console.log(userData);
 	if (userData?.role?.id !== 3) {
 		return <Navigate to="/home" />;
 	}
@@ -102,6 +102,11 @@ const AdminDashboard = () => {
 										</thead>
 										<tbody>{users?.data.map((user) => (userData.id === user.id ? null : <TableData key={user.id} id={user.id} name={user.username} email={user.email} type={"users"} />))}</tbody>
 									</table>
+									<div className="btn-container mt-3">
+										<NavLink to="/dashboard/user/add">
+											<button className="btn btn-success">Insert new user</button>
+										</NavLink>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -125,6 +130,9 @@ const AdminDashboard = () => {
 											))}
 										</tbody>
 									</table>
+									<NavLink to="/dashboard/category/add">
+										<button className="btn btn-success">Insert new category</button>
+									</NavLink>
 								</div>
 							</div>
 						</div>

@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useParams, useNavigate } from "react-router";
 import { fetchSingleUser } from "../../../hooks/users/useFindUser";
-import UserForm from "../../elements/UserForm/UserForm";
+import EditUserForm from "../../elements/UserForm/EditUserForm";
 // Pages
 import Aside from "../../layouts/Aside/Aside";
 import Profile from "../Profile/Profile";
@@ -25,7 +25,7 @@ const EditData = () => {
 		<div className="admin-dashboard d-flex">
 			<Aside />
 			<div className="container-fluid">
-				<UserForm fetchUser={fetchUser.data[0]} isLoading={isLoading} refetch={refetch} isAdmin={true} />
+				<EditUserForm fetchUser={fetchUser.data[0]} isLoading={isLoading} refetch={refetch} isAdmin={true} />
 			</div>
 		</div>
 	);

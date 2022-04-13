@@ -39,7 +39,13 @@ nav ul {
 .justify-content-responsive {
 	justify-content: flex-end;
 }
-
+.btn-success {
+	color: #fff !important;
+	background-color: #198754 !important;
+}
+.btn-success:hover {
+	background-color: #157347 !important;
+}
 @media screen and (max-width: 768px) {
 	.justify-content-responsive {
 		justify-content: space-between;
