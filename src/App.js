@@ -54,11 +54,9 @@ function App() {
 					<div className="w-100 h-auto bg-header">
 						<Header />
 					</div>
-
 					<Routes>
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-
 						<Route element={<ProtectedRoutes />}>
 							{/* PM Home || Employee */}
 							<Route path="/home" element={<MyProject />} />
@@ -68,11 +66,9 @@ function App() {
 							<Route path="/create-note" element={<CreateNote />} />
 							<Route path="/create-project" element={<CreateProject />} />
 							<Route path="*" element={<NotFound />} />
-						</Route>
 					</Routes>
 				</div>
 			</div>
-
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
