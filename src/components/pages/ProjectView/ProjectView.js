@@ -1,14 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './ProjectView.css';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import projectLogo from '../../../assets/images/elipse.png';
 import iconNote from '../../../assets/images/icon-note.png';
 import iconImg from '../../../assets/images/icon-img.png';
 import iconEdit from '../../../assets/images/image-6.png';
 import vectorImg from '../../../assets/images/vector.png';
+import { useGetProject } from '../../../hooks/projects/useGetProject';
+import QuantoxSpinner from '../../elements/QuantoxSpinner/QuantoxSpinner';
 
 const ProjectView = () => {
+    const { projectId } = useParams();
+
+    const [project, setProject] = useState({});
+    const [empList, setEmpList] = useState([]);
+
     const userRole = 'pm';
 
     const navigate = useNavigate();
@@ -17,33 +24,51 @@ const ProjectView = () => {
         navigate(`/create-note`);
     };
 
+	const { data, isLoading, isError, error } = useGetProject(projectId);
+
+    useEffect(() => {
+		setProject(data?.data.data);
+	}, [data]);
+
+	if (isLoading) {
+		return <QuantoxSpinner />;
+	}
+
+	if (isError) {
+		return <h1>{error}</h1>;
+	}
+
     return (
         <div className='col-xs-12'>
             <div className='container-top'>
                 <div className='row m-0'>
                     <div className='col-md-6 col-s-12'>
-                        <img className='project-logo' src={projectLogo} />
+                        {project?.attributes?.logo?.data?.attributes && 
+                            <img className='project-logo' src={`http://localhost:1337${project?.attributes?.logo?.data?.attributes?.url}`}/> 
+                        }
+                        {!project?.attributes?.logo.data &&
+                            <img className='project-logo' src={projectLogo} />
+                        }
                         <div className='description'>
-                            <h5>The New Alpha
+                            <h5>{project?.attributes?.name}
                                 {userRole === 'pm' && <span className='edit'><img className='icon-edit' src={iconEdit} />EDIT</span>}
                             </h5>
-                            <p className='description-text'>The New Alpha is a long running project. We’re creating sales pages for the client’s business, creating blog posts, and managing the Shopify store.</p>
+                            <p className='description-text'>{project?.attributes?.description}</p>
                         </div>
                     </div>
                     <div className='col-md-6 col-s-12'>
                         <div className='members'>
                             <h6>Project Menager</h6>
                             <p className='mt-3'>
-                                <span className='profile-img'>SA</span>
+                                <span className='profile-img'>M</span>
                             </p>
                         </div>
                         <div className='members'>
                             <h6>Employees</h6>
-                            <p className='mt-3'>
-                                <span className='profile-img'>SA</span>
-                                <span className='profile-img ml-17'>SA</span>
-                                <span className='profile-img ml-17'>SA</span>
-                                <span className='number-member'>+ 5 more</span>
+                            <p className='mt-3 pl-17'>
+                                {project?.attributes?.employees?.data.length > 0 && project?.attributes?.employees?.data.slice(0, 3).map((emp) => <span className='profile-img ml-17'>{emp?.attributes?.username[0].toUpperCase()}</span>)}
+                                {project?.attributes?.employees?.data.length < 1 && <span className='description-text ml-17'>No employees</span>}
+                                {project?.attributes?.employees?.data.length > 3 && <span className='description-text pl-8'>+ {project?.attributes?.employees?.data.length - 3} more</span>}
                             </p>
                         </div>
                     </div>
