@@ -14,7 +14,7 @@ const ProjectView = () => {
     const navigate = useNavigate();
 
     const createNote = () => {
-        navigate(`/create-note`);
+        navigate(`note/create`);
     };
 
     return (

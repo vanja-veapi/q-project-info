@@ -65,7 +65,7 @@ function App() {
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/project" element={<ProjectView />} />
-							<Route path="/create-note" element={<CreateNote />} />
+							<Route path="/projects/:projectId/note/create" element={<CreateNote />} />
 							<Route path="/create-project" element={<CreateProject />} />
 							<Route path="*" element={<NotFound />} />
 						</Route>
