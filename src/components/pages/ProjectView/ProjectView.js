@@ -21,7 +21,7 @@ const ProjectView = () => {
     const navigate = useNavigate();
 
     const createNote = () => {
-        navigate(`/create-note`);
+        navigate(`note/create`);
     };
 
 	const { data, isLoading, isError, error } = useGetProject(projectId);
