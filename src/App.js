@@ -54,25 +54,21 @@ function App() {
 					<div className="w-100 h-auto bg-header">
 						<Header />
 					</div>
-
 					<Routes>
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-
 						<Route element={<ProtectedRoutes />}>
 							{/* PM Home || Employee */}
 							<Route path="/home" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />
-							<Route path="/project" element={<ProjectView />} />
+              <Route path="/projects/:projectId" element={<ProjectView />} />
 							<Route path="/projects/:projectId/note/create" element={<CreateNote />} />
 							<Route path="/create-project" element={<CreateProject />} />
 							<Route path="*" element={<NotFound />} />
-						</Route>
 					</Routes>
 				</div>
 			</div>
-
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
