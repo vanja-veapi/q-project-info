@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
-const Aside = ({ toggleTable }) => {
+const Aside = ({ toggleTable, isMainDashboardPage }) => {
 	const { data: loggedUser } = useLoggedUser();
 
 	return (
@@ -27,18 +27,31 @@ const Aside = ({ toggleTable }) => {
 
 				<div className="categories mt-3">
 					<ul className="">
-						<li className="list-group-item users" onClick={toggleTable}>
-							<div className="d-flex align-items-center gap-2">
-								<CgProfile className="icon" />
-								<NavLink to="/dashboard">Users</NavLink>
-							</div>
-						</li>
-						<li className="list-group-item categories" onClick={toggleTable}>
-							<div className="d-flex align-items-center gap-2">
-								<MdOutlineCategory className="icon" />
-								<NavLink to="/dashboard">Categories</NavLink>
-							</div>
-						</li>
+						{isMainDashboardPage && (
+							<li className="list-group-item users" onClick={toggleTable}>
+								<div className="d-flex align-items-center gap-2">
+									<CgProfile className="icon" />
+									<NavLink to="/dashboard">Users</NavLink>
+								</div>
+							</li>
+						)}
+						{isMainDashboardPage && (
+							<li className="list-group-item categories" onClick={toggleTable}>
+								<div className="d-flex align-items-center gap-2">
+									<MdOutlineCategory className="icon" />
+									<NavLink to="/dashboard">Categories</NavLink>
+								</div>
+							</li>
+						)}
+
+						{!isMainDashboardPage && (
+							<li className="list-group-item categories">
+								<div className="d-flex align-items-center gap-2">
+									<MdOutlineCategory className="icon" />
+									<NavLink to="/dashboard">Dashboard</NavLink>
+								</div>
+							</li>
+						)}
 						<li className="list-group-item">
 							<div className="d-flex align-items-center gap-2">
 								<FaUserAlt className="icon" />

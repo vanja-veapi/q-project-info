@@ -2,9 +2,11 @@ import React from "react";
 import { useQuery } from "react-query";
 import { useParams, useNavigate } from "react-router";
 import { fetchSingleUser } from "../../../hooks/users/useFindUser";
+import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 import EditUserForm from "../../elements/UserForm/EditUserForm";
-// Pages
 import Aside from "../../layouts/Aside/Aside";
+import AdminNav from "../../layouts/AdminNav/AdminNav";
+// Pages
 import Profile from "../Profile/Profile";
 
 const EditData = () => {
@@ -14,7 +16,7 @@ const EditData = () => {
 	const { data: fetchUser, isLoading, refetch } = useQuery(["edit-user", params.id], fetchSingleUser);
 
 	if (isLoading) {
-		return "Load...";
+		return <QuantoxSpinner />;
 	}
 
 	if (fetchUser?.data.length === 0) {
@@ -23,8 +25,9 @@ const EditData = () => {
 	}
 	return (
 		<div className="admin-dashboard d-flex">
-			<Aside />
+			<Aside isMainDashboardPage={false} />
 			<div className="container-fluid">
+				<AdminNav />
 				<EditUserForm fetchUser={fetchUser.data[0]} isLoading={isLoading} refetch={refetch} isAdmin={true} />
 			</div>
 		</div>

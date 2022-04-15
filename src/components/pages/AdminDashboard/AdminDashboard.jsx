@@ -4,14 +4,13 @@ import { NavLink, Navigate } from "react-router-dom";
 import instance from "../../../config/config";
 // Layouts
 import Aside from "../../layouts/Aside/Aside";
+import AdminNav from "../../layouts/AdminNav/AdminNav";
 // CSS
 import "./AdminDashboard.css";
 import styles from "./AdminDashboard.module.css";
 // Icons
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineCategory } from "react-icons/md";
-import { TiClipboard } from "react-icons/ti";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { useQuery } from "react-query";
 import TableData from "../../elements/TableData/TableData";
 // Hooks
@@ -22,6 +21,8 @@ const AdminDashboard = () => {
 	const userData = loggedUser.data?.data;
 	const { data: categories } = useQuery("categories", () => instance.get("/api/categories"));
 	const { data: users, isLoading: userLoading } = useQuery("users", () => instance.get("/api/users"));
+
+	const { data } = useQuery("isAdmin", () => true);
 
 	let tableName = null;
 	let previousTableName = null;
@@ -45,22 +46,9 @@ const AdminDashboard = () => {
 		<div className="admin-dashboard d-flex">
 			{userLoading ? <QuantoxSpinner /> : null}
 
-			<Aside toggleTable={toggleTable} />
+			<Aside toggleTable={toggleTable} isMainDashboardPage={true} />
 			<div className="container-fluid content-wrapper">
-				<nav className="w-100 h-auto bg-white text-end">
-					<ul className="w-100 d-flex justify-content-responsive">
-						<li className="list-group-item d-block d-md-none">
-							<button className="btn">
-								<GiHamburgerMenu />
-							</button>
-						</li>
-						<li className="list-group-item">
-							<NavLink to="/logout" className="nav-link fw-light">
-								Logout
-							</NavLink>
-						</li>
-					</ul>
-				</nav>
+				<AdminNav />
 				<div className="container-fluid">
 					<div className="row justify-content-end">
 						<div className="col-12 col-lg-6">
