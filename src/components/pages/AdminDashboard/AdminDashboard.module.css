@@ -9,3 +9,14 @@
 	box-shadow: unset;
 	text-align: left;
 }
+.pages li {
+	color: #5793fb;
+	transition: 0.3s;
+}
+.pages li:hover {
+	color: #fff;
+	background-color: #5793fb;
+}
+.pages .list-group-item.active {
+	background-color: #5793fb !important;
+}

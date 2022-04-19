@@ -55,6 +55,10 @@ nav ul {
 .btn .h2 {
 	margin-bottom: 0;
 }
+.active-page {
+	color: #fff !important;
+	background-color: #5793fb !important;
+}
 @media screen and (max-width: 768px) {
 	.justify-content-responsive {
 		justify-content: space-between;

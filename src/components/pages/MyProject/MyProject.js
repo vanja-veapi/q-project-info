@@ -14,7 +14,7 @@ export const MyProject = () => {
 	}
 
 	if (role === 3) {
-		console.log("Admin");
+		// console.log("Admin");
 		return <Navigate to="/dashboard" />;
 	}
 	if (role === 4) {

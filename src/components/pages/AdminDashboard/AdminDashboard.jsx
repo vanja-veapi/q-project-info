@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Navigate } from "react-router-dom";
 
 import instance from "../../../config/config";
@@ -16,7 +16,19 @@ import TableData from "../../elements/TableData/TableData";
 // Hooks
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
+import ReactPaginate from "react-paginate";
 const AdminDashboard = () => {
+	const [itemsPerPage] = useState(5);
+	const [itemOffsetUsers, setItemOffsetUsers] = useState(0);
+	const [itemOffsetCategories, setItemOffsetCategories] = useState(0);
+
+	// User Pagination
+	const [currentPageUsers, setCurrentPageUsers] = useState(null);
+	const [pageCountUsers, setPageCountUsers] = useState(0);
+	// Category pagination
+	const [currentPageCategories, setCurrentPageCategories] = useState(null);
+	const [pageCountCategories, setPageCountCategories] = useState(0);
+
 	const loggedUser = useLoggedUser();
 	const userData = loggedUser.data?.data;
 	const { data: categories } = useQuery("categories", () => instance.get("/api/categories"));
@@ -25,7 +37,7 @@ const AdminDashboard = () => {
 	const { data } = useQuery("isAdmin", () => true);
 
 	let tableName = null;
-	let previousTableName = null;
+	let previousTableName = !localStorage.getItem("previousTableName") ? null : localStorage.getItem("previousTableName");
 
 	const toggleTable = (e) => {
 		console.log(previousTableName, e.currentTarget.classList[1]);
@@ -36,7 +48,33 @@ const AdminDashboard = () => {
 		tableName.classList.toggle("d-none");
 
 		previousTableName = e.currentTarget.classList[1];
+		localStorage.setItem("previousTableName", previousTableName);
 	};
+
+	const handlePageClick = (event, isUserPagination) => {
+		let newOffset = null;
+		if (isUserPagination) {
+			newOffset = (event.selected * itemsPerPage) % users?.data.length;
+			setItemOffsetUsers(newOffset);
+		} else {
+			newOffset = (event.selected * itemsPerPage) % categories?.data?.data.length;
+			setItemOffsetCategories(newOffset);
+		}
+	};
+
+	useEffect(() => {
+		const endOffset = itemOffsetUsers + itemsPerPage;
+
+		setCurrentPageUsers(users?.data.slice(itemOffsetUsers, endOffset));
+		setPageCountUsers(Math.ceil(users?.data.length / itemsPerPage));
+	}, [itemOffsetUsers, itemsPerPage]);
+
+	useEffect(() => {
+		const endOffset = itemOffsetCategories + itemsPerPage;
+
+		setCurrentPageCategories(categories?.data?.data.slice(itemOffsetCategories, endOffset));
+		setPageCountCategories(Math.ceil(categories?.data?.data.length / itemsPerPage));
+	}, [itemOffsetCategories, itemsPerPage]);
 
 	// console.log(userData);
 	if (userData?.role?.id !== 3) {
@@ -88,9 +126,31 @@ const AdminDashboard = () => {
 												<th>Delete</th>
 											</tr>
 										</thead>
-										<tbody>{users?.data.map((user) => (userData.id === user.id ? null : <TableData key={user.id} id={user.id} name={user.username} email={user.email} type={"users"} />))}</tbody>
+										<tbody>
+											{/* Na prvoj strani imam jendog korisnika manje, zato sto sam preskocio samog sebe, tj ulogovanog korisnika */}
+											{currentPageUsers?.map((user) =>
+												userData.id === user.id ? null : (
+													<TableData key={user.id} id={user.id} name={user.username} email={user.email} type={"users"} />
+												)
+											)}
+										</tbody>
 									</table>
 									<div className="btn-container mt-3">
+										<ReactPaginate
+											breakLabel="..."
+											nextLabel="next >"
+											previousLabel="< previous"
+											onPageChange={(e) => handlePageClick(e, true)}
+											marginPagesDisplayed={1}
+											pageCount={pageCountUsers}
+											renderOnZeroPageCount={null}
+											className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"}
+											activeClassName="active-page"
+											pageClassName="list-group-item border"
+											previousClassName="d-none"
+											nextClassName="d-none"
+											breakClassName="list-group-item border"
+										/>
 										<NavLink to="/dashboard/user/add">
 											<button className="btn btn-success">Insert new user</button>
 										</NavLink>
@@ -113,14 +173,31 @@ const AdminDashboard = () => {
 											</tr>
 										</thead>
 										<tbody>
-											{categories?.data.data.map((category) => (
+											{currentPageCategories?.map((category) => (
 												<TableData key={category.id} id={category.id} name={category.attributes.name} type={"categories"} />
 											))}
 										</tbody>
 									</table>
-									<NavLink to="/dashboard/category/add">
-										<button className="btn btn-success">Insert new category</button>
-									</NavLink>
+									<div className="btn-container mt-3">
+										<ReactPaginate
+											breakLabel="..."
+											nextLabel="next >"
+											previousLabel="< previous"
+											onPageChange={(e) => handlePageClick(e, false)}
+											marginPagesDisplayed={1}
+											pageCount={pageCountCategories}
+											renderOnZeroPageCount={null}
+											className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"}
+											activeClassName="active-page"
+											pageClassName="list-group-item border"
+											previousClassName="d-none"
+											nextClassName="d-none"
+											breakClassName="list-group-item border"
+										/>
+										<NavLink to="/dashboard/category/add">
+											<button className="btn btn-success">Insert new category</button>
+										</NavLink>
+									</div>
 								</div>
 							</div>
 						</div>

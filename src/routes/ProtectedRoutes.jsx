@@ -14,7 +14,6 @@ const ProtectedRoutes = () => {
 	const isAuth = useAuth();
 	const loggedUser = useLoggedUser();
 	const roleName = loggedUser?.data?.data?.role.name;
-	console.log(roleName);
 
 	if (roleName !== "System Administrator" && window.location.pathname.includes("/dashboard")) {
 		return <Navigate to="/home" />;
