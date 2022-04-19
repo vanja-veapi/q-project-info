@@ -49,6 +49,12 @@ nav ul {
 .btn-success:hover {
 	background-color: #157347 !important;
 }
+.admin-nav .btn:hover {
+	color: #5793fb;
+}
+.btn .h2 {
+	margin-bottom: 0;
+}
 @media screen and (max-width: 768px) {
 	.justify-content-responsive {
 		justify-content: space-between;

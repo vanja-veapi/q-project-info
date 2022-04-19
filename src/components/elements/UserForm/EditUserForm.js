@@ -48,17 +48,25 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 		password: null,
 		role: { id: userData?.role.id },
 	});
-
+	console.log(newUserData);
 	// useEffect(() => {
 	// 	setUserName(username);
 	// }, [username]);
 
 	useEffect(() => {
-		setNewUserData({ ...newUserData, id: id });
-	}, [id]);
+		console.log(id);
+		setNewUserData({
+			...newUserData,
+			id: id,
+			role: {
+				id: userData?.role.id,
+			},
+		});
+	}, [id, userData?.role]);
 
 	const handleUpdate = async () => {
 		setNewUserData({ ...newUserData, id });
+		console.log(newUserData.role.id);
 
 		if (newUserData.username === "" || newUserData.username === undefined || newUserData.username === null) {
 			setNewUserData({ ...newUserData, username: undefined });
@@ -137,6 +145,7 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 	};
 
 	const handleRemoveImage = () => {
+		console.log(newUserData.role.id);
 		removeImage(profileImage.id);
 		setTimeout(() => refetch(), 500);
 		handleView();

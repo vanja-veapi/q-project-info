@@ -1,6 +1,9 @@
 .App .sidebar-container {
 	text-align: left;
-	box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.6);
+	box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.6);
+}
+aside {
+	transition: 0.3s;
 }
 .sidebar-container {
 	max-width: 250px;
@@ -34,4 +37,16 @@
 }
 .sidebar-container ul {
 	padding-left: 0;
+}
+.active-aside {
+	width: 100% !important;
+	transform: translateX(0%);
+}
+@media screen and (max-width: 768px) {
+	aside {
+		transform: translateX(-110%);
+	}
+	aside.w-100 {
+		width: 0 !important;
+	}
 }

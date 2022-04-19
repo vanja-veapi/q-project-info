@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Css
 import "./Profile.css";
 // Images
@@ -9,13 +9,12 @@ import AdminNav from "../../layouts/AdminNav/AdminNav";
 
 const Profile = () => {
 	const { data: fetchUser, isLoading, refetch } = useLoggedUser();
-
-	console.log(fetchUser.data.role.name);
+	const [isAdmin] = useState(fetchUser?.data?.role?.name);
 	return (
 		<div className="d-flex">
-			{fetchUser.data.role.name === "System Administrator" ? <Aside /> : null}
+			{isAdmin === "System Administrator" ? <Aside /> : null}
 			<div className="container-fluid">
-				{fetchUser.data.role.name === "System Administrator" ? <AdminNav /> : null}
+				{isAdmin === "System Administrator" ? <AdminNav /> : null}
 				<EditUserForm fetchUser={fetchUser?.data} refetch={refetch} isLoading={isLoading} />;
 			</div>
 		</div>
