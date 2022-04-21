@@ -2,17 +2,17 @@ import { useMutation, useQueryClient } from "react-query";
 import instance from "../../config/config";
 import { useNavigate } from "react-router";
 
-const createProject = (data) => {
-	return instance.post("/api/projects", data);
+const updateProject = (data) => {
+	return instance.put(`/api/projects/${data.id}`, data);
 };
 
-export const useCreateProject = (id) => {
+export const useUpdateProject = (id) => {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 
-	return useMutation(createProject, {
+	return useMutation(updateProject, {
 		onSuccess: (success) => {
-			queryClient.setQueryData("create-project-info", () => {
+			queryClient.setQueryData("update-project-info", () => {
 				setTimeout(() => navigate(`/projects/${id}`), 3000);
 				return {
 					success: success,
@@ -20,12 +20,12 @@ export const useCreateProject = (id) => {
 			});
 		},
 		onError: (error) => {
-			queryClient.setQueryData("create-project-info", () => {
+			queryClient.setQueryData("update-project-info", () => {
 				return {
 					error: error.response.data.error,
 				};
 			});
-			setTimeout(() => queryClient.removeQueries("create-project-info"), 1000);
+			setTimeout(() => queryClient.removeQueries("update-project-info"), 1000);
 		}
 	});
 };

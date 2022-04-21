@@ -4,15 +4,18 @@ import { useNavigate, useParams } from 'react-router';
 import { useCreateNote } from '../../../hooks/notes/useCreateNote';
 import { useQuery } from 'react-query';
 
-import projectLogo from '../../../assets/images/elipse.png';
+import projectLogo from '../../../assets/images/img.png';
 import iconEdit from '../../../assets/images/image-6.png';
 import iconArrow from '../../../assets/images/left-arrow.png';
 import instance from '../../../config/config';
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 import { useGetProject } from '../../../hooks/projects/useGetProject';
+import { useGetNote } from '../../../hooks/notes/useGetNote';
+import { useUpdateNote } from '../../../hooks/notes/useUpdateNote';
 
-const CreateNote = () => {
+const CreateNote = ({ editNote }) => {
     const { projectId } = useParams();
+    const { noteId } = useParams();
     const [noteData, setNoteData] = useState({
         noteTitle: "",
         noteDescription: "",
@@ -24,15 +27,21 @@ const CreateNote = () => {
     const fileRef = useRef();
     const navigate = useNavigate();
 
-    const goBack = () => {
-        navigate(`/projects/${projectId}`);
-    }
+    const { data: dataProject } = useGetProject(projectId);
+    const { data: dataNote } = useGetNote(noteId);
 
     useEffect(() => {
         getCategories();
+
+        if (!dataNote) {
+            return;
+        }
+        setNoteData({...noteData, noteTitle: dataNote.data.data.attributes.title, noteDescription: dataNote.data.data.attributes.description, category: dataNote.data.data.attributes.category.data.id, noteFile: dataNote.data.data.attributes.files.data});
     }, []);
 
-    const { data: dataProject, error } = useGetProject(projectId);
+    const goBack = () => {
+        navigate(`/projects/${projectId}`);
+    }
 
     const getCategories = async () => {
         await instance.get('/api/categories')
@@ -42,6 +51,7 @@ const CreateNote = () => {
     } 
 
     const { mutate: createNote } = useCreateNote(projectId);
+    const { mutate: updateNote } = useUpdateNote(projectId);
 
     const saveNote = async () => {
         if (!noteData.noteTitle || !noteData.noteDescription || !noteData.category) {
@@ -66,7 +76,14 @@ const CreateNote = () => {
                         }
                     };
 
-                    createNote(data);
+                    if(editNote) {
+                        data.id = noteId;
+                        updateNote(data);
+                    }
+                    else {
+                        createNote(data);
+                    }
+
                 }).catch(err => {
                     console.error(err);
                 });
@@ -83,11 +100,23 @@ const CreateNote = () => {
             }
         }
 
-        createNote(data);
+        if(editNote) {
+            data.id = noteId;
+            data.data.files = dataNote.data.attributes?.files.data[0].id;
+            updateNote(data);
+        }
+        else {
+            createNote(data);
+        }
+
         refetch();
     };
     
 	const { data, isLoading, refetch } = useQuery("create-note-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
+
+    const editProject = () => {
+        navigate(`/projects/${projectId}/edit`);
+    }
 
     return (
         <>
@@ -104,7 +133,7 @@ const CreateNote = () => {
                         }
                         <div className='description'>
                             <h5>{dataProject?.data.data.attributes.name}
-                                <span className='edit'><img className='icon-edit' src={iconEdit} />EDIT</span>
+                                <span className='edit' onClick={editProject} ><img className='icon-edit' src={iconEdit} />EDIT</span>
                             </h5>
                             <p className='description-text'>{dataProject?.data.data.attributes.description}</p>
                         </div>
@@ -132,7 +161,8 @@ const CreateNote = () => {
                     <li className='nav-item' role='presentation'>
                         <div className='nav-link active cursor-default' id='create-note' data-bs-toggle='tab' data-bs-target='#note' type='button' role='tab' aria-controls='note' aria-selected='true'>
                             <button className='btn btn-back' onClick={goBack}><img className='icon-arrow' src={iconArrow} /> Back</button> 
-                            Create a new Note
+                            {!editNote && <span>Create a new Note</span>}
+                            {editNote && <span>Edit Note</span>}
                         </div>
                     </li>
                 </ul>
@@ -145,14 +175,14 @@ const CreateNote = () => {
                             <div className='col-md-9 col-sm-12'>
                                 <label className='note-label'>Note Title</label>
                                 <br />
-                                <input className='note-titile form-control mt-1 mb-3' type='text' placeholder='Hello' onChange={(e) => setNoteData({...noteData, noteTitle: e.target.value})}></input>
+                                <input className='note-titile form-control mt-1 mb-3' type='text' placeholder='Hello' defaultValue={noteData.noteTitle} onChange={(e) => setNoteData({...noteData, noteTitle: e.target.value})}></input>
                                 {submitCreateNote && !noteData.noteTitle ? <p className="text-danger error-message">Note title is required</p> : ""}
                                 <br />
                                 <label className='note-label'>Note Description</label>
-                                <textarea className='note-description form-control mt-1 mb-3' placeholder='Hello' onChange={(e) => setNoteData({...noteData, noteDescription: e.target.value})}></textarea>
+                                <textarea className='note-description form-control mt-1 mb-3' placeholder='Hello' defaultValue={noteData.noteDescription} onChange={(e) => setNoteData({...noteData, noteDescription: e.target.value})}></textarea>
                                 {submitCreateNote && !noteData.noteDescription ? <p className="text-danger error-message">Note description is required</p> : ""}
                                 <br />
-                                <select className='category form-select mb-3' onChange={(e) => setNoteData({...noteData, category: e.target.value})}>
+                                <select className='category form-select mb-3' value={noteData.category} onChange={(e) => setNoteData({...noteData, category: e.target.value})}>
                                     <option hidden >Category</option>
                                     {categories.map((ct) => (
                                         <option key={ct.id} value={ct.id}>{ct.attributes.name}</option>

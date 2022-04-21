@@ -62,9 +62,11 @@ function App() {
 						<Route path="/home" element={<MyProject />} />
 						<Route path="/logout" element={<Logout />} />
 						<Route path="/profile" element={<Profile />} />
+						<Route path="/projects/create" element={<CreateProject edit={false} />} />
 						<Route path="/projects/:projectId" element={<ProjectView />} />
+						<Route path="/projects/:projectId/edit" element={<CreateProject edit={true} />} />
 						<Route path="/projects/:projectId/note/create" element={<CreateNote />} />
-						<Route path="/create-project" element={<CreateProject />} />
+						<Route path="/projects/:projectId/notes/:noteId/edit" element={<CreateNote editNote={true} />} />
 						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</div>
