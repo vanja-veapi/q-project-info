@@ -58,7 +58,6 @@ function App() {
 		<QueryClientProvider client={queryClient}>
 			<div className="App">
 				<div className="container-fluid">
-
 					<Routes>
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
@@ -72,13 +71,12 @@ function App() {
 							<Route path="/home" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />
-              <Route path="/projects/:projectId" element={<ProjectView />} />
-						  <Route path="/projects/:projectId/note/create" element={<CreateNote />} />
+							<Route path="/projects/:projectId" element={<ProjectView />} />
+							<Route path="/projects/:projectId/note/create" element={<CreateNote />} />
 							<Route path="/create-note" element={<CreateNote />} />
 							<Route path="/create-project" element={<CreateProject />} />
 							<Route path="*" element={<NotFound />} />
 						</Route>
-
 					</Routes>
 				</div>
 			</div>
