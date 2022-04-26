@@ -3,12 +3,13 @@
 	box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.6);
 }
 aside {
+	position: relative;
 	transition: 0.3s;
-}
-.sidebar-container {
 	max-width: 250px;
-	min-height: 100vh;
+	width: 100%;
+	z-index: 1;
 }
+
 .sidebar-container .border-top,
 .sidebar-container .border-bottom {
 	border-top: 1px solid #4b545c !important;
@@ -40,11 +41,15 @@ aside {
 }
 .active-aside {
 	width: 100% !important;
-	transform: translateX(0%);
+	transform: translateX(0);
+	/* transform: translateX(0%); */
 }
 @media screen and (max-width: 768px) {
 	aside {
-		transform: translateX(-110%);
+		position: fixed;
+		transform: translateX(-180px);
+		min-height: 100vh;
+		/* transform: translateX(-110%); */
 	}
 	aside.w-100 {
 		width: 0 !important;

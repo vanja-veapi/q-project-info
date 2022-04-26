@@ -9,7 +9,9 @@ import img from "../../../assets/no-image.jpg";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineCategory } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
+import { GiHamburgerMenu } from "react-icons/gi";
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
+
 const Aside = ({ toggleTable, isMainDashboardPage }) => {
 	const { data: loggedUser } = useLoggedUser();
 
@@ -21,7 +23,16 @@ const Aside = ({ toggleTable, isMainDashboardPage }) => {
 				</NavLink>
 
 				<div className="user d-flex align-items-center justify-content-around mt-4 pt-3 pb-3 border-top border-bottom">
-					{loggedUser?.data?.profileImage ? <img src={process.env.REACT_APP_BASEURL + loggedUser?.data?.profileImage.url} alt={loggedUser?.data?.profileImage.name} width={33} className="rounded-circle" /> : <img src={img} alt="User" width={33} className="rounded-circle" />}
+					{loggedUser?.data?.profileImage ? (
+						<img
+							src={process.env.REACT_APP_BASEURL + loggedUser?.data?.profileImage.url}
+							alt={loggedUser?.data?.profileImage.name}
+							width={33}
+							className="rounded-circle"
+						/>
+					) : (
+						<img src={img} alt="User" width={33} className="rounded-circle" />
+					)}
 					<h2 className="h5 fw-light">{loggedUser?.data?.username}</h2>
 				</div>
 

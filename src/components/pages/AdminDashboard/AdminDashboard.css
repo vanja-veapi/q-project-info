@@ -59,7 +59,18 @@ nav ul {
 	color: #fff !important;
 	background-color: #5793fb !important;
 }
+.btn-aside {
+	position: relative;
+	z-index: 1;
+}
+.btn-aside.active {
+	color: #fff;
+	position: fixed;
+}
 @media screen and (max-width: 768px) {
+	nav.admin-nav {
+		min-height: 98px;
+	}
 	.justify-content-responsive {
 		justify-content: space-between;
 	}

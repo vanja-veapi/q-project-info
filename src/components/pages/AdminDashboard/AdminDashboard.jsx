@@ -32,15 +32,16 @@ const AdminDashboard = () => {
 	const loggedUser = useLoggedUser();
 	const userData = loggedUser.data?.data;
 	const { data: categories } = useQuery("categories", () => instance.get("/api/categories"));
-	const { data: users, isLoading: userLoading } = useQuery("users", () => instance.get("/api/users"));
-
+	const { data: users, isLoading: userLoading } = useQuery("users", () => instance.get("/api/users"), {
+		onComplete: () => setCurrentPageUsers(users?.data),
+	});
 	const { data } = useQuery("isAdmin", () => true);
 
 	let tableName = null;
 	let previousTableName = !localStorage.getItem("previousTableName") ? null : localStorage.getItem("previousTableName");
 
 	const toggleTable = (e) => {
-		console.log(previousTableName, e.currentTarget.classList[1]);
+		// console.log(previousTableName, e.currentTarget.classList[1]);
 		if (previousTableName !== null && previousTableName !== e.currentTarget.classList[1]) {
 			document.querySelector(`#${previousTableName}`).classList.add("d-none");
 		}
@@ -67,19 +68,20 @@ const AdminDashboard = () => {
 
 		setCurrentPageUsers(users?.data.slice(itemOffsetUsers, endOffset));
 		setPageCountUsers(Math.ceil(users?.data.length / itemsPerPage));
-	}, [itemOffsetUsers, itemsPerPage]);
+	}, [itemOffsetUsers, itemsPerPage, users?.data]);
 
 	useEffect(() => {
 		const endOffset = itemOffsetCategories + itemsPerPage;
 
 		setCurrentPageCategories(categories?.data?.data.slice(itemOffsetCategories, endOffset));
 		setPageCountCategories(Math.ceil(categories?.data?.data.length / itemsPerPage));
-	}, [itemOffsetCategories, itemsPerPage]);
+	}, [itemOffsetCategories, itemsPerPage, categories?.data]);
 
 	// console.log(userData);
 	if (userData?.role?.id !== 3) {
 		return <Navigate to="/home" />;
 	}
+
 	return (
 		<div className="admin-dashboard d-flex">
 			{userLoading ? <QuantoxSpinner /> : null}
@@ -87,8 +89,8 @@ const AdminDashboard = () => {
 			<Aside toggleTable={toggleTable} isMainDashboardPage={true} />
 			<div className="container-fluid content-wrapper">
 				<AdminNav />
-				<div className="container-fluid">
-					<div className="row justify-content-end">
+				<div className="container-fluid pt-4 pt-md-0">
+					<div className="row">
 						<div className="col-12 col-lg-6">
 							<div className="small-box bg-danger d-flex justify-content-between align-items-center">
 								<div className="inner">
@@ -128,6 +130,7 @@ const AdminDashboard = () => {
 										</thead>
 										<tbody>
 											{/* Na prvoj strani imam jendog korisnika manje, zato sto sam preskocio samog sebe, tj ulogovanog korisnika */}
+
 											{currentPageUsers?.map((user) =>
 												userData.id === user.id ? null : (
 													<TableData key={user.id} id={user.id} name={user.username} email={user.email} type={"users"} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Nav.css";
 
 import { NavLink } from "react-router-dom";
@@ -13,10 +13,36 @@ const Nav = () => {
 	if (lsToken === null) {
 		token.data = null;
 	}
+
+	const [openMenu, setOpenMenu] = useState(false);
+	const handleMenu = () => {
+		const navList = document.querySelector("#nav-list");
+
+		if (!openMenu) {
+			navList.classList.toggle("d-none");
+			navList.classList.toggle("animate-menu");
+
+			setTimeout(() => (navList.style.padding = "1.5rem"), 50);
+			setTimeout(() => (navList.style.height = "160px"), 200);
+
+			setOpenMenu(!openMenu);
+		}
+
+		if (openMenu) {
+			navList.style.height = "0";
+			setTimeout(() => (navList.style.padding = "0"), 200);
+
+			setTimeout(() => {
+				navList.classList.toggle("d-none");
+				navList.classList.toggle("animate-menu");
+			}, 500);
+			setOpenMenu(!openMenu);
+		}
+	};
 	return (
 		<nav className="nav navbar justify-content-end">
 			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}
-			<ul className="justify-content-center d-none d-lg-flex">
+			<ul id="nav-list" className="justify-content-center d-none d-lg-flex">
 				{!token.data && (
 					<>
 						<li className="nav-item">
@@ -51,7 +77,7 @@ const Nav = () => {
 					</>
 				)}
 			</ul>
-			<button className="btn btn-primary d-md-block d-lg-none hamburger">
+			<button className="btn btn-primary d-md-block d-lg-none hamburger" onClick={handleMenu}>
 				<GiHamburgerMenu className="hamburger-font" />
 			</button>
 		</nav>
