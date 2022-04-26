@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
+import Header from "../../layouts/Header/Header";
 
 import FormRectangle from "../../elements/FormRectangle/FormRectangle";
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
@@ -14,6 +15,7 @@ const Register = () => {
 	const regExGlobal = /^[A-ZŽŠĐČĆa-zžšđčć\d]{2,30}$/;
 
 	// UseStates
+	const [isSendingRequest, setIsSendingRequest] = useState(false);
 	const [submitRegister, setSubmitRegister] = useState(false);
 	const [state, setState] = useState({
 		username: "",
@@ -30,8 +32,10 @@ const Register = () => {
 				email: state.email,
 				password: state.password,
 			};
+			setIsSendingRequest(!isSendingRequest);
 			registerUser(newUser);
 			refetch();
+			setTimeout(() => setIsSendingRequest(false), 500);
 			return setSubmitRegister(false);
 		}
 
@@ -45,9 +49,11 @@ const Register = () => {
 
 	return (
 		<>
-			{isLoading ? <QuantoxSpinner /> : ""}
+			{isLoading || isSendingRequest ? <QuantoxSpinner /> : ""}
 			{isLoading ? document.body.classList.add("overflow-hidden") : document.body.classList.remove("overflow-hidden")}
-
+			<div className="w-100 h-auto bg-header">
+				<Header />
+			</div>
 			<div className="register container-fluid position-relative">
 				<FormRectangle />
 				<div className="card">

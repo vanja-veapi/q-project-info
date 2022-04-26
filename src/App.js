@@ -2,9 +2,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
-// Layouts
-import Header from "./components/layouts/Header/Header";
-
 // Routes
 import { Routes, Route } from "react-router-dom";
 // Pages
@@ -29,6 +26,11 @@ import { persistQueryClient } from "react-query/persistQueryClient-experimental"
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 
 import ProtectedRoutes from "./routes/ProtectedRoutes";
+import AdminDashboard from "./components/pages/AdminDashboard/AdminDashboard";
+import EditUser from "./components/pages/EditData/EditUser";
+import InsertUser from "./components/pages/InsertData/InsertUser";
+import InsertCategory from "./components/pages/InsertData/InsertCategory";
+import EditCategory from "./components/pages/EditData/EditCategory";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -47,25 +49,36 @@ persistQueryClient({
 function App() {
 	const token = localStorage.getItem("token");
 	console.log(token);
+
+	if (token && (window.location.pathname === "/" || window.location.pathname === "/register")) {
+		window.location.replace("/home");
+	}
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<div className="App">
 				<div className="container-fluid">
-					<div className="w-100 h-auto bg-header">
-						<Header />
-					</div>
+
 					<Routes>
 						<Route exact path="/" element={<Login />} />
 						<Route path="/register" element={<Register />} />
-						<Route element={<ProtectedRoutes />} />
-						{/* PM Home || Employee */}
-						<Route path="/home" element={<MyProject />} />
-						<Route path="/logout" element={<Logout />} />
-						<Route path="/profile" element={<Profile />} />
-						<Route path="/projects/:projectId" element={<ProjectView />} />
-						<Route path="/projects/:projectId/note/create" element={<CreateNote />} />
-						<Route path="/create-project" element={<CreateProject />} />
-						<Route path="*" element={<NotFound />} />
+						<Route element={<ProtectedRoutes />}>
+							{/* PM Home || Employee */}
+							<Route path="/dashboard" element={<AdminDashboard />} />
+							<Route path="/dashboard/users/:id/edit" element={<EditUser />} />
+							<Route path="/dashboard/categories/:id/edit" element={<EditCategory />} />
+							<Route path="/dashboard/user/add" element={<InsertUser />} />
+							<Route path="/dashboard/category/add" element={<InsertCategory />} />
+							<Route path="/home" element={<MyProject />} />
+							<Route path="/logout" element={<Logout />} />
+							<Route path="/profile" element={<Profile />} />
+              <Route path="/projects/:projectId" element={<ProjectView />} />
+						  <Route path="/projects/:projectId/note/create" element={<CreateNote />} />
+							<Route path="/create-note" element={<CreateNote />} />
+							<Route path="/create-project" element={<CreateProject />} />
+							<Route path="*" element={<NotFound />} />
+						</Route>
+
 					</Routes>
 				</div>
 			</div>

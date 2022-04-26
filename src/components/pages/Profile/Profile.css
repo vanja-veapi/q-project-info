@@ -13,12 +13,14 @@
 	text-align: left;
 }
 .profile-image-box {
-	width: 200px;
-	height: 200px;
+	/* width: 200px;
+	height: 200px; */
 	border-radius: 50%;
 	overflow: hidden;
 }
 .profile-image-box img {
-	width: 320px;
-	scale: 1.4;
+	/* width: 320px; */
+	/* min-height: 200px; */
+	max-height: 200px;
+	object-fit: cover;
 }
