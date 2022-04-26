@@ -39,19 +39,3 @@ nav ul .nav-link.active {
 .hamburger-font {
 	font-size: 32px !important;
 }
-
-@media screen and (max-width: 992px) {
-	.animate-menu {
-		position: absolute;
-		top: 80px;
-		height: 0;
-		z-index: 1;
-		text-align: right;
-		background-color: #fafafa;
-		border-radius: 5px;
-		padding: 0;
-		transition: 0.5s;
-		overflow: hidden;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-	}
-}

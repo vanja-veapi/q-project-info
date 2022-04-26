@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Nav.css";
+import styles from "./Nav.module.css";
 
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -20,7 +21,7 @@ const Nav = () => {
 
 		if (!openMenu) {
 			navList.classList.toggle("d-none");
-			navList.classList.toggle("animate-menu");
+			navList.classList.toggle(`${styles["animate-menu"]}`);
 
 			setTimeout(() => (navList.style.padding = "1.5rem"), 50);
 			setTimeout(() => (navList.style.height = "160px"), 200);
@@ -34,7 +35,7 @@ const Nav = () => {
 
 			setTimeout(() => {
 				navList.classList.toggle("d-none");
-				navList.classList.toggle("animate-menu");
+				navList.classList.toggle(`${styles["animate-menu"]}`);
 				navList.removeAttribute("style");
 			}, 500);
 			setOpenMenu(!openMenu);
