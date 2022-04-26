@@ -65,7 +65,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 							</div>
 
 							{/* If user has project role, then he'll see this button */}
-							{!isPM ? "" : <button className="btn btn-success">New Project</button>}
+							{!isPM ? "" : <a className="btn btn-success" href="/create-project">New Project</a>}
 						</div>
 					</div>
 				</div>

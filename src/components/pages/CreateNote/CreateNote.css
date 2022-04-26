@@ -39,7 +39,7 @@ input {
     max-width: 400px;
 }
 
-.chategory {
+.category {
     max-width: 180px;
 }
 
@@ -52,6 +52,11 @@ input {
 
 .cursor-default:hover {
     cursor: default;
+}
+
+.file-msg {
+    font-size: 10px;
+    margin-top: 5px;
 }
 
 /* =============== Bootstrap overrides =============== */
