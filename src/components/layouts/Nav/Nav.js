@@ -35,6 +35,7 @@ const Nav = () => {
 			setTimeout(() => {
 				navList.classList.toggle("d-none");
 				navList.classList.toggle("animate-menu");
+				navList.removeAttribute("style");
 			}, 500);
 			setOpenMenu(!openMenu);
 		}

@@ -15,7 +15,7 @@ const Profile = () => {
 			{isAdmin === "System Administrator" ? <Aside /> : null}
 			<div className="container-fluid">
 				{isAdmin === "System Administrator" ? <AdminNav /> : null}
-				<EditUserForm fetchUser={fetchUser?.data} refetch={refetch} isLoading={isLoading} />;
+				<EditUserForm fetchUser={fetchUser?.data} refetch={refetch} isLoading={isLoading} />
 			</div>
 		</div>
 	);

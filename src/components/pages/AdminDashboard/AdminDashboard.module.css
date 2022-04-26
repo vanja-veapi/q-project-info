@@ -11,12 +11,15 @@
 }
 .pages li {
 	color: #5793fb;
+	padding: 0;
+}
+.pages li a {
+	padding: 0.5rem 1rem;
 	transition: 0.3s;
+}
+.pages li a:hover {
+	background-color: #5793fb;
 }
 .pages li:hover {
 	color: #fff;
-	background-color: #5793fb;
-}
-.pages .list-group-item.active {
-	background-color: #5793fb !important;
 }

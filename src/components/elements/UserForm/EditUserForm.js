@@ -17,7 +17,12 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 	const { mutate: uploadPhoto } = useUploadPhoto();
 
 	//Mozda bi trebalo da u useQuery ili useLoggedUser da odradim async/await da bi se dobio odgovor
-	const { data: imageObj, refetch: uploadRefetch } = useQuery("upload-info", () => {}, { cacheTime: 0, retry: true, refetchOnMount: false, refetchOnWindowFocus: false });
+	const { data: imageObj, refetch: uploadRefetch } = useQuery("upload-info", () => {}, {
+		cacheTime: 0,
+		retry: true,
+		refetchOnMount: false,
+		refetchOnWindowFocus: false,
+	});
 	const { data: messageInfo } = useQuery("user-update", () => {});
 
 	// /^[a-zžšđčćA-ZŽŠĐČĆ!@_\d]{2,30}$/
@@ -48,13 +53,11 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 		password: null,
 		role: { id: userData?.role.id },
 	});
-	console.log(newUserData);
 	// useEffect(() => {
 	// 	setUserName(username);
 	// }, [username]);
 
 	useEffect(() => {
-		console.log(id);
 		setNewUserData({
 			...newUserData,
 			id: id,
@@ -66,7 +69,6 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 
 	const handleUpdate = async () => {
 		setNewUserData({ ...newUserData, id });
-		console.log(newUserData.role.id);
 
 		if (newUserData.username === "" || newUserData.username === undefined || newUserData.username === null) {
 			setNewUserData({ ...newUserData, username: undefined });
@@ -106,7 +108,6 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 					//Prosao
 					// await uploadPhoto(newUserData.profileImage);
 					await instance.post("/api/upload", newUserData.profileImage).then((res) => {
-						console.log(res.data[0].id);
 						const imageId = res.data[0].id;
 						sendingData = { ...sendingData, profileImage: imageId };
 					});
@@ -145,7 +146,6 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 	};
 
 	const handleRemoveImage = () => {
-		console.log(newUserData.role.id);
 		removeImage(profileImage.id);
 		setTimeout(() => refetch(), 500);
 		handleView();
@@ -157,7 +157,18 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 				<div className="col-sm-12 col-md-4">
 					<div className="card profile-image-container p-3 d-flex align-items-center">
 						{isLoading ? "Loading..." : null}
-						<div className="profile-image-box d-flex justify-content-center align-items-center">{profileImage !== null ? <img src={process.env.REACT_APP_BASEURL + profileImage?.url} alt={profileImage?.alternativeText} width={200} className={"img-fluid"} /> : <img src={noImage} alt="User has no pic" width={200} />}</div>
+						<div className="profile-image-box d-flex justify-content-center align-items-center">
+							{profileImage !== null ? (
+								<img
+									src={process.env.REACT_APP_BASEURL + profileImage?.url}
+									alt={profileImage?.alternativeText}
+									width={200}
+									className={"img-fluid"}
+								/>
+							) : (
+								<img src={noImage} alt="User has no pic" width={200} />
+							)}
+						</div>
 					</div>
 				</div>
 				<div className="col-sm-12 col-md-8">
@@ -168,9 +179,34 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 						<div className="card-body p-4 d-flex flex-column gap-3">
 							<div className="username d-flex flex-column gap-1">
 								<small className="text-danger">{message}</small>
-								{editView ? <input type="text" className="form-control" value={userName} onChange={(e) => setNewUserData({ ...newUserData, username: e.target.value })} placeholder="Enter a new username..." /> : <p className="h3 text-uppercase">{username}</p>}
-								{editView ? <input type="password" placeholder="New password..." className="form-control" onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })} /> : null}
-								{editView && isAdmin ? <input type="text" className="form-control" value={mail} onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })} placeholder="Enter a new email..." /> : null}
+								{editView ? (
+									<input
+										type="text"
+										className="form-control"
+										value={userName}
+										onChange={(e) => setNewUserData({ ...newUserData, username: e.target.value })}
+										placeholder="Enter a new username..."
+									/>
+								) : (
+									<p className="h3 text-uppercase">{username}</p>
+								)}
+								{editView ? (
+									<input
+										type="password"
+										placeholder="New password..."
+										className="form-control"
+										onChange={(e) => setNewUserData({ ...newUserData, password: e.target.value })}
+									/>
+								) : null}
+								{editView && isAdmin ? (
+									<input
+										type="text"
+										className="form-control"
+										value={mail}
+										onChange={(e) => setNewUserData({ ...newUserData, email: e.target.value })}
+										placeholder="Enter a new email..."
+									/>
+								) : null}
 								{editView ? <input type="file" className="form-control" onChange={(e) => handleFileChange(e)} /> : null}
 								{editView && isAdmin ? (
 									<select className="form-control" onChange={(e) => setNewUserData({ ...newUserData, role: e.target.value })}>
@@ -195,25 +231,30 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 								<input type="button" value="Edit ⚙" className="btn btn-success me-3" onClick={handleView} />
 								{editView ? <input type="button" value="Update" className="btn btn-primary" onClick={handleUpdate} /> : ""}
 
-								{profileImage && editView ? <input type="button" value="Remove picture" className="btn btn-danger float-end" onClick={handleRemoveImage} /> : null}
+								{profileImage && editView ? (
+									<input type="button" value="Remove picture" className="btn btn-danger float-end" onClick={handleRemoveImage} />
+								) : null}
 							</div>
 							{messageInfo?.status >= 400 ? <div className="alert alert-danger">{messageInfo?.message}</div> : null}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className="row">
-				<div className="col-sm-12 col-md-4">
-					<div className="card mt-4 mt-md-0">
-						<div className="card-header">
-							<h1 className="h2 text-center text-muted">Active projects</h1>
-						</div>
-						<div className="card-body">
-							<p className="h1 text-center">{fetchUser?.projects?.length}</p>
+
+			{fetchUser?.role.id !== 3 && (
+				<div className="row">
+					<div className="col-sm-12 col-md-4">
+						<div className="card mt-4 mt-md-0">
+							<div className="card-header">
+								<h1 className="h2 text-center text-muted">Active projects</h1>
+							</div>
+							<div className="card-body">
+								<p className="h1 text-center">{fetchUser?.projects?.length}</p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 
 			<br />
 		</div>

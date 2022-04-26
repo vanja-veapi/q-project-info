@@ -149,10 +149,10 @@ const AdminDashboard = () => {
 											renderOnZeroPageCount={null}
 											className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"}
 											activeClassName="active-page"
-											pageClassName="list-group-item border"
+											pageClassName="list-group-item"
 											previousClassName="d-none"
 											nextClassName="d-none"
-											breakClassName="list-group-item border"
+											breakClassName="list-group-item"
 										/>
 										<NavLink to="/dashboard/user/add">
 											<button className="btn btn-success">Insert new user</button>

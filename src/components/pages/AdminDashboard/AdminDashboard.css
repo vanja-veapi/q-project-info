@@ -55,7 +55,7 @@ nav ul {
 .btn .h2 {
 	margin-bottom: 0;
 }
-.active-page {
+.active-page a {
 	color: #fff !important;
 	background-color: #5793fb !important;
 }
@@ -65,7 +65,6 @@ nav ul {
 }
 .btn-aside.active {
 	color: #fff;
-	position: fixed;
 }
 @media screen and (max-width: 768px) {
 	nav.admin-nav {
