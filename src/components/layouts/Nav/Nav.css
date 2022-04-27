@@ -33,6 +33,8 @@ nav ul .nav-link.active {
 .hamburger {
 	margin-top: 17px;
 	margin-bottom: 18px;
+	position: relative;
+	z-index: 2;
 }
 .hamburger-font {
 	font-size: 32px !important;
