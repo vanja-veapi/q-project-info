@@ -41,6 +41,15 @@ const Nav = () => {
 			setOpenMenu(!openMenu);
 		}
 	};
+
+	const debounce = (fn, timeout = 300) => {
+		let timer;
+		return (...args) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => fn.apply(this, args), timeout);
+		};
+	};
+	const processChange = debounce(() => handleMenu(), 200);
 	return (
 		<nav className="nav navbar justify-content-end">
 			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}
@@ -79,7 +88,7 @@ const Nav = () => {
 					</>
 				)}
 			</ul>
-			<button className="btn btn-primary d-md-block d-lg-none hamburger" onClick={handleMenu}>
+			<button className="btn btn-primary d-md-block d-lg-none hamburger" onClick={processChange}>
 				<GiHamburgerMenu className="hamburger-font" />
 			</button>
 		</nav>
