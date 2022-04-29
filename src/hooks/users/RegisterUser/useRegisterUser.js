@@ -29,7 +29,7 @@ export const useRegisterUser = () => {
 
 				localStorage.setItem("token", success.data.jwt);
 				queryClient.setQueryData("token", success.data.jwt);
-				setTimeout(() => navigate("/home"), 1000);
+				setTimeout(() => navigate("/projects"), 1000);
 				return {
 					success,
 				};

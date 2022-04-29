@@ -20,7 +20,7 @@ export const useLoginUser = () => {
 			queryClient.setQueryData("register-info", () => {
 				localStorage.setItem("token", success.data.jwt);
 				queryClient.setQueryData("token", success.data.jwt);
-				setTimeout(() => navigate("/home"), 500);
+				setTimeout(() => navigate("/projects"), 500);
 				return {
 					success,
 				};

@@ -13,7 +13,7 @@ export const useCreateProject = () => {
 	return useMutation(createProject, {
 		onSuccess: (success) => {
 			queryClient.setQueryData("create-project-info", () => {
-				setTimeout(() => navigate("/project"), 3000);
+				setTimeout(() => navigate("/projects"), 3000);
 				return {
 					success: success,
 				};
@@ -26,6 +26,6 @@ export const useCreateProject = () => {
 				};
 			});
 			setTimeout(() => queryClient.removeQueries("create-project-info"), 1000);
-		}
+		},
 	});
 };

@@ -79,7 +79,7 @@ const AdminDashboard = () => {
 
 	// console.log(userData);
 	if (userData?.role?.id !== 3) {
-		return <Navigate to="/home" />;
+		return <Navigate to="/projects" />;
 	}
 
 	return (
@@ -131,29 +131,11 @@ const AdminDashboard = () => {
 										<tbody>
 											{/* Na prvoj strani imam jendog korisnika manje, zato sto sam preskocio samog sebe, tj ulogovanog korisnika */}
 
-											{currentPageUsers?.map((user) =>
-												userData.id === user.id ? null : (
-													<TableData key={user.id} id={user.id} name={user.username} email={user.email} type={"users"} />
-												)
-											)}
+											{currentPageUsers?.map((user) => (userData.id === user.id ? null : <TableData key={user.id} id={user.id} name={user.username} email={user.email} type={"users"} />))}
 										</tbody>
 									</table>
 									<div className="btn-container mt-3">
-										<ReactPaginate
-											breakLabel="..."
-											nextLabel="next >"
-											previousLabel="< previous"
-											onPageChange={(e) => handlePageClick(e, true)}
-											marginPagesDisplayed={1}
-											pageCount={pageCountUsers}
-											renderOnZeroPageCount={null}
-											className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"}
-											activeClassName="active-page"
-											pageClassName="list-group-item"
-											previousClassName="d-none"
-											nextClassName="d-none"
-											breakClassName="list-group-item"
-										/>
+										<ReactPaginate breakLabel="..." nextLabel="next >" previousLabel="< previous" onPageChange={(e) => handlePageClick(e, true)} marginPagesDisplayed={1} pageCount={pageCountUsers} renderOnZeroPageCount={null} className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"} activeClassName="active-page" pageClassName="list-group-item" previousClassName="d-none" nextClassName="d-none" breakClassName="list-group-item" />
 										<NavLink to="/dashboard/user/add">
 											<button className="btn btn-success">Insert new user</button>
 										</NavLink>
@@ -182,21 +164,7 @@ const AdminDashboard = () => {
 										</tbody>
 									</table>
 									<div className="btn-container mt-3">
-										<ReactPaginate
-											breakLabel="..."
-											nextLabel="next >"
-											previousLabel="< previous"
-											onPageChange={(e) => handlePageClick(e, false)}
-											marginPagesDisplayed={1}
-											pageCount={pageCountCategories}
-											renderOnZeroPageCount={null}
-											className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"}
-											activeClassName="active-page"
-											pageClassName="list-group-item border"
-											previousClassName="d-none"
-											nextClassName="d-none"
-											breakClassName="list-group-item border"
-										/>
+										<ReactPaginate breakLabel="..." nextLabel="next >" previousLabel="< previous" onPageChange={(e) => handlePageClick(e, false)} marginPagesDisplayed={1} pageCount={pageCountCategories} renderOnZeroPageCount={null} className={styles.pages + " list-group flex-row align-items-center justify-content-center mb-3"} activeClassName="active-page" pageClassName="list-group-item border" previousClassName="d-none" nextClassName="d-none" breakClassName="list-group-item border" />
 										<NavLink to="/dashboard/category/add">
 											<button className="btn btn-success">Insert new category</button>
 										</NavLink>

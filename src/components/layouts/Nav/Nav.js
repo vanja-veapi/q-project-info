@@ -71,7 +71,7 @@ const Nav = () => {
 				{token.data && (
 					<>
 						<li className="nav-item">
-							<NavLink to="/home" className="nav-link">
+							<NavLink to="/projects" className="nav-link">
 								My profile
 							</NavLink>
 						</li>
