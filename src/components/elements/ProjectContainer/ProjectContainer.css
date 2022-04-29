@@ -26,6 +26,13 @@
 .conainer-project p {
 	margin-bottom: 0;
 }
+.container-project a {
+	color: var(--bs-body-color);
+	text-decoration: none;
+}
+.container-project a:hover {
+	color: #ed5d71;
+}
 .search-container {
 	gap: 21px;
 }
