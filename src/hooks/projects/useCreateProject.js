@@ -14,6 +14,7 @@ export const useCreateProject = () => {
 		onSuccess: (success) => {
 			queryClient.setQueryData("create-project-info", () => {
 				setTimeout(() => navigate(`/projects/${success.data.id}`), 3000);
+
 				return {
 					success: success,
 				};
@@ -26,6 +27,6 @@ export const useCreateProject = () => {
 				};
 			});
 			setTimeout(() => queryClient.removeQueries("create-project-info"), 1000);
-		}
+		},
 	});
 };

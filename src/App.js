@@ -51,7 +51,7 @@ function App() {
 	console.log(token);
 
 	if (token && (window.location.pathname === "/" || window.location.pathname === "/register")) {
-		window.location.replace("/home");
+		window.location.replace("/projects");
 	}
 
 	return (
@@ -68,7 +68,7 @@ function App() {
 							<Route path="/dashboard/categories/:id/edit" element={<EditCategory />} />
 							<Route path="/dashboard/user/add" element={<InsertUser />} />
 							<Route path="/dashboard/category/add" element={<InsertCategory />} />
-							<Route path="/home" element={<MyProject />} />
+							<Route path="/projects" element={<MyProject />} />
 							<Route path="/logout" element={<Logout />} />
 							<Route path="/profile" element={<Profile />} />
 							<Route path="/projects/:projectId" element={<ProjectView />} />

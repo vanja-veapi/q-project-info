@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./ProjectContainer.css";
 // IMG
 import rocket from "../../../assets/rocket.png";
@@ -70,7 +71,17 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 					</div>
 				</div>
 			</div>
-			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects?.length === 0 ? <h1>No project</h1> : projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} projectId={project.id} />)}</div>
+			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">
+				{projects?.length === 0 ? (
+					<h1>No project</h1>
+				) : (
+					projects?.map((project) => (
+						<NavLink to={`/projects/${project.id}`}>
+							<ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} />
+						</NavLink>
+					))
+				)}
+			</div>
 			{/* <div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{html}</div> */}
 		</>
 	);
