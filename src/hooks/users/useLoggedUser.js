@@ -6,5 +6,5 @@ const fetchLoggedUser = async () => {
 };
 
 export default function useLoggedUser() {
-	return useQuery(["user"], fetchLoggedUser, { refetchOnWindowFocus: false });
+	return useQuery(["logged-user"], fetchLoggedUser, { refetchOnWindowFocus: false });
 }

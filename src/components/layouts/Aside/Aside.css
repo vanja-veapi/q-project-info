@@ -1,0 +1,58 @@
+.App .sidebar-container {
+	text-align: left;
+	box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.6);
+	min-height: 100vh;
+}
+aside {
+	position: relative;
+	transition: 0.3s;
+	max-width: 250px;
+	width: 100%;
+	z-index: 1;
+}
+
+.sidebar-container .border-top,
+.sidebar-container .border-bottom {
+	border-top: 1px solid #4b545c !important;
+	border-bottom: 1px solid #4b545c !important;
+}
+.sidebar-container h2 {
+	margin-bottom: 0;
+}
+.sidebar-dark {
+	background-color: #343a40;
+}
+.sidebar-dark,
+.sidebar-container a,
+.sidebar-container .icon {
+	color: #c2c7d0;
+}
+.sidebar-container a {
+	text-decoration: none;
+}
+.sidebar-container a:hover {
+	color: #fff;
+}
+.sidebar-container .list-group-item {
+	background-color: unset;
+	border: unset;
+}
+.sidebar-container ul {
+	padding-left: 0;
+}
+.active-aside {
+	width: 100% !important;
+	transform: translateX(0);
+	/* transform: translateX(0%); */
+}
+@media screen and (max-width: 768px) {
+	aside {
+		position: fixed;
+		transform: translateX(-180px);
+		min-height: 100vh;
+		/* transform: translateX(-110%); */
+	}
+	aside.w-100 {
+		width: 0 !important;
+	}
+}
