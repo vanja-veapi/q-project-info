@@ -4,44 +4,60 @@ import { useNavigate, useParams } from 'react-router';
 import { useCreateNote } from '../../../hooks/notes/useCreateNote';
 import { useQuery } from 'react-query';
 
-import projectLogo from '../../../assets/images/elipse.png';
+import projectLogo from '../../../assets/images/img.png';
 import iconEdit from '../../../assets/images/image-6.png';
 import iconArrow from '../../../assets/images/left-arrow.png';
+import iconX from '../../../assets/images/icon-x.png';
 import instance from '../../../config/config';
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 import { useGetProject } from '../../../hooks/projects/useGetProject';
+import { useGetNote } from '../../../hooks/notes/useGetNote';
+import { useUpdateNote } from '../../../hooks/notes/useUpdateNote';
+import useLoggedUser from '../../../hooks/users/useLoggedUser';
 
-const CreateNote = () => {
+const CreateNote = ({ editNote }) => {
     const { projectId } = useParams();
+    const { noteId } = useParams();
     const [noteData, setNoteData] = useState({
         noteTitle: "",
         noteDescription: "",
         category: "",
-        noteFile: null
+        files: []
     });
+
+    const [noteFiles, setNoteFiles] = useState([]);
     const [submitCreateNote, setSubmitCreateNote] = useState(false);
     const [categories, setCategories] = useState([]);
     const fileRef = useRef();
     const navigate = useNavigate();
 
-    const goBack = () => {
-        navigate(`/projects/${projectId}`);
-    }
+    const { data: dataProject } = useGetProject(projectId);
+    const { data: dataNote } = useGetNote(noteId);
+
+	const { data: loggedUser } = useLoggedUser();
 
     useEffect(() => {
         getCategories();
     }, []);
 
-    const { data: dataProject, error } = useGetProject(projectId);
+    useEffect(() => {
+        setNoteData({...noteData, noteTitle: dataNote?.data.data.attributes.title, noteDescription: dataNote?.data.data.attributes.description, category: dataNote?.data.data.attributes.category.data.id});
+        setNoteFiles(dataNote?.data.data.attributes.files.data ? dataNote?.data.data.attributes.files.data : []);
+    }, [dataNote]);
+
+    const goBack = () => {
+        navigate(`/projects/${projectId}`);
+    }
 
     const getCategories = async () => {
         await instance.get('/api/categories')
             .then(resp => {
                 setCategories(resp?.data?.data);
-            })
+            });
     } 
 
     const { mutate: createNote } = useCreateNote(projectId);
+    const { mutate: updateNote } = useUpdateNote(projectId);
 
     const saveNote = async () => {
         if (!noteData.noteTitle || !noteData.noteDescription || !noteData.category) {
@@ -49,10 +65,10 @@ const CreateNote = () => {
             return;
         }
 
-        if (noteData.noteFile) {
+        if (noteData.files.length > 0) {
             const noteF = new FormData();
-		    noteF.append("files", noteData.noteFile);
-            
+		    noteF.append("files", noteData.files[0]);
+            setNoteFiles(noteF);
             await instance.post('/api/upload', noteF)
                 .then(resp => {
                     const data = {
@@ -60,13 +76,24 @@ const CreateNote = () => {
                             title: noteData.noteTitle,
                             description : noteData.noteDescription,
                             category: Number.parseInt(noteData.category),
-                            files: resp.data[0].id,
+                            files: [resp.data[0].id],
                             project: Number.parseInt(projectId),
-                            author: 1
+                            author: loggedUser?.data.id
                         }
                     };
 
-                    createNote(data);
+                    if(editNote) {
+                        data.id = noteId;
+                        if (noteFiles.length > 0) {
+                            data.data.files = [...data.data.files, ...noteFiles.map((f) => f.id)];
+                        }
+
+                        updateNote(data);
+                    }
+                    else {
+                        createNote(data);
+                    }
+
                 }).catch(err => {
                     console.error(err);
                 });
@@ -79,15 +106,44 @@ const CreateNote = () => {
                 description : noteData.noteDescription,
                 category: Number.parseInt(noteData.category),
                 project: Number.parseInt(projectId),
-                author: 1
+                author: loggedUser?.data.id
             }
         }
 
-        createNote(data);
+        if(editNote) {
+            data.id = noteId;
+            data.data.files = noteFiles.map((f) => f.id);
+            updateNote(data);
+        }
+        else {
+            createNote(data);
+        }
+
         refetch();
     };
     
 	const { data, isLoading, refetch } = useQuery("create-note-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
+
+    const editProject = () => {
+        navigate(`/projects/${projectId}/edit`);
+    }
+
+    const deleteFile = async (file) => {
+        await instance.delete(`/api/upload/files/${file.id}`);
+        
+        const index = noteFiles.indexOf(file);
+
+        setNoteFiles([
+            ...noteFiles.slice(0, index),
+            ...noteFiles.slice(index + 1)
+        ]);
+    }
+
+    const deleteNote = async (id) => {
+        await instance.delete(`/api/notes/${id}`);
+
+        navigate(`/projects/${projectId}`);
+    }
 
     return (
         <>
@@ -104,7 +160,7 @@ const CreateNote = () => {
                         }
                         <div className='description'>
                             <h5>{dataProject?.data.data.attributes.name}
-                                <span className='edit'><img className='icon-edit' src={iconEdit} />EDIT</span>
+                                <span className='edit' onClick={editProject} ><img className='icon-edit' src={iconEdit} />EDIT</span>
                             </h5>
                             <p className='description-text'>{dataProject?.data.data.attributes.description}</p>
                         </div>
@@ -113,7 +169,8 @@ const CreateNote = () => {
                         <div className='members'>
                             <h6>Project Menager</h6>
                             <p className='mt-3'>
-                                <span className='profile-img'>M</span>
+                                {dataProject?.data.data.attributes?.manager?.data && <span className='profile-img'>{dataProject?.data.data.attributes?.manager?.data?.attributes.username[0].toUpperCase()}</span>}
+                                {!dataProject?.data.data.attributes?.manager?.data && <span className='description-text'>Unknown</span>}
                             </p>
                         </div>
                         <div className='members'>
@@ -132,7 +189,8 @@ const CreateNote = () => {
                     <li className='nav-item' role='presentation'>
                         <div className='nav-link active cursor-default' id='create-note' data-bs-toggle='tab' data-bs-target='#note' type='button' role='tab' aria-controls='note' aria-selected='true'>
                             <button className='btn btn-back' onClick={goBack}><img className='icon-arrow' src={iconArrow} /> Back</button> 
-                            Create a new Note
+                            {!editNote && <span>Create a new Note</span>}
+                            {editNote && <span>Edit Note</span>}
                         </div>
                     </li>
                 </ul>
@@ -145,14 +203,14 @@ const CreateNote = () => {
                             <div className='col-md-9 col-sm-12'>
                                 <label className='note-label'>Note Title</label>
                                 <br />
-                                <input className='note-titile form-control mt-1 mb-3' type='text' placeholder='Hello' onChange={(e) => setNoteData({...noteData, noteTitle: e.target.value})}></input>
+                                <input className='note-titile form-control mt-1 mb-3' type='text' placeholder='Hello' defaultValue={noteData.noteTitle} onChange={(e) => setNoteData({...noteData, noteTitle: e.target.value})}></input>
                                 {submitCreateNote && !noteData.noteTitle ? <p className="text-danger error-message">Note title is required</p> : ""}
                                 <br />
                                 <label className='note-label'>Note Description</label>
-                                <textarea className='note-description form-control mt-1 mb-3' placeholder='Hello' onChange={(e) => setNoteData({...noteData, noteDescription: e.target.value})}></textarea>
+                                <textarea className='note-description form-control mt-1 mb-3' placeholder='Hello' defaultValue={noteData.noteDescription} onChange={(e) => setNoteData({...noteData, noteDescription: e.target.value})}></textarea>
                                 {submitCreateNote && !noteData.noteDescription ? <p className="text-danger error-message">Note description is required</p> : ""}
                                 <br />
-                                <select className='category form-select mb-3' onChange={(e) => setNoteData({...noteData, category: e.target.value})}>
+                                <select className='category form-select mb-3' value={noteData.category} onChange={(e) => setNoteData({...noteData, category: e.target.value})}>
                                     <option hidden >Category</option>
                                     {categories.map((ct) => (
                                         <option key={ct.id} value={ct.id}>{ct.attributes.name}</option>
@@ -160,12 +218,33 @@ const CreateNote = () => {
                                 </select>
                                 {submitCreateNote && !noteData.category ? <p className="text-danger error-message">Category is required</p> : ""}
                                 <br />
-                                <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>UPLOAD FILES</button>
-                                <input className='d-none' ref={fileRef} type='file' onChange={(e) => setNoteData({...noteData, noteFile: e.target.files[0]})}></input>
-                                { noteData.noteFile &&
-                                    <p className='file-msg'><strong>Selected: </strong>{noteData.noteFile?.name}</p>
+                                {noteFiles.length > 0 &&
+                                    <>
+                                    <div>
+                                        <p className='note-label mb-1'>Current files:</p>
+                                        {noteFiles.map((file) => (
+                                            <span key={file?.id} className='note-label note-file mb-1'>{file?.attributes?.name} 
+                                                <img className="icon-delete" src={iconX} onClick={() => deleteFile(file)} />
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <br />
+                                    </>
                                 }
-                                <p className='p-3'>
+                                <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>UPLOAD FILES</button>
+                                <input className='d-none' ref={fileRef} type='file' onChange={(e) => setNoteData({ ...noteData, files: e.target.files })}></input>
+                                {noteData.files.length > 0 &&
+                                    <div className='file-msg'>
+                                        <strong>New Files: </strong>
+                                        {Array.prototype.slice.call(noteData.files).map((nf) => (
+                                            <p key={nf.name}>{nf.name}</p>
+                                        ))}
+                                    </div>
+                                }
+                                <p className='p-3 pt-5'>
+                                    {editNote &&
+                                        <button className='btn btn-add btn-danger ml-20' onClick={() => deleteNote(noteId)}>DELETE NOTE</button>
+                                    }
                                     <button className='btn btn-success btn-add' onClick={saveNote}>SAVE NOTE</button>
                                 </p>
                                 {data?.error &&

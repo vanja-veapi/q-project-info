@@ -1,11 +1,18 @@
 import React from "react";
+import { useNavigate } from 'react-router';
 import "./ProjectCard.css";
 
 import noImage from "../../../assets/no-image.jpg";
 import { BsBoxArrowUpRight } from "react-icons/bs";
-const ProjectCard = ({ name, logo, countEmployees, user }) => {
+const ProjectCard = ({ name, logo, countEmployees, user, projectId }) => {
+    const navigate = useNavigate();
+	
+	const openProject = () => {
+        navigate(`/projects/${projectId}`);
+	}
+
 	return (
-		<div className="project-card-container">
+		<div className="project-card-container" onClick={openProject}>
 			<div className="project-card text-start d-flex">
 				<div className="project-data d-flex">
 					{/* Company Logo */}

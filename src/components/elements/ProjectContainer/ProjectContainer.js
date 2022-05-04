@@ -15,7 +15,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 	const fetchUser = useLoggedUser();
 	const id = fetchUser.data?.data.id;
 
-	const { data, isLoading, isError, error } = useFindProject(id);
+	const { data, isLoading, isError, error } = useFindProject(id, isPM);
 	//Projekti
 	const [projects, setProjects] = useState(data?.data.data);
 	// const { data: searchData } = useFindProjectByName(id, search);
@@ -66,11 +66,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 							</div>
 
 							{/* If user has project role, then he'll see this button */}
-							{!isPM ? null : (
-								<NavLink className="btn btn-success" to="/create-project">
-									New Project
-								</NavLink>
-							)}
+							{!isPM ? "" : <a className="btn btn-success" href="/projects/create">New Project</a>}
 						</div>
 					</div>
 				</div>

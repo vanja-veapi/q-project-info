@@ -1,16 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import './CreateProject.css';
 import { useCreateProject } from "../../../hooks/projects/useCreateProject";
+import { useGetProject } from '../../../hooks/projects/useGetProject';
 import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router";
 
 import rocketImg from '../../../assets/rocket.png';
 import iconX from '../../../assets/images/icon-x.png';
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
-
 import instance from "../../../config/config";
+import { useUpdateProject } from "../../../hooks/projects/useUpdateProject";
+import useLoggedUser from "../../../hooks/users/useLoggedUser";
 
-const CreateProject = () => {
+const CreateProject = ({ edit }) => {
     const fileRef = useRef();
+
+    const { projectId } = useParams();
+
+    const navigate = useNavigate();
 
     const [showSearch, setShowSearch] = useState(false);
     const [employees, setEmployees] = useState([]);
@@ -25,6 +32,33 @@ const CreateProject = () => {
     });
     const [members, setMembers] = useState([]);
 
+    const { data: project } = useGetProject(projectId);
+
+	const { data: loggedUser } = useLoggedUser();
+
+    useEffect(() => {
+        if (!project) {
+            return;
+        }
+
+        setProjectData({...projectData, projectName: project.data.data.attributes.name, projectDescription: project.data.data.attributes.description});
+        if (project.data.data.attributes.logo.data) {
+            rocketImg = 'http://localhost:1337' + project.data.data.attributes.logo.data.attributes.url;
+        }
+        
+        if(project.data.data.attributes.employees.data.length) {
+            const memb = project.data.data.attributes.employees.data.map((m) => convertMemberObject(m));
+            setMembers(memb);
+        }
+    }, [project]);
+
+    const convertMemberObject = (m) => {
+        return {
+            username: m.attributes.username,
+            id: m.id
+        };
+    };
+
     const searchEmployees = async (search) => {
         setSelectedEmployee({ username: search});
         if (!search) {
@@ -33,7 +67,7 @@ const CreateProject = () => {
 	    await instance.get(`/api/users?filters[username][$contains]=${search}&filters[role][name][$eq]=Employee&populate=*`)
             .then((resp) => {
                 setShowSearch(true);
-                const filteredEmployees = resp.data.filter(emp => emp.username.toLowerCase().includes(search.toLowerCase()) && emp.role.name === 'Employee');
+                const filteredEmployees = resp.data.filter(emp => emp.username.toLowerCase().includes(search.toLowerCase()) && emp.role.name === 'Employee' && !members.find(m => m.id == emp.id));
                 setEmployees(filteredEmployees);
             });
     }
@@ -73,6 +107,7 @@ const CreateProject = () => {
     }
 
     const { mutate: createProject } = useCreateProject();
+    const { mutate: updateProject } = useUpdateProject(projectId);
 
     const saveProject = async () => {
         if (!projectData.projectName || !projectData.projectDescription) {
@@ -91,11 +126,20 @@ const CreateProject = () => {
                             name: projectData.projectName,
                             description: projectData.projectDescription,
                             logo: resp.data[0].id,
-                            employees: members.map(m => m.id)
+                            employees: members.map(m => m.id),
+                            manager: loggedUser.data.id
                         }
                     };
 
-                    createProject(data);
+                    if (edit) {
+                        data.id = projectId;
+                        updateProject(data);
+                    }
+                    else {
+                        createProject(data);
+                    }
+
+                    refetch();
                 }).catch(err => {
                     console.error(err);
                 });
@@ -106,13 +150,25 @@ const CreateProject = () => {
             data: {
                 name: projectData.projectName,
                 description: projectData.projectDescription,
-                employees: members.map(m => m.id)
+                employees: members.map(m => m.id),
+                manager: loggedUser.data.id
             }
         }
 
-        createProject(data);
+        if (edit) {
+            data.id = projectId;
+            updateProject(data);
+        }
+        else {
+            createProject(data);
+        }
+
         refetch();
     };
+
+    const closeEditProject = (id) => {
+        navigate(`/projects/${id}`);
+    }
 
 	const { data, isLoading, refetch } = useQuery("create-project-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
 
@@ -124,8 +180,18 @@ const CreateProject = () => {
             <div className='container-header'>
                 <img className="rocket-img" src={rocketImg} />
                 <div className="display-inline">
-                    <h5>Create Project</h5>
-                    <p className="description-text">Create a new project</p>
+                    {!edit &&
+                        <>
+                        <h5>Create Project</h5>
+                        <p className="description-text">Create a new project</p>
+                        </>     
+                    }
+                    {edit &&
+                        <>
+                        <h5>Edit Project</h5>
+                        <p className="description-text">Edit an existing project.</p>
+                        </>
+                    } 
                 </div> 
             </div>
             <div className="container-center form-create mt-4 mb-4 col-md-9 col-sm-12">
@@ -136,14 +202,14 @@ const CreateProject = () => {
                     <div className="col-md-9 col-sm-12">
                         <label className='note-label'>Project Name</label>
                         <br />
-                        <input className='note-titile form-control display-inline mr-15' type='text' placeholder='Hello' onChange={(e) => setProjectData({ ...projectData, projectName: e.target.value })}></input>
+                        <input className='note-titile form-control display-inline mr-15' type='text' placeholder='Hello' defaultValue={projectData.projectName} onChange={(e) => setProjectData({ ...projectData, projectName: e.target.value })}></input>
                         <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>Choose Project Logo</button>
                         <input className='d-none' ref={fileRef} type='file' onChange={(e) => setProjectData({...projectData, projectLogo: e.target.files[0]})}></input>
                         <br />
 						{submitCreateProject && !projectData.projectName ? <p className="text-danger error-message">Project name is required</p> : ""}
                         <br />
                         <label className='note-label'>Project Description</label>
-                        <textarea className='note-description form-control mt-1' placeholder='Hello' onChange={(e) => setProjectData({ ...projectData, projectDescription: e.target.value })}></textarea>
+                        <textarea className='note-description form-control mt-1' placeholder='Hello' defaultValue={projectData.projectDescription} onChange={(e) => setProjectData({ ...projectData, projectDescription: e.target.value })}></textarea>
 						{submitCreateProject && !projectData.projectDescription ? <p className="text-danger error-message">Project description is required</p> : ""}
                         <br />
                     </div>
@@ -168,7 +234,7 @@ const CreateProject = () => {
                             <>
                             {members.map((member) => (
                                 <div className="project-employee mb-2" key={member.id + '-1'}>
-                                    <span className='profile-img smal-img'>NN</span>
+                                    <span className='profile-img smal-img'>{member.username[0].toUpperCase()}</span>
                                     <div className='member-data'>
                                         <p className='member-name'>{member.username}</p>
                                         <p className='member-function'>Founder of Chakra UI</p>
@@ -187,6 +253,7 @@ const CreateProject = () => {
                     <p className="alert alert-success">Project successfully created. You will be redirected in a moment...</p>
                 }
                 <p className='p-3'>
+                    {edit && <button className='btn btn-secondary btn-add ml-20' onClick={() => closeEditProject(projectId)}>CANCEL</button>}
                     <button className='btn btn-success btn-add' onClick={saveProject}>SAVE</button>
                 </p>
             </div>
