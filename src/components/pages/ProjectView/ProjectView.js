@@ -7,6 +7,7 @@ import projectLogo from '../../../assets/images/img.png';
 import iconEdit from '../../../assets/images/image-6.png';
 import vectorImg from '../../../assets/images/vector.png';
 import { useGetProject } from '../../../hooks/projects/useGetProject';
+import useLoggedUser from '../../../hooks/users/useLoggedUser';
 import QuantoxSpinner from '../../elements/QuantoxSpinner/QuantoxSpinner';
 import instance from '../../../config/config';
 
@@ -19,7 +20,7 @@ const ProjectView = () => {
     const [searchNote, setSearchNote] = useState('');
     const [sortFlag, setSortFlag] = useState(1);
 
-    const userRole = 'pm';
+	const { data: loggedUser } = useLoggedUser();
 
     const navigate = useNavigate();
 
@@ -28,6 +29,13 @@ const ProjectView = () => {
     };
 
 	const { data, isLoading, isError, error } = useGetProject(projectId);
+
+    useEffect(() => {
+        instance.get('/api/categories')
+            .then(resp => {
+                setCategories(resp?.data?.data);
+            });
+    }, []);
 
     useEffect(() => {
         if (!data) {
@@ -42,20 +50,12 @@ const ProjectView = () => {
 
 	}, [data]);
 
-    useEffect(() => {
-        instance.get('/api/categories')
-            .then(resp => {
-                setCategories(resp?.data?.data);
-                console.log(resp.data.data);
-            });
-    }, []);
-
 	if (isLoading) {
 		return <QuantoxSpinner />;
 	}
 
 	if (isError) {
-		return <h1>{error}</h1>;
+		return <h1>{error?.response.status === 404 ? 'Not found' : 'Exception'}</h1>;
 	}
 
     const editProject = () => {
@@ -65,8 +65,6 @@ const ProjectView = () => {
     const editNote = (id) => {
         navigate(`/projects/${projectId}/notes/${id}/edit`);
     }
-
-    console.log(project);
 
     return (
         <div className='col-xs-12'>
@@ -81,7 +79,7 @@ const ProjectView = () => {
                         }
                         <div className='description'>
                             <h5>{project?.attributes?.name}
-                                {userRole === 'pm' && <span className='edit' onClick={editProject}><img className='icon-edit' src={iconEdit} />EDIT</span>}
+                                {loggedUser.data.role.type === 'project_manager' && <span className='edit' onClick={editProject}><img className='icon-edit' src={iconEdit} />EDIT</span>}
                             </h5>
                             <p className='description-text'>{project?.attributes?.description}</p>
                         </div>
@@ -90,7 +88,8 @@ const ProjectView = () => {
                         <div className='members'>
                             <h6>Project Menager</h6>
                             <p className='mt-3'>
-                                <span className='profile-img'>M</span>
+                                {project?.attributes?.manager?.data && <span className='profile-img'>{project?.attributes?.manager?.data?.attributes.username[0].toUpperCase()}</span>}
+                                {!project?.attributes?.manager?.data && <span className='description-text'>Unknown</span>}
                             </p>
                         </div>
                         <div className='members'>
@@ -125,7 +124,7 @@ const ProjectView = () => {
                                     <option value='2'>Sort by: Title</option>
                                     <option value='3'>Sort by: Most Recent</option>
                                 </select>
-                                {userRole === 'pm' && <button className='btn btn-success btn-add' onClick={createNote}>ADD NOTE</button>}
+                                {loggedUser.data.role.type === 'project_manager' && <button className='btn btn-success btn-add' onClick={createNote}>ADD NOTE</button>}
                             </div>
                             <div className='row mt-4'>
                                 {sortFlag === 1 && notes.filter(note => category?.attributes.name === note?.attributes.category?.data?.attributes.name
@@ -134,7 +133,7 @@ const ProjectView = () => {
                                     <div className='col-lg-4 col-md-6 col-xs-12' key={category.id + '-category-' + n.id + '-note'}>
                                         <div className='card card-project mb-3'>
                                             <div className='card-body override-padding'>
-                                                {userRole === 'pm' && 
+                                                {loggedUser.data.role.type === 'project_manager' && 
                                                     <div className='mb-3'>
                                                         <button type='button' className='btn-edit' onClick={() => editNote(n.id)}><img className='vector-icon' src={vectorImg} /> EDIT</button>
                                                     </div>
@@ -165,7 +164,7 @@ const ProjectView = () => {
                                     <div className='col-lg-4 col-md-6 col-xs-12' key={category.id + '-category-' + n.id + '-note'}>
                                         <div className='card card-project mb-3'>
                                             <div className='card-body override-padding'>
-                                                {userRole === 'pm' && 
+                                                {loggedUser.data.role.type === 'project_manager' && 
                                                     <div className='mb-3'>
                                                         <button type='button' className='btn-edit' onClick={() => editNote(n.id)}><img className='vector-icon' src={vectorImg} /> EDIT</button>
                                                     </div>
@@ -196,7 +195,7 @@ const ProjectView = () => {
                                     <div className='col-lg-4 col-md-6 col-xs-12' key={category.id + '-category-' + n.id + '-note'}>
                                         <div className='card card-project mb-3'>
                                             <div className='card-body override-padding'>
-                                                {userRole === 'pm' && 
+                                                {loggedUser.data.role.type === 'project_manager' && 
                                                     <div className='mb-3'>
                                                         <button type='button' className='btn-edit' onClick={() => editNote(n.id)}><img className='vector-icon' src={vectorImg} /> EDIT</button>
                                                     </div>

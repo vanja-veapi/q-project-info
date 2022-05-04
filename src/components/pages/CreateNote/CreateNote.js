@@ -7,11 +7,13 @@ import { useQuery } from 'react-query';
 import projectLogo from '../../../assets/images/img.png';
 import iconEdit from '../../../assets/images/image-6.png';
 import iconArrow from '../../../assets/images/left-arrow.png';
+import iconX from '../../../assets/images/icon-x.png';
 import instance from '../../../config/config';
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 import { useGetProject } from '../../../hooks/projects/useGetProject';
 import { useGetNote } from '../../../hooks/notes/useGetNote';
 import { useUpdateNote } from '../../../hooks/notes/useUpdateNote';
+import useLoggedUser from '../../../hooks/users/useLoggedUser';
 
 const CreateNote = ({ editNote }) => {
     const { projectId } = useParams();
@@ -20,8 +22,10 @@ const CreateNote = ({ editNote }) => {
         noteTitle: "",
         noteDescription: "",
         category: "",
-        noteFile: null
+        files: []
     });
+
+    const [noteFiles, setNoteFiles] = useState([]);
     const [submitCreateNote, setSubmitCreateNote] = useState(false);
     const [categories, setCategories] = useState([]);
     const fileRef = useRef();
@@ -30,14 +34,16 @@ const CreateNote = ({ editNote }) => {
     const { data: dataProject } = useGetProject(projectId);
     const { data: dataNote } = useGetNote(noteId);
 
+	const { data: loggedUser } = useLoggedUser();
+
     useEffect(() => {
         getCategories();
-
-        if (!dataNote) {
-            return;
-        }
-        setNoteData({...noteData, noteTitle: dataNote.data.data.attributes.title, noteDescription: dataNote.data.data.attributes.description, category: dataNote.data.data.attributes.category.data.id, noteFile: dataNote.data.data.attributes.files.data});
     }, []);
+
+    useEffect(() => {
+        setNoteData({...noteData, noteTitle: dataNote?.data.data.attributes.title, noteDescription: dataNote?.data.data.attributes.description, category: dataNote?.data.data.attributes.category.data.id});
+        setNoteFiles(dataNote?.data.data.attributes.files.data ? dataNote?.data.data.attributes.files.data : []);
+    }, [dataNote]);
 
     const goBack = () => {
         navigate(`/projects/${projectId}`);
@@ -47,7 +53,7 @@ const CreateNote = ({ editNote }) => {
         await instance.get('/api/categories')
             .then(resp => {
                 setCategories(resp?.data?.data);
-            })
+            });
     } 
 
     const { mutate: createNote } = useCreateNote(projectId);
@@ -59,10 +65,10 @@ const CreateNote = ({ editNote }) => {
             return;
         }
 
-        if (noteData.noteFile) {
+        if (noteData.files.length > 0) {
             const noteF = new FormData();
-		    noteF.append("files", noteData.noteFile);
-            
+		    noteF.append("files", noteData.files[0]);
+            setNoteFiles(noteF);
             await instance.post('/api/upload', noteF)
                 .then(resp => {
                     const data = {
@@ -70,14 +76,18 @@ const CreateNote = ({ editNote }) => {
                             title: noteData.noteTitle,
                             description : noteData.noteDescription,
                             category: Number.parseInt(noteData.category),
-                            files: resp.data[0].id,
+                            files: [resp.data[0].id],
                             project: Number.parseInt(projectId),
-                            author: 1
+                            author: loggedUser?.data.id
                         }
                     };
 
                     if(editNote) {
                         data.id = noteId;
+                        if (noteFiles.length > 0) {
+                            data.data.files = [...data.data.files, ...noteFiles.map((f) => f.id)];
+                        }
+
                         updateNote(data);
                     }
                     else {
@@ -96,13 +106,13 @@ const CreateNote = ({ editNote }) => {
                 description : noteData.noteDescription,
                 category: Number.parseInt(noteData.category),
                 project: Number.parseInt(projectId),
-                author: 1
+                author: loggedUser?.data.id
             }
         }
 
         if(editNote) {
             data.id = noteId;
-            data.data.files = dataNote.data.attributes?.files.data[0].id;
+            data.data.files = noteFiles.map((f) => f.id);
             updateNote(data);
         }
         else {
@@ -116,6 +126,23 @@ const CreateNote = ({ editNote }) => {
 
     const editProject = () => {
         navigate(`/projects/${projectId}/edit`);
+    }
+
+    const deleteFile = async (file) => {
+        await instance.delete(`/api/upload/files/${file.id}`);
+        
+        const index = noteFiles.indexOf(file);
+
+        setNoteFiles([
+            ...noteFiles.slice(0, index),
+            ...noteFiles.slice(index + 1)
+        ]);
+    }
+
+    const deleteNote = async (id) => {
+        await instance.delete(`/api/notes/${id}`);
+
+        navigate(`/projects/${projectId}`);
     }
 
     return (
@@ -142,7 +169,8 @@ const CreateNote = ({ editNote }) => {
                         <div className='members'>
                             <h6>Project Menager</h6>
                             <p className='mt-3'>
-                                <span className='profile-img'>M</span>
+                                {dataProject?.data.data.attributes?.manager?.data && <span className='profile-img'>{dataProject?.data.data.attributes?.manager?.data?.attributes.username[0].toUpperCase()}</span>}
+                                {!dataProject?.data.data.attributes?.manager?.data && <span className='description-text'>Unknown</span>}
                             </p>
                         </div>
                         <div className='members'>
@@ -190,12 +218,33 @@ const CreateNote = ({ editNote }) => {
                                 </select>
                                 {submitCreateNote && !noteData.category ? <p className="text-danger error-message">Category is required</p> : ""}
                                 <br />
-                                <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>UPLOAD FILES</button>
-                                <input className='d-none' ref={fileRef} type='file' onChange={(e) => setNoteData({...noteData, noteFile: e.target.files[0]})}></input>
-                                { noteData.noteFile &&
-                                    <p className='file-msg'><strong>Selected: </strong>{noteData.noteFile?.name}</p>
+                                {noteFiles.length > 0 &&
+                                    <>
+                                    <div>
+                                        <p className='note-label mb-1'>Current files:</p>
+                                        {noteFiles.map((file) => (
+                                            <span key={file?.id} className='note-label note-file mb-1'>{file?.attributes?.name} 
+                                                <img className="icon-delete" src={iconX} onClick={() => deleteFile(file)} />
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <br />
+                                    </>
                                 }
-                                <p className='p-3'>
+                                <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>UPLOAD FILES</button>
+                                <input className='d-none' ref={fileRef} type='file' onChange={(e) => setNoteData({ ...noteData, files: e.target.files })}></input>
+                                {noteData.files.length > 0 &&
+                                    <div className='file-msg'>
+                                        <strong>New Files: </strong>
+                                        {Array.prototype.slice.call(noteData.files).map((nf) => (
+                                            <p key={nf.name}>{nf.name}</p>
+                                        ))}
+                                    </div>
+                                }
+                                <p className='p-3 pt-5'>
+                                    {editNote &&
+                                        <button className='btn btn-add btn-danger ml-20' onClick={() => deleteNote(noteId)}>DELETE NOTE</button>
+                                    }
                                     <button className='btn btn-success btn-add' onClick={saveNote}>SAVE NOTE</button>
                                 </p>
                                 {data?.error &&

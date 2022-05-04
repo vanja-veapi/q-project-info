@@ -17,6 +17,7 @@ export const useLoginUser = () => {
 			setTimeout(() => queryClient.removeQueries("register-info"), 1000);
 		},
 		onSuccess: (success) => {
+			console.log(success);
 			queryClient.setQueryData("register-info", () => {
 				localStorage.setItem("token", success.data.jwt);
 				queryClient.setQueryData("token", success.data.jwt);

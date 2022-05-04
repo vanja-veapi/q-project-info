@@ -14,7 +14,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 	const fetchUser = useLoggedUser();
 	const id = fetchUser.data?.data.id;
 
-	const { data, isLoading, isError, error } = useFindProject(id);
+	const { data, isLoading, isError, error } = useFindProject(id, isPM);
 	//Projekti
 	const [projects, setProjects] = useState(data?.data.data);
 	// const { data: searchData } = useFindProjectByName(id, search);
@@ -65,12 +65,12 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 							</div>
 
 							{/* If user has project role, then he'll see this button */}
-							{!isPM ? "" : <a className="btn btn-success" href="/create-project">New Project</a>}
+							{!isPM ? "" : <a className="btn btn-success" href="/projects/create">New Project</a>}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects?.length === 0 ? <h1>No project</h1> : projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} />)}</div>
+			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects?.length === 0 ? <h1>No project</h1> : projects?.map((project) => <ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} projectId={project.id} />)}</div>
 			{/* <div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{html}</div> */}
 		</>
 	);

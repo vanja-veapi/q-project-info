@@ -3,18 +3,21 @@ import './CreateProject.css';
 import { useCreateProject } from "../../../hooks/projects/useCreateProject";
 import { useGetProject } from '../../../hooks/projects/useGetProject';
 import { useQuery } from "react-query";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import rocketImg from '../../../assets/rocket.png';
 import iconX from '../../../assets/images/icon-x.png';
 import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 import instance from "../../../config/config";
 import { useUpdateProject } from "../../../hooks/projects/useUpdateProject";
+import useLoggedUser from "../../../hooks/users/useLoggedUser";
 
 const CreateProject = ({ edit }) => {
     const fileRef = useRef();
 
     const { projectId } = useParams();
+
+    const navigate = useNavigate();
 
     const [showSearch, setShowSearch] = useState(false);
     const [employees, setEmployees] = useState([]);
@@ -30,6 +33,8 @@ const CreateProject = ({ edit }) => {
     const [members, setMembers] = useState([]);
 
     const { data: project } = useGetProject(projectId);
+
+	const { data: loggedUser } = useLoggedUser();
 
     useEffect(() => {
         if (!project) {
@@ -101,7 +106,7 @@ const CreateProject = ({ edit }) => {
         }, 500);
     }
 
-    const { mutate: createProject } = useCreateProject(projectId);
+    const { mutate: createProject } = useCreateProject();
     const { mutate: updateProject } = useUpdateProject(projectId);
 
     const saveProject = async () => {
@@ -121,7 +126,8 @@ const CreateProject = ({ edit }) => {
                             name: projectData.projectName,
                             description: projectData.projectDescription,
                             logo: resp.data[0].id,
-                            employees: members.map(m => m.id)
+                            employees: members.map(m => m.id),
+                            manager: loggedUser.data.id
                         }
                     };
 
@@ -144,7 +150,8 @@ const CreateProject = ({ edit }) => {
             data: {
                 name: projectData.projectName,
                 description: projectData.projectDescription,
-                employees: members.map(m => m.id)
+                employees: members.map(m => m.id),
+                manager: loggedUser.data.id
             }
         }
 
@@ -158,6 +165,10 @@ const CreateProject = ({ edit }) => {
 
         refetch();
     };
+
+    const closeEditProject = (id) => {
+        navigate(`/projects/${id}`);
+    }
 
 	const { data, isLoading, refetch } = useQuery("create-project-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
 
@@ -242,6 +253,7 @@ const CreateProject = ({ edit }) => {
                     <p className="alert alert-success">Project successfully created. You will be redirected in a moment...</p>
                 }
                 <p className='p-3'>
+                    {edit && <button className='btn btn-secondary btn-add ml-20' onClick={() => closeEditProject(projectId)}>CANCEL</button>}
                     <button className='btn btn-success btn-add' onClick={saveProject}>SAVE</button>
                 </p>
             </div>

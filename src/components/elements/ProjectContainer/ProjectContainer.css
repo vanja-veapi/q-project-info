@@ -21,6 +21,7 @@
 }
 .container-project {
 	max-width: 1216px;
+	padding-bottom: 39px;
 }
 .conainer-project h1,
 .conainer-project p {

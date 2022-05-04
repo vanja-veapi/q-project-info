@@ -6,14 +6,14 @@ const createProject = (data) => {
 	return instance.post("/api/projects", data);
 };
 
-export const useCreateProject = (id) => {
+export const useCreateProject = () => {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 
 	return useMutation(createProject, {
 		onSuccess: (success) => {
 			queryClient.setQueryData("create-project-info", () => {
-				setTimeout(() => navigate(`/projects/${id}`), 3000);
+				setTimeout(() => navigate(`/projects/${success.data.id}`), 3000);
 				return {
 					success: success,
 				};
