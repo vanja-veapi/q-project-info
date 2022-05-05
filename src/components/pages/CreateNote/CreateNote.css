@@ -59,6 +59,24 @@ input {
     margin-top: 5px;
 }
 
+.note-file {
+    border: 1px solid #E2E8F0;
+    border-radius: 3px;
+    background-color: white;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.icon-delete {
+    width: 11px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.ml-20 {
+    margin-left: 20px;
+}
+
 /* =============== Bootstrap overrides =============== */
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
