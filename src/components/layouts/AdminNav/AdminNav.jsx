@@ -29,11 +29,20 @@ const AdminNav = () => {
 			setIsClicked(true);
 		}
 	};
+
+	const debounce = (fn, timeout = 300) => {
+		let timer;
+		return (...args) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => fn.apply(this, args), timeout);
+		};
+	};
+	const processChange = debounce(() => handleAside(), 200);
 	return (
 		<nav className="admin-nav w-100 h-auto bg-white text-end">
 			<ul className="w-100 d-flex justify-content-responsive">
 				<li className="list-group-item d-block d-md-none">
-					<button id="btnMenu" className="btn btn-aside" onClick={handleAside}>
+					<button id="btnMenu" className="btn btn-aside" onClick={processChange}>
 						<GiHamburgerMenu className="h2" />
 					</button>
 				</li>
