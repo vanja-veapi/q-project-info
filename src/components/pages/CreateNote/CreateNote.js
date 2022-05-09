@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './CreateNote.css';
 import { useNavigate, useParams } from 'react-router';
 import { useCreateNote } from '../../../hooks/notes/useCreateNote';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import projectLogo from '../../../assets/images/img.png';
 import iconEdit from '../../../assets/images/image-6.png';
@@ -36,11 +36,21 @@ const CreateNote = ({ editNote }) => {
 
 	const { data: loggedUser } = useLoggedUser();
 
+    const queryClient = useQueryClient();
+
     useEffect(() => {
         getCategories();
     }, []);
 
     useEffect(() => {
+        if (!dataNote) {
+            return;
+        }
+        
+        if (noteData.noteTitle !== undefined && noteData.noteTitle !== '') {
+            return;
+        }
+
         setNoteData({...noteData, noteTitle: dataNote?.data.data.attributes.title, noteDescription: dataNote?.data.data.attributes.description, category: dataNote?.data.data.attributes.category.data.id});
         setNoteFiles(dataNote?.data.data.attributes.files.data ? dataNote?.data.data.attributes.files.data : []);
     }, [dataNote]);
@@ -89,14 +99,17 @@ const CreateNote = ({ editNote }) => {
                         }
 
                         updateNote(data);
+                        queryClient.removeQueries('single-note');
                     }
                     else {
                         createNote(data);
+                        refetch();
                     }
-
+                    
                 }).catch(err => {
                     console.error(err);
                 });
+
             return;
         }
 
@@ -114,12 +127,12 @@ const CreateNote = ({ editNote }) => {
             data.id = noteId;
             data.data.files = noteFiles.map((f) => f.id);
             updateNote(data);
+            queryClient.removeQueries('single-note');
         }
         else {
             createNote(data);
+            refetch();
         }
-
-        refetch();
     };
     
 	const { data, isLoading, refetch } = useQuery("create-note-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
