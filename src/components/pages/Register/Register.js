@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
+import "../Login/Login.css"; // Imported because both components has same top property
 import Header from "../../layouts/Header/Header";
 
 import FormRectangle from "../../elements/FormRectangle/FormRectangle";
@@ -11,7 +12,7 @@ import { useRegisterUser } from "../../../hooks/users/RegisterUser/useRegisterUs
 
 const Register = () => {
 	// RegEx
-	const regExEmail = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+	const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(".+"))+@((quantox)|(quantoxtechnology))+(?:\.[a-zA-Z0-9-]+)+$/;
 	const regExGlobal = /^[A-ZŽŠĐČĆa-zžšđčć\d]{2,30}$/;
 
 	// UseStates
@@ -68,7 +69,7 @@ const Register = () => {
 						{/* Email */}
 						<label className="mt-3">Email</label>
 						<br />
-						{!regExEmail.test(state.email) && submitRegister ? <small className="text-danger">Email is not in valid format</small> : ""}
+						{!regExEmail.test(state.email) && submitRegister ? <small className="text-danger">Email is not in valid format. Only @quantox</small> : ""}
 						<input type="text" className="form-control" placeholder="Email" onChange={(e) => setState({ ...state, email: e.target.value })} />
 
 						{/* Password */}

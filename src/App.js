@@ -31,6 +31,8 @@ import EditUser from "./components/pages/EditData/EditUser";
 import InsertUser from "./components/pages/InsertData/InsertUser";
 import InsertCategory from "./components/pages/InsertData/InsertCategory";
 import EditCategory from "./components/pages/EditData/EditCategory";
+import { useEffect, useState } from "react";
+import QuantoxSpinner from "./components/elements/QuantoxSpinner/QuantoxSpinner";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -47,6 +49,8 @@ persistQueryClient({
 });
 
 function App() {
+	const [loading, setLoading] = useState(true);
+
 	const token = localStorage.getItem("token");
 	console.log(token);
 
@@ -54,8 +58,11 @@ function App() {
 		window.location.replace("/projects");
 	}
 
+	useEffect(() => setTimeout(() => setLoading(false)), 2000);
+
 	return (
 		<QueryClientProvider client={queryClient}>
+			{loading ? <QuantoxSpinner /> : null}
 			<div className="App">
 				<div className="container-fluid">
 					<Routes>

@@ -13,7 +13,7 @@ const InsertUserForm = () => {
 	// /^[a-zžšđčćA-ZŽŠĐČĆ!@_\d]{2,30}$/
 	const usernameRegEx = /^([a-zžšđčćA-ZŽŠĐČĆ!@_]{2,30})+(\d)*/;
 	const passwordRegEx = /^[A-ZŽŠĐČĆa-zžšđčć\d_#!@$%^*{}]{5,30}$/;
-	const regExEmail = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
+	const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(".+"))+@((quantox)|(quantoxtechnology))+(?:\.[a-zA-Z0-9-]+)+$/;
 
 	// Bez ovog userName nece da mi radi onChange...
 	const [userName] = useState(null);
