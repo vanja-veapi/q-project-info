@@ -27,7 +27,7 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 
 	// /^[a-zžšđčćA-ZŽŠĐČĆ!@_\d]{2,30}$/
 	const usernameRegEx = /^([a-zžšđčćA-ZŽŠĐČĆ!@_]{2,30})+(\d)*/;
-	const passwordRegEx = /^[A-ZŽŠĐČĆa-zžšđčć\d_#!@$%^*{}]{5,30}$/;
+	const regExPassword = /^[^ ]{6,16}$/;
 	const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(".+"))+@((quantox)|(quantoxtechnology))+(?:\.[a-zA-Z0-9-]+)+$/;
 
 	const userData = fetchUser;
@@ -80,7 +80,7 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 
 		if (newUserData.password === "" || newUserData.password === null) {
 			setNewUserData({ ...newUserData, password: null });
-		} else if (!passwordRegEx.test(newUserData.password)) {
+		} else if (!regExPassword.test(newUserData.password)) {
 			return setMessage("Password is not in valid format.");
 		}
 
