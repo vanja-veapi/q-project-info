@@ -60,9 +60,12 @@
 .project-data {
 	width: 80%;
 }
+.project-card img:not(.author img) {
+	width: 77px;
+	height: 77px;
+	object-fit: cover;
+}
 .project-card img {
-	max-width: 77px;
-	max-height: 77px;
 	border-radius: 50%;
 }
 .bs-box-font {

@@ -72,7 +72,7 @@ const Nav = () => {
 					<>
 						<li className="nav-item">
 							<NavLink to="/projects" className="nav-link">
-								My profile
+								My projects
 							</NavLink>
 						</li>
 						<li className="nav-item">

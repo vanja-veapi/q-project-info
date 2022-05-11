@@ -13,6 +13,7 @@ const AdminNav = () => {
 			aside.classList.toggle("active-aside");
 			aside.classList.toggle("w-100");
 			btnMenu.classList.toggle("active");
+			btnMenu.classList.toggle("position-fixed");
 
 			setTimeout(() => aside.classList.toggle("d-none"), 210);
 
@@ -21,6 +22,7 @@ const AdminNav = () => {
 			console.log(false);
 			aside.classList.toggle("d-none");
 			btnMenu.classList.toggle("active");
+			btnMenu.classList.toggle("position-fixed");
 			setTimeout(() => {
 				aside.classList.toggle("active-aside");
 				aside.classList.toggle("w-100");

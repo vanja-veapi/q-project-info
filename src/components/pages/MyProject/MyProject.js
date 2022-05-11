@@ -8,11 +8,16 @@ export const MyProject = () => {
 	const fetchUsers = useLoggedUser();
 	const role = fetchUsers.data?.data?.role?.id;
 	const isLoading = fetchUsers.status;
+	const isError = fetchUsers.isError;
+	const errorMessage = fetchUsers.error;
 
 	if (isLoading === "loading") {
 		return <QuantoxSpinner />;
 	}
 
+	if (isError) {
+		return <div className="alert alert-danger mt-5 w-50 m-auto">{errorMessage.message}</div>;
+	}
 	if (role === 3) {
 		// console.log("Admin");
 		return <Navigate to="/dashboard" />;
