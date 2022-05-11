@@ -66,22 +66,16 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 							</div>
 
 							{/* If user has project role, then he'll see this button */}
-							{!isPM ? "" : <a className="btn btn-success" href="/projects/create">New Project</a>}
+							{!isPM ? null : (
+								<a className="btn btn-success" href="/projects/create">
+									New Project
+								</a>
+							)}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">
-				{projects?.length === 0 ? (
-					<h1>No project</h1>
-				) : (
-					projects?.map((project) => (
-						<NavLink to={`/projects/${project.id}`}>
-							<ProjectCard key={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} />
-						</NavLink>
-					))
-				)}
-			</div>
+			<div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{projects?.length === 0 ? <h1>No project</h1> : projects?.map((project) => <ProjectCard key={project.id} id={project.id} name={project.attributes.name} logo={project.attributes.logo} countEmployees={project.attributes.employees?.data.length} user={fetchUser.data.data} />)}</div>
 			{/* <div className="container container-project cards d-flex flex-wrap justify-content-center justify-content-lg-start">{html}</div> */}
 		</>
 	);
