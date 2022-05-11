@@ -15,6 +15,8 @@ import useLoggedUser from "../../../hooks/users/useLoggedUser";
 const CreateProject = ({ edit }) => {
     const fileRef = useRef();
 
+    const [projectLogoImg, setProjectLogoImg] = useState(rocketImg);
+
     const { projectId } = useParams();
 
     const navigate = useNavigate();
@@ -31,6 +33,7 @@ const CreateProject = ({ edit }) => {
         username: ""
     });
     const [members, setMembers] = useState([]);
+    const [logoImg, setLogoImg] = useState(null);
 
     const { data: project } = useGetProject(projectId);
 
@@ -41,22 +44,28 @@ const CreateProject = ({ edit }) => {
             return;
         }
 
+        if (projectData.projectName !== undefined && projectData.projectName !== '') {
+            return;
+        }
+
         setProjectData({...projectData, projectName: project.data.data.attributes.name, projectDescription: project.data.data.attributes.description});
         if (project.data.data.attributes.logo.data) {
-            rocketImg = 'http://localhost:1337' + project.data.data.attributes.logo.data.attributes.url;
+            setProjectLogoImg('http://localhost:1337' + project.data.data.attributes.logo.data.attributes.url);
+            setLogoImg(project.data.data.attributes.logo.data);
         }
         
         if(project.data.data.attributes.employees.data.length) {
             const memb = project.data.data.attributes.employees.data.map((m) => convertMemberObject(m));
             setMembers(memb);
         }
+
     }, [project]);
 
     const convertMemberObject = (m) => {
-        return {
-            username: m.attributes.username,
-            id: m.id
-        };
+            return {
+                username: m.attributes.username,
+                id: m.id
+            };
     };
 
     const searchEmployees = async (search) => {
@@ -150,6 +159,7 @@ const CreateProject = ({ edit }) => {
             data: {
                 name: projectData.projectName,
                 description: projectData.projectDescription,
+                logo: null,
                 employees: members.map(m => m.id),
                 manager: loggedUser.data.id
             }
@@ -157,7 +167,7 @@ const CreateProject = ({ edit }) => {
 
         if (edit) {
             data.id = projectId;
-            updateProject(data);
+            updateProject(data);   
         }
         else {
             createProject(data);
@@ -172,13 +182,21 @@ const CreateProject = ({ edit }) => {
 
 	const { data, isLoading, refetch } = useQuery("create-project-info", { enabled: false, refetchOnMount: false, refetchOnWindowFocus: false });
 
+    const deleteLogo = () => {
+        setLogoImg(null);
+
+        if (!logoImg) {
+            setProjectLogoImg(rocketImg);
+        }
+    }
+
     return(
         <>
         {isLoading ? <QuantoxSpinner /> : ""}
 
         <div className='col-xs-12'>
             <div className='container-header'>
-                <img className="rocket-img" src={rocketImg} />
+                <img className="rocket-img" src={projectLogoImg} />
                 <div className="display-inline">
                     {!edit &&
                         <>
@@ -202,16 +220,30 @@ const CreateProject = ({ edit }) => {
                     <div className="col-md-9 col-sm-12">
                         <label className='note-label'>Project Name</label>
                         <br />
-                        <input className='note-titile form-control display-inline mr-15' type='text' placeholder='Hello' defaultValue={projectData.projectName} onChange={(e) => setProjectData({ ...projectData, projectName: e.target.value })}></input>
-                        <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>Choose Project Logo</button>
-                        <input className='d-none' ref={fileRef} type='file' onChange={(e) => setProjectData({...projectData, projectLogo: e.target.files[0]})}></input>
-                        <br />
+                        <input className='note-titile form-control' type='text' placeholder='Hello' defaultValue={projectData.projectName} onChange={(e) => setProjectData({ ...projectData, projectName: e.target.value })}></input>
 						{submitCreateProject && !projectData.projectName ? <p className="text-danger error-message">Project name is required</p> : ""}
                         <br />
                         <label className='note-label'>Project Description</label>
                         <textarea className='note-description form-control mt-1' placeholder='Hello' defaultValue={projectData.projectDescription} onChange={(e) => setProjectData({ ...projectData, projectDescription: e.target.value })}></textarea>
 						{submitCreateProject && !projectData.projectDescription ? <p className="text-danger error-message">Project description is required</p> : ""}
                         <br />
+                        {logoImg &&
+                            <>
+                            <p className='note-label mb-1'>Current logo:</p>
+                                <span className='note-label note-file mb-1'>{logoImg.attributes.name} 
+                                    <img className="icon-delete" src={iconX} onClick={deleteLogo} />
+                                </span>
+                            </>
+                        }
+                        <br />
+                        <button className='btn btn-outline-secondary btn-upload mt-3' onClick={() => fileRef.current.click()}>Choose Project Logo</button>
+                        <input className='d-none' ref={fileRef} type='file' onChange={(e) => setProjectData({...projectData, projectLogo: e.target.files[0]})}></input>
+                        {projectData?.projectLogo &&
+                            <div className='file-msg'>
+                                <strong>New Files: </strong>
+                                <p>{projectData.projectLogo.name}</p>
+                            </div>
+                        } 
                     </div>
                 </div>
                 <div className="row mt-4">
@@ -237,7 +269,6 @@ const CreateProject = ({ edit }) => {
                                     <span className='profile-img smal-img'>{member.username[0].toUpperCase()}</span>
                                     <div className='member-data'>
                                         <p className='member-name'>{member.username}</p>
-                                        <p className='member-function'>Founder of Chakra UI</p>
                                     </div>
                                     <img className="icon-x" src={iconX} onClick={() => deleteMember(member)} />
                                 </div> 

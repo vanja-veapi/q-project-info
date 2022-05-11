@@ -116,7 +116,7 @@ const ProjectView = () => {
                 <div className='tab-content text-start' id='myTabContent'>
                     {categories.map((category, index) => (
                         <>
-                        <div key={category.id + '-category-content'} className={index == 0 ? 'tab-pane fade show active p-4' : 'tab-pane fade p-4'} id={category.attributes.name.replace(' ', '')} role='tabpanel' aria-labelledby={category.attributes.name.replace(' ', '') + '-tab'}>
+                        <div key={category.data?.name + '-category-content'} className={index == 0 ? 'tab-pane fade show active p-4' : 'tab-pane fade p-4'} id={category.attributes.name.replace(' ', '')} role='tabpanel' aria-labelledby={category.attributes.name.replace(' ', '') + '-tab'}>
                             <div className='col-12'>
                                 <input type='text' className='search form-control mb-3' placeholder='Search notes' value={searchNote} onChange={(e) => setSearchNote(e.target.value)}></input>
                                 <select className='select form-select' onChange={(e) => setSortFlag(Number.parseInt(e.target.value))}>
@@ -161,7 +161,7 @@ const ProjectView = () => {
                                                         .sort((a, b) => a.attributes.title.localeCompare(b.attributes.title))
                                                         .map((n) => (
                                     <>
-                                    <div className='col-lg-4 col-md-6 col-xs-12' key={category.id + '-category-' + n.id + '-note'}>
+                                    <div className='col-lg-4 col-md-6 col-xs-12' key={category.data?.name + '-category-' + n.id + '-note'}>
                                         <div className='card card-project mb-3'>
                                             <div className='card-body override-padding'>
                                                 {loggedUser.data.role.type === 'project_manager' && 
@@ -192,7 +192,7 @@ const ProjectView = () => {
                                                         .sort((a, b) => b.attributes.createdAt.localeCompare(a.attributes.createdAt))
                                                         .map((n) => (
                                     <>
-                                    <div className='col-lg-4 col-md-6 col-xs-12' key={category.id + '-category-' + n.id + '-note'}>
+                                    <div className='col-lg-4 col-md-6 col-xs-12' key={category.data?.name + '-category-' + n.id + '-note'}>
                                         <div className='card card-project mb-3'>
                                             <div className='card-body override-padding'>
                                                 {loggedUser.data.role.type === 'project_manager' && 
