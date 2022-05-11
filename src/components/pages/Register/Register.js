@@ -14,6 +14,7 @@ const Register = () => {
 	// RegEx
 	const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(".+"))+@((quantox)|(quantoxtechnology))+(?:\.[a-zA-Z0-9-]+)+$/;
 	const regExGlobal = /^[A-ZŽŠĐČĆa-zžšđčć\d]{2,30}$/;
+	const regExPassword = /^[^ ]{6,16}$/;
 
 	// UseStates
 	const [isSendingRequest, setIsSendingRequest] = useState(false);
@@ -27,7 +28,7 @@ const Register = () => {
 
 	const onRegister = () => {
 		// If all regEx are true, then call react-query and register user
-		if (regExGlobal.test(state.username) && regExEmail.test(state.email) && regExGlobal.test(state.password) && state.password === state.confirmPassword) {
+		if (regExGlobal.test(state.username) && regExEmail.test(state.email) && regExPassword.test(state.password) && state.password === state.confirmPassword) {
 			const newUser = {
 				username: state.username,
 				email: state.email,
