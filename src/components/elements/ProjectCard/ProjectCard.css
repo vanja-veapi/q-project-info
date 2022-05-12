@@ -75,3 +75,19 @@
 .project-title h2 {
 	font-size: 24px;
 }
+
+@media screen and (max-width: 557px) {
+	.project-card {
+		font-size: 0.9rem;
+		max-height: unset;
+		flex-direction: column;
+	}
+	/* .project-title h2 {
+		font-size: 16px;
+	} */
+	.employee-data {
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+	}
+}

@@ -40,9 +40,15 @@
 .search-container button {
 	font-weight: 500;
 }
-.search {
+.under-header .search {
 	padding-left: 30px;
 	max-width: 320px;
+}
+.under-header .form-control {
+	font-size: 1rem;
+}
+.under-header .btn-success {
+	border-color: unset;
 }
 .icon {
 	left: 10px;
@@ -59,5 +65,19 @@
 @media screen and (max-width: 1070px) {
 	.container-project {
 		justify-content: center !important;
+	}
+}
+
+@media screen and (max-width: 557px) {
+	.rocket,
+	.search-container {
+		flex-direction: column;
+	}
+	.rocket h1,
+	.rocket p {
+		text-align: center;
+	}
+	.rocket .text-start {
+		padding-left: 0;
 	}
 }

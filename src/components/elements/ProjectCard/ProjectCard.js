@@ -28,7 +28,7 @@ const ProjectCard = ({ id, name, logo, countEmployees, user }) => {
 						<div className="d-flex justify-content-end align-item-center">
 							<BsBoxArrowUpRight className="bs-box-font" />
 						</div>
-						<p className="text-muted mt-3">{countEmployees <= 1 ? `${countEmployees} employee` : `${countEmployees} employees`} </p>
+						<p className="text-muted text-end mt-3">{countEmployees <= 1 ? `${countEmployees} employee` : `${countEmployees} employees`} </p>
 					</div>
 				</div>
 			</NavLink>

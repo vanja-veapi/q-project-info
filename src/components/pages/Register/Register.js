@@ -19,7 +19,7 @@ const Register = () => {
 	// UseStates
 	const [isSendingRequest, setIsSendingRequest] = useState(false);
 	const [submitRegister, setSubmitRegister] = useState(false);
-	const [state, setState] = useState({
+	const [credentials, setCredentials] = useState({
 		username: "",
 		email: "",
 		password: "",
@@ -28,11 +28,11 @@ const Register = () => {
 
 	const onRegister = () => {
 		// If all regEx are true, then call react-query and register user
-		if (regExGlobal.test(state.username) && regExEmail.test(state.email) && regExPassword.test(state.password) && state.password === state.confirmPassword) {
+		if (regExGlobal.test(credentials.username) && regExEmail.test(credentials.email) && regExPassword.test(credentials.password) && credentials.password === credentials.confirmPassword) {
 			const newUser = {
-				username: state.username,
-				email: state.email,
-				password: state.password,
+				username: credentials.username,
+				email: credentials.email,
+				password: credentials.password,
 			};
 			setIsSendingRequest(!isSendingRequest);
 			registerUser(newUser);
@@ -64,27 +64,27 @@ const Register = () => {
 						{/* Username */}
 						<label className="mt-2">Username</label>
 						<br />
-						{!regExGlobal.test(state.username) && submitRegister ? <small className="text-danger">Username is required</small> : ""}
-						<input type="text" className="form-control" placeholder="Username" onChange={(e) => setState({ ...state, username: e.target.value })} />
+						{!regExGlobal.test(credentials.username) && submitRegister ? <small className="text-danger">Username is required</small> : ""}
+						<input type="text" className="form-control" placeholder="Username" onChange={(e) => setCredentials({ ...credentials, username: e.target.value })} />
 
 						{/* Email */}
 						<label className="mt-3">Email</label>
 						<br />
-						{!regExEmail.test(state.email) && submitRegister ? <small className="text-danger">Email is not in valid format. Only @quantox</small> : ""}
-						<input type="text" className="form-control" placeholder="Email" onChange={(e) => setState({ ...state, email: e.target.value })} />
+						{!regExEmail.test(credentials.email) && submitRegister ? <small className="text-danger">Email is not in valid format. Only @quantox</small> : ""}
+						<input type="text" className="form-control" placeholder="Email" onChange={(e) => setCredentials({ ...credentials, email: e.target.value })} />
 
 						{/* Password */}
 						<label className="mt-3">Password</label>
 						<br />
-						{!regExGlobal.test(state.password) && submitRegister ? <small className="text-danger">Password is required</small> : ""}
-						<input type="password" className="form-control" placeholder="Password" onChange={(e) => setState({ ...state, password: e.target.value })} />
+						{!regExGlobal.test(credentials.password) && submitRegister ? <small className="text-danger">Password is required</small> : ""}
+						<input type="password" className="form-control" placeholder="Password" onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} />
 
 						{/* Confirm password */}
 						<label className="mt-3">Confirm Password</label>
 						<br />
 
-						{state.password !== state.confirmPassword && submitRegister ? <small className="text-danger">Confirm password valid must be same as password field</small> : ""}
-						<input type="password" className="form-control" placeholder="Confirm password" onChange={(e) => setState({ ...state, confirmPassword: e.target.value })} />
+						{credentials.password !== credentials.confirmPassword && submitRegister ? <small className="text-danger">Confirm password valid must be same as password field</small> : ""}
+						<input type="password" className="form-control" placeholder="Confirm password" onChange={(e) => setCredentials({ ...credentials, confirmPassword: e.target.value })} />
 
 						<div className="d-flex justify-content-end">
 							<button className="btn btn-success mt-3" onClick={onRegister}>
