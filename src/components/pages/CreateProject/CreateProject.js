@@ -159,7 +159,6 @@ const CreateProject = ({ edit }) => {
             data: {
                 name: projectData.projectName,
                 description: projectData.projectDescription,
-                logo: null,
                 employees: members.map(m => m.id),
                 manager: loggedUser.data.id
             }

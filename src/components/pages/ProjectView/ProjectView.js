@@ -118,7 +118,7 @@ const ProjectView = () => {
                         <>
                         <div key={category.data?.name + '-category-content'} className={index == 0 ? 'tab-pane fade show active p-4' : 'tab-pane fade p-4'} id={category.attributes.name.replace(' ', '')} role='tabpanel' aria-labelledby={category.attributes.name.replace(' ', '') + '-tab'}>
                             <div className='col-12'>
-                                <input type='text' className='search form-control mb-3' placeholder='Search notes' value={searchNote} onChange={(e) => setSearchNote(e.target.value)}></input>
+                                <input type='text' className='search-note form-control mb-3' placeholder='Search notes' value={searchNote} onChange={(e) => setSearchNote(e.target.value)}></input>
                                 <select className='select form-select' onChange={(e) => setSortFlag(Number.parseInt(e.target.value))}>
                                     <option value='1'>Sort by: Default</option>
                                     <option value='2'>Sort by: Title</option>

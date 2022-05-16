@@ -87,7 +87,7 @@ h6 {
 	color: #000000;
 }
 
-/* .search {
+.search-note {
     background-image: url(../../../assets/images/vector.png);
     background-position: 5px 6px;
     background-size: 15px;
@@ -98,7 +98,7 @@ h6 {
     margin-right: 20px;
     max-width: 220px;
     display: inline-block;
-} */
+}
 
 .select {
 	max-width: 145px;
