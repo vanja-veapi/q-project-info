@@ -13,7 +13,8 @@ import { useRegisterUser } from "../../../hooks/users/RegisterUser/useRegisterUs
 const Register = () => {
 	// RegEx
 	const regExEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@]+)*)|(".+"))+@((quantox)|(quantoxtechnology))+(?:\.[a-zA-Z0-9-]+)+$/;
-	const regExGlobal = /^[A-ZŽŠĐČĆa-zžšđčć\d]{2,30}$/;
+	// const regExGlobal = /^[A-ZŽŠĐČĆa-zžšđčć\d]{2,30}$/;
+	const usernameRegEx = /^([a-zžšđčćA-ZŽŠĐČĆ!@_]{2,30})+(\d)*/;
 	const regExPassword = /^[^ ]{6,16}$/;
 
 	// UseStates
@@ -28,7 +29,7 @@ const Register = () => {
 
 	const onRegister = () => {
 		// If all regEx are true, then call react-query and register user
-		if (regExGlobal.test(credentials.username) && regExEmail.test(credentials.email) && regExPassword.test(credentials.password) && credentials.password === credentials.confirmPassword) {
+		if (usernameRegEx.test(credentials.username) && regExEmail.test(credentials.email) && regExPassword.test(credentials.password) && credentials.password === credentials.confirmPassword) {
 			const newUser = {
 				username: credentials.username,
 				email: credentials.email,
@@ -64,7 +65,7 @@ const Register = () => {
 						{/* Username */}
 						<label className="mt-2">Username</label>
 						<br />
-						{!regExGlobal.test(credentials.username) && submitRegister ? <small className="text-danger">Username is required</small> : ""}
+						{!usernameRegEx.test(credentials.username) && submitRegister ? <small className="text-danger">Username is required</small> : ""}
 						<input type="text" className="form-control" placeholder="Username" onChange={(e) => setCredentials({ ...credentials, username: e.target.value })} />
 
 						{/* Email */}
@@ -76,7 +77,7 @@ const Register = () => {
 						{/* Password */}
 						<label className="mt-3">Password</label>
 						<br />
-						{!regExGlobal.test(credentials.password) && submitRegister ? <small className="text-danger">Password is required</small> : ""}
+						{!usernameRegEx.test(credentials.password) && submitRegister ? <small className="text-danger">Password is required</small> : ""}
 						<input type="password" className="form-control" placeholder="Password" onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} />
 
 						{/* Confirm password */}

@@ -24,7 +24,11 @@ export const useRegisterUser = () => {
 		onSuccess: (success) => {
 			queryClient.setQueryData("register-info", () => {
 				if (window.location.pathname === "/dashboard/user/add") {
-					return setTimeout(() => navigate("/dashboard"), 1000);
+					setTimeout(() => {
+						navigate("/dashboard");
+						queryClient.setQueryData("register-info", null);
+					}, 1000);
+					return success;
 				}
 
 				localStorage.setItem("token", success.data.jwt);

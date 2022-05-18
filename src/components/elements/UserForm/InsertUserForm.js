@@ -90,7 +90,7 @@ const InsertUserForm = () => {
 							</div>
 						</div>
 						{data?.error?.status >= 400 ? <div className="alert alert-danger w-75 m-auto mb-3">{data?.error?.message}</div> : null}
-						{data?.success?.status === 200 ? <div className="alert alert-success w-75 m-auto mb-3">You have successfully registered user</div> : null}
+						{data?.status === 200 ? <div className="alert alert-success w-75 m-auto mb-3">You have successfully registered user</div> : null}
 					</div>
 				</div>
 			</div>
