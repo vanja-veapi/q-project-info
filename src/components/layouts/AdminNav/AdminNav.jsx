@@ -8,7 +8,7 @@ const AdminNav = () => {
 		const btnMenu = document.querySelector("#btnMenu");
 		const aside = document.querySelector("aside");
 		if (isClicked) {
-			console.log(true);
+			// console.log(true);
 
 			aside.classList.toggle("active-aside");
 			aside.classList.toggle("w-100");
@@ -19,7 +19,7 @@ const AdminNav = () => {
 
 			setIsClicked(false);
 		} else {
-			console.log(false);
+			// console.log(false);
 			aside.classList.toggle("d-none");
 			btnMenu.classList.toggle("active");
 			btnMenu.classList.toggle("position-fixed");

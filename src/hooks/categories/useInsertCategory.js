@@ -28,7 +28,7 @@ export const useInsertCategory = () => {
 
 	return useMutation(insertCategory, {
 		onError: (error) => {
-			console.log("Desio se error");
+			// console.log("Desio se error");
 			queryClient.setQueryData("insert-category", error.response.data.error);
 			setTimeout(() => queryClient.removeQueries("insert-category"), 1000);
 		},

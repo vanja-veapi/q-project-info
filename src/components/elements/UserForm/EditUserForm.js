@@ -115,7 +115,7 @@ const EditUserForm = ({ fetchUser, refetch, isLoading, isAdmin }) => {
 				//Nije prosao jer je imageObj[0] undefiend
 			}
 		}
-		console.log(sendingData);
+		// console.log(sendingData);
 		updateUser(sendingData);
 		setTimeout(() => refetch(), 500);
 		setMessage(null);

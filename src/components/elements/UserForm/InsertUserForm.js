@@ -60,7 +60,7 @@ const InsertUserForm = () => {
 				sendingData = { ...sendingData, [property]: newUserData[property] };
 			}
 		}
-		console.log(sendingData);
+		// console.log(sendingData);
 		registerUser(sendingData, true);
 		setMessage(null);
 	};

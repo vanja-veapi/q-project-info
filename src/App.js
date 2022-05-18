@@ -52,7 +52,7 @@ function App() {
 	const [loading, setLoading] = useState(true);
 
 	const token = localStorage.getItem("token");
-	console.log(token);
+	// console.log(token);
 
 	if (token && (window.location.pathname === "/" || window.location.pathname === "/register")) {
 		window.location.replace("/projects");

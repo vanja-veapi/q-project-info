@@ -17,7 +17,7 @@ const InsertCategoryForm = ({ id, categoryObj, isAdmin }) => {
 		if (!categoryRegEx.test(category)) {
 			return setMessage("Category is not in valid format...");
 		}
-		console.log(category);
+		// console.log(category);
 		insertCategory(category);
 		setMessage(null);
 	};

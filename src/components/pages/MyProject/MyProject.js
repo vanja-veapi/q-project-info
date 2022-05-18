@@ -23,12 +23,12 @@ export const MyProject = () => {
 		return <Navigate to="/dashboard" />;
 	}
 	if (role === 4) {
-		console.log("Manager");
+		// console.log("Manager");
 		return <ProjectContainer bgColor={"bg-blue-light"} isPM={true} />;
 	}
 	//RoleId 5 === Employee
 	if (role === 5) {
-		console.log("Employee id");
+		// console.log("Employee id");
 		return <ProjectContainer bgColor={"bg-green-light"} isPM={false} />;
 	}
 };
