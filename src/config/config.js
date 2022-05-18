@@ -1,6 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { Navigate } from "react-router-dom";
 import { useLogoutUser } from "../hooks/users/LogoutUser/useLogoutUser";
+
 const instance = axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 
 //Ako mi se nekad bude pravio PROBLEM TO JE ZATO STO SAM OTKOMENTARISAO OVDE
@@ -13,11 +15,10 @@ instance.interceptors.request.use(
 			const decodedToken = jwt_decode(token);
 			const currentDate = new Date();
 			if (decodedToken.exp * 1000 < currentDate.getTime()) {
-				localStorage.removeItem("token");
-				useLogoutUser();
+				// useLogoutUser();
 
 				console.log("Token expired.");
-				return (window.location.href = "/");
+				return (window.location.href = "logout");
 			} else {
 				config.headers.Authorization = `Bearer ${token}`;
 			}
