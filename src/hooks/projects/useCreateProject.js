@@ -13,12 +13,13 @@ export const useCreateProject = () => {
 	return useMutation(createProject, {
 		onSuccess: (success) => {
 			queryClient.setQueryData("create-project-info", () => {
-				setTimeout(() => navigate(`/projects/${success.data.id}`), 3000);
+				setTimeout(() => navigate(`/projects/${success.data.data.id}`), 3000);
 
 				return {
 					success: success,
 				};
 			});
+			setTimeout(() => queryClient.removeQueries("create-project-info"), 3000);
 		},
 		onError: (error) => {
 			queryClient.setQueryData("create-project-info", () => {
