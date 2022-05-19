@@ -58,7 +58,7 @@ function App() {
 		window.location.replace("/projects");
 	}
 
-	useEffect(() => setTimeout(() => setLoading(false)), 2000);
+	useEffect(() => setTimeout(() => setLoading(false), 2000));
 
 	return (
 		<QueryClientProvider client={queryClient}>
