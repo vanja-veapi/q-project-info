@@ -19,6 +19,7 @@ export const useCreateProject = () => {
 					success: success,
 				};
 			});
+			setTimeout(() => queryClient.removeQueries("create-project-info"), 3000);
 		},
 		onError: (error) => {
 			queryClient.setQueryData("create-project-info", () => {

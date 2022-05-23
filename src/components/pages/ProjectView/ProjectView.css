@@ -1,6 +1,6 @@
 .container-top {
 	background-color: #ede7fd;
-	padding: 45px 0 35px 0;
+	padding: 0 0 35px 0;
 }
 
 .project-logo {
@@ -186,6 +186,15 @@ h6 {
 .override-text {
 	font-size: 12px;
 	color: #717171;
+}
+
+.delete-image {
+	width: 14px;
+	height: 14px;
+}
+
+.delete-button-container {
+	min-height: 40px;
 }
 
 /* =============== Bootstrap overrides =============== */

@@ -1,17 +1,21 @@
 import React, {useState, useEffect} from 'react';
+import { useQueryClient } from "react-query";
 import './ProjectView.css';
 import { useNavigate, useParams } from 'react-router';
-
-import iconNote from '../../../assets/images/icon-note.png';
-import projectLogo from '../../../assets/images/img.png';
-import iconEdit from '../../../assets/images/image-6.png';
-import vectorImg from '../../../assets/images/vector.png';
 import { useGetProject } from '../../../hooks/projects/useGetProject';
 import useLoggedUser from '../../../hooks/users/useLoggedUser';
 import QuantoxSpinner from '../../elements/QuantoxSpinner/QuantoxSpinner';
 import instance from '../../../config/config';
 
+import iconNote from '../../../assets/images/icon-note.png';
+import projectLogo from '../../../assets/images/img.png';
+import iconEdit from '../../../assets/images/image-6.png';
+import vectorImg from '../../../assets/images/vector.png';
+import deleteImg from '../../../assets/images/delete.svg';
+
 const ProjectView = () => {
+    const queryClient = useQueryClient();
+
     const { projectId } = useParams();
 
     const [project, setProject] = useState({});
@@ -66,9 +70,27 @@ const ProjectView = () => {
         navigate(`/projects/${projectId}/notes/${id}/edit`);
     }
 
+    const deleteProject = () => {
+        instance.delete(`/api/projects/${projectId}`)
+            .then(resp => {
+                queryClient.invalidateQueries('user-projects');
+                navigate(`/projects`);
+            });
+    }
+
     return (
         <div className='col-xs-12'>
             <div className='container-top'>
+                <div className='row mb-1'>
+                    <div className='col-xs-12 delete-button-container text-end'>
+                        {loggedUser.data.role.type === 'project_manager' &&
+                            <button type='button' className='btn btn-sm m-1' onClick={deleteProject}>
+                                <img src={deleteImg} className='delete-image m-1 mt-0' />
+                                <strong>DELETE</strong>
+                            </button>
+                        }
+                    </div>
+                </div>
                 <div className='row m-0'>
                     <div className='col-md-6 col-s-12'>
                         {project?.attributes?.logo?.data?.attributes && 
