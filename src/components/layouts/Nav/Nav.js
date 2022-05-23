@@ -4,17 +4,22 @@ import styles from "./Nav.module.css";
 
 import { NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 const Nav = () => {
 	const { data } = useQuery("register-info", () => {});
+
 	let lsToken = localStorage.getItem("token");
 	let token = useQuery("token", () => {}, { refetchOnMount: false, refetchOnWindowFocus: false });
+	const queryClient = useQueryClient();
 
 	if (lsToken === null) {
 		token.data = null;
 	}
 
+	if (!token.data && lsToken) {
+		queryClient.setQueryData("token", lsToken);
+	}
 	const [openMenu, setOpenMenu] = useState(false);
 	const handleMenu = () => {
 		const navList = document.querySelector("#nav-list");
@@ -50,6 +55,7 @@ const Nav = () => {
 		};
 	};
 	const processChange = debounce(() => handleMenu(), 200);
+
 	return (
 		<nav className="nav navbar justify-content-end">
 			{/* justify-content-center umesto around da bude i gap 20px gap-4 */}
