@@ -7,6 +7,7 @@ import QuantoxSpinner from "../../elements/QuantoxSpinner/QuantoxSpinner";
 export const MyProject = () => {
 	const fetchUsers = useLoggedUser();
 	const role = fetchUsers.data?.data?.role?.id;
+	const roleType = fetchUsers.data?.data?.role.type;
 	const isLoading = fetchUsers.status;
 	const isError = fetchUsers.isError;
 	const errorMessage = fetchUsers.error;
@@ -18,7 +19,7 @@ export const MyProject = () => {
 	if (isError) {
 		return <div className="alert alert-danger mt-5 w-50 m-auto">{errorMessage.message}</div>;
 	}
-	if (role === 3) {
+	if (roleType === "system_administrator") {
 		// console.log("Admin");
 		return <Navigate to="/dashboard" />;
 	}

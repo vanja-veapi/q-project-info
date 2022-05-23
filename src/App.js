@@ -33,6 +33,8 @@ import InsertCategory from "./components/pages/InsertData/InsertCategory";
 import EditCategory from "./components/pages/EditData/EditCategory";
 import { useEffect, useState } from "react";
 import QuantoxSpinner from "./components/elements/QuantoxSpinner/QuantoxSpinner";
+import { ErrorBoundary } from "react-error-boundary";
+import { Fallback } from "./components/elements/Fallback";
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -58,35 +60,40 @@ function App() {
 		window.location.replace("/projects");
 	}
 
+	const errorHandler = (error) => {
+		error.toString();
+	};
 	useEffect(() => setTimeout(() => setLoading(false), 2000));
 
 	return (
 		<QueryClientProvider client={queryClient}>
 			{loading ? <QuantoxSpinner /> : null}
 			<div className="App">
-				<div className="container-fluid">
-					<Routes>
-						<Route exact path="/" element={<Login />} />
-						<Route path="/register" element={<Register />} />
-						<Route element={<ProtectedRoutes />}>
-							{/* PM Home || Employee */}
-							<Route path="/dashboard" element={<AdminDashboard />} />
-							<Route path="/dashboard/users/:id/edit" element={<EditUser />} />
-							<Route path="/dashboard/categories/:id/edit" element={<EditCategory />} />
-							<Route path="/dashboard/user/add" element={<InsertUser />} />
-							<Route path="/dashboard/category/add" element={<InsertCategory />} />
-							<Route path="/projects" element={<MyProject />} />
-							<Route path="/logout" element={<Logout />} />
-							<Route path="/profile" element={<Profile />} />
-							<Route path="/projects/create" element={<CreateProject edit={false} />} />
-							<Route path="/projects/:projectId" element={<ProjectView />} />
-							<Route path="/projects/:projectId/edit" element={<CreateProject edit={true} />} />
-							<Route path="/projects/:projectId/note/create" element={<CreateNote editNote={false} />} />
-							<Route path="/projects/:projectId/notes/:noteId/edit" element={<CreateNote editNote={true} />} />
+				<ErrorBoundary FallbackComponent={Fallback} onError={errorHandler}>
+					<div className="container-fluid">
+						<Routes>
+							<Route exact path="/" element={<Login />} />
+							<Route path="/register" element={<Register />} />
+							<Route element={<ProtectedRoutes />}>
+								{/* PM Home || Employee */}
+								<Route path="/dashboard" element={<AdminDashboard />} />
+								<Route path="/dashboard/users/:id/edit" element={<EditUser />} />
+								<Route path="/dashboard/categories/:id/edit" element={<EditCategory />} />
+								<Route path="/dashboard/user/add" element={<InsertUser />} />
+								<Route path="/dashboard/category/add" element={<InsertCategory />} />
+								<Route path="/projects" element={<MyProject />} />
+								<Route path="/logout" element={<Logout />} />
+								<Route path="/profile" element={<Profile />} />
+								<Route path="/projects/create" element={<CreateProject edit={false} />} />
+								<Route path="/projects/:projectId" element={<ProjectView />} />
+								<Route path="/projects/:projectId/edit" element={<CreateProject edit={true} />} />
+								<Route path="/projects/:projectId/note/create" element={<CreateNote editNote={false} />} />
+								<Route path="/projects/:projectId/notes/:noteId/edit" element={<CreateNote editNote={true} />} />
+							</Route>
 							<Route path="*" element={<NotFound />} />
-						</Route>
-					</Routes>
-				</div>
+						</Routes>
+					</div>
+				</ErrorBoundary>
 			</div>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>

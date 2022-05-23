@@ -1,0 +1,8 @@
+.error {
+	width: 100%;
+	min-height: 60vh;
+	background-image: url(../../../assets/quantox-background.jpg);
+	background-repeat: no-repeat;
+	background-size: 55%;
+	background-position: center;
+}
