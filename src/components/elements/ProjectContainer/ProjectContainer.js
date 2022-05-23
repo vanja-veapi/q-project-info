@@ -29,7 +29,7 @@ const ProjectContainer = ({ bgColor, isPM }) => {
 	};
 
 	useEffect(() => {
-		if (projects === undefined) {
+		if (projects === undefined || projects.length !== data?.data?.data.length) {
 			return setProjects(data?.data.data);
 		}
 	}, [data]);

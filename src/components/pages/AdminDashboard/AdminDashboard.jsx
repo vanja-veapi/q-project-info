@@ -78,7 +78,6 @@ const AdminDashboard = () => {
 	}, [itemOffsetCategories, itemsPerPage, categories?.data]);
 
 	// console.log(userData);
-	console.log(userData?.role?.type);
 	if (userData?.role?.type !== "system_administrator") {
 		return <Navigate to="/projects" />;
 	}
