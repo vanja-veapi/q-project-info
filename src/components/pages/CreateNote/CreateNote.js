@@ -28,6 +28,8 @@ const CreateNote = ({ editNote }) => {
     const [noteFiles, setNoteFiles] = useState([]);
     const [submitCreateNote, setSubmitCreateNote] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [projectEmployees, setProjectEmployees] = useState([]);
+    const [allEmployees, setAllEmployees] = useState([]);
     const fileRef = useRef();
     const navigate = useNavigate();
 
@@ -40,6 +42,13 @@ const CreateNote = ({ editNote }) => {
 
     useEffect(() => {
         getCategories();
+
+        instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
+            .then(resp => {
+                setAllEmployees(resp.data);
+                setProjectEmployees(resp.data.filter(e => e.role.type !== 'project_manager'));
+                //console.log(resp.data.filter(e => e.role.type !== 'project_manager'));
+            });
     }, []);
 
     useEffect(() => {
@@ -163,6 +172,10 @@ const CreateNote = ({ editNote }) => {
         {isLoading ? <QuantoxSpinner /> : ""}
         <div className='col-xs-12'>
             <div className='container-top'>
+                <div className='row mb-1'>
+                    <div className='col-xs-12 delete-button-container text-end'>
+                    </div>
+                </div>
                 <div className='row m-0'>
                     <div className='col-md-6 col-s-12'>
                         {dataProject?.data.data.attributes?.logo?.data?.attributes && 
@@ -182,16 +195,17 @@ const CreateNote = ({ editNote }) => {
                         <div className='members'>
                             <h6>Project Menager</h6>
                             <p className='mt-3'>
-                                {dataProject?.data.data.attributes?.manager?.data && <span className='profile-img'>{dataProject?.data.data.attributes?.manager?.data?.attributes.username[0].toUpperCase()}</span>}
-                                {!dataProject?.data.data.attributes?.manager?.data && <span className='description-text'>Unknown</span>}
+                                {allEmployees.find(p => p.role.type === 'project_manager') && allEmployees.find(p => p.role.type === 'project_manager').profileImage && <img className='img-icon' src={'http://localhost:1337' + allEmployees.find(p => p.role.type === 'project_manager').profileImage.formats.thumbnail.url} />}
+                                {allEmployees.find(p => p.role.type === 'project_manager') && !allEmployees.find(p => p.role.type === 'project_manager').profileImage && <span className='profile-img'>{allEmployees.find(p => p.role.type === 'project_manager').username[0].toUpperCase()}</span>}
+                                {!allEmployees.find(p => p.role.type === 'project_manager') && <span className='description-text'>Unknown</span>}
                             </p>
                         </div>
                         <div className='members'>
                             <h6>Employees</h6>
                             <p className='mt-3 pl-17'>
-                                {dataProject?.data.data.attributes?.employees?.data.length > 0 && dataProject?.data.data.attributes?.employees?.data.slice(0, 3).map((emp) => <span className='profile-img ml-17' key={emp.id}>{emp?.attributes?.username[0].toUpperCase()}</span>)}
-                                {dataProject?.data.data.attributes?.employees?.data.length < 1 && <span className='description-text ml-17'>No employees</span>}
-                                {dataProject?.data.data.attributes?.employees?.data.length > 3 && <span className='description-text pl-8'>+ {dataProject?.data.data.attributes?.employees?.data.length - 3} more</span>}
+                                {projectEmployees.length > 0 && projectEmployees.slice(0, 3).map((emp) => ( emp.profileImage ? <img className='img-icon ml-17' src={'http://localhost:1337' + emp.profileImage.formats.thumbnail.url} /> : <span className='profile-img ml-17' key={emp.id}>{emp?.username[0].toUpperCase()}</span>))}
+                                {projectEmployees.length < 1 && <span className='description-text ml-17'>No employees</span>}
+                                {projectEmployees.length > 3 && <span className='description-text pl-8'>+ {projectEmployees.length - 3} more</span>}
                             </p>
                         </div>
                     </div>

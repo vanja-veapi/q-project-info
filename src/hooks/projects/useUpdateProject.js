@@ -12,6 +12,7 @@ export const useUpdateProject = (id) => {
 
 	return useMutation(updateProject, {
 		onSuccess: (success) => {
+			queryClient.invalidateQueries('user-projects');
 			queryClient.setQueryData("update-project-info", () => {
 				setTimeout(() => navigate(`/projects/${id}`), 3000);
 				return {

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import './CreateProject.css';
+import { useQueryClient } from "react-query";
 import { useCreateProject } from "../../../hooks/projects/useCreateProject";
 import { useGetProject } from '../../../hooks/projects/useGetProject';
 import { useQuery } from "react-query";
@@ -13,6 +14,8 @@ import { useUpdateProject } from "../../../hooks/projects/useUpdateProject";
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
 
 const CreateProject = ({ edit }) => {
+    const queryClient = useQueryClient();
+
     const fileRef = useRef();
 
     const [projectLogoImg, setProjectLogoImg] = useState(rocketImg);
@@ -23,7 +26,6 @@ const CreateProject = ({ edit }) => {
 
     const [showSearch, setShowSearch] = useState(false);
     const [employees, setEmployees] = useState([]);
-    const [allEmployees, setAllEmployees] = useState([]);
     const [projectData, setProjectData] = useState({
         projectName: "",
         projectDescription: "",
@@ -59,8 +61,8 @@ const CreateProject = ({ edit }) => {
             //const memb = project.data.data.attributes.employees.data.map((m) => convertMemberObject(m));
             instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
             .then(resp => {
-                //const memb = resp.data.filter(e => e.role.type !== 'project_manager' && project.data.data.attributes.employees.data.map((me) => me.id).includes(e.id)).map((m) => convertMemberObject(m));
-                const memb = resp.data.filter(e => e.role.type !== 'project_manager').map((m) => convertMemberObject(m));
+                //const memb = resp.data.filter(e => e.role.type !== 'project_manager').map((m) => convertMemberObject(m));
+                const memb = resp.data.filter(e => e.role.type !== 'project_manager' && project.data.data.attributes.employees.data.map((me) => me.id).includes(e.id)).map((m) => convertMemberObject(m));
                 setMembers(memb);
             });
 
@@ -72,7 +74,8 @@ const CreateProject = ({ edit }) => {
     const convertMemberObject = (m) => {
             return {
                 username: m.username,
-                id: m.id
+                id: m.id,
+                profileImage: m.profileImage
             };
     };
 
@@ -276,7 +279,7 @@ const CreateProject = ({ edit }) => {
                             <>
                             {members.map((member) => (
                                 <div className="project-employee mb-2" key={member.id + '-1'}>
-                                    <span className='profile-img smal-img'>{member.username[0].toUpperCase()}</span>
+                                    {member.profileImage ? <img className='img-icon width-20 mr-22' src={'http://localhost:1337' + member.profileImage.formats.thumbnail.url} /> : <span className='profile-img smal-img' key={member.id}>{member?.username[0].toUpperCase()}</span>}
                                     <div className='member-data'>
                                         <p className='member-name'>{member.username}</p>
                                     </div>
