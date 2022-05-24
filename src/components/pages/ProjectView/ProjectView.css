@@ -5,6 +5,7 @@
 
 .project-logo {
 	width: 77px;
+	height: 77px;
 	border-radius: 50%;
 	display: inline-block;
 	vertical-align: top;
@@ -62,6 +63,12 @@ h6 {
 	color: #ffffff;
 	font-size: 16px;
 	font-weight: 400;
+}
+
+.img-icon {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
 }
 
 .ml-17 {

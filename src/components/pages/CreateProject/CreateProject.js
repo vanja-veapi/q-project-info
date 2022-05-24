@@ -23,6 +23,7 @@ const CreateProject = ({ edit }) => {
 
     const [showSearch, setShowSearch] = useState(false);
     const [employees, setEmployees] = useState([]);
+    const [allEmployees, setAllEmployees] = useState([]);
     const [projectData, setProjectData] = useState({
         projectName: "",
         projectDescription: "",
@@ -55,15 +56,22 @@ const CreateProject = ({ edit }) => {
         }
         
         if(project.data.data.attributes.employees.data.length) {
-            const memb = project.data.data.attributes.employees.data.map((m) => convertMemberObject(m));
-            setMembers(memb);
+            //const memb = project.data.data.attributes.employees.data.map((m) => convertMemberObject(m));
+            instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
+            .then(resp => {
+                //const memb = resp.data.filter(e => e.role.type !== 'project_manager' && project.data.data.attributes.employees.data.map((me) => me.id).includes(e.id)).map((m) => convertMemberObject(m));
+                const memb = resp.data.filter(e => e.role.type !== 'project_manager').map((m) => convertMemberObject(m));
+                setMembers(memb);
+            });
+
+            
         }
 
     }, [project]);
 
     const convertMemberObject = (m) => {
             return {
-                username: m.attributes.username,
+                username: m.username,
                 id: m.id
             };
     };
@@ -135,8 +143,9 @@ const CreateProject = ({ edit }) => {
                             name: projectData.projectName,
                             description: projectData.projectDescription,
                             logo: resp.data[0].id,
-                            employees: members.map(m => m.id),
-                            manager: loggedUser.data.id
+                            // employees: members.map(m => m.id),
+                            // manager: loggedUser.data.id
+                            employees: [...[loggedUser.data.id], ...members.map(m => m.id)]
                         }
                     };
 
@@ -159,8 +168,10 @@ const CreateProject = ({ edit }) => {
             data: {
                 name: projectData.projectName,
                 description: projectData.projectDescription,
-                employees: members.map(m => m.id),
-                manager: loggedUser.data.id
+                // employees: members.map(m => m.id),
+                // manager: loggedUser.data.id
+                employees: [...[loggedUser.data.id], ...members.map(m => m.id)]
+
             }
         }
 
@@ -196,7 +207,7 @@ const CreateProject = ({ edit }) => {
         <div className='col-xs-12'>
             <div className='container-header'>
                 <img className="rocket-img" src={projectLogoImg} />
-                <div className="display-inline">
+                <div className="display-inline pt-3">
                     {!edit &&
                         <>
                         <h5>Create Project</h5>
