@@ -41,12 +41,6 @@ const ProjectView = () => {
             .then(resp => {
                 setCategories(resp?.data?.data);
             });
-
-        // instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
-        //     .then(resp => {
-        //         setAllEmployees(resp.data);
-        //         setProjectEmployees(resp.data.filter(e => e.role.type !== 'project_manager'));
-        //     });
     }, []);
 
     useEffect(() => {
@@ -63,7 +57,6 @@ const ProjectView = () => {
         instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
             .then(resp => {
                 setAllEmployees(resp.data);
-                //setProjectEmployees(resp.data.filter(e => e.role.type !== 'project_manager'));
                 const memb = resp.data.filter(e => e.role.type !== 'project_manager' && data.data.data.attributes.employees.data.map((me) => me.id).includes(e.id));
                 setProjectEmployees(memb);
             });
@@ -133,11 +126,11 @@ const ProjectView = () => {
                         </div>
                         <div className='members'>
                             <h6>Employees</h6>
-                            <p className='mt-3 pl-17'>
-                                {projectEmployees.length > 0 && projectEmployees.slice(0, 3).map((emp) => ( emp.profileImage ? <img className='img-icon ml-17' src={'http://localhost:1337' + emp.profileImage.formats.thumbnail.url} /> : <span className='profile-img ml-17' key={emp.id}>{emp?.username[0].toUpperCase()}</span>))}
+                            <div className='mt-3 pl-17'>
+                                {projectEmployees.length > 0 && projectEmployees.slice(0, 3).map((emp) => (emp.profileImage ? <img className='img-icon ml-17' src={'http://localhost:1337' + emp.profileImage.formats.thumbnail.url} /> : <span className='profile-img ml-17' key={emp.id}>{emp?.username[0].toUpperCase()}</span>))}
                                 {projectEmployees.length < 1 && <p className='description-text ml-17 mt-4'>No employees</p>}
                                 {projectEmployees.length > 3 && <span className='description-text pl-8'>+ {projectEmployees.length - 3} more</span>}
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>

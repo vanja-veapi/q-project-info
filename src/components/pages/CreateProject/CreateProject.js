@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import './CreateProject.css';
-import { useQueryClient } from "react-query";
 import { useCreateProject } from "../../../hooks/projects/useCreateProject";
 import { useGetProject } from '../../../hooks/projects/useGetProject';
 import { useQuery } from "react-query";
@@ -14,8 +13,6 @@ import { useUpdateProject } from "../../../hooks/projects/useUpdateProject";
 import useLoggedUser from "../../../hooks/users/useLoggedUser";
 
 const CreateProject = ({ edit }) => {
-    const queryClient = useQueryClient();
-
     const fileRef = useRef();
 
     const [projectLogoImg, setProjectLogoImg] = useState(rocketImg);
@@ -58,15 +55,11 @@ const CreateProject = ({ edit }) => {
         }
         
         if(project.data.data.attributes.employees.data.length) {
-            //const memb = project.data.data.attributes.employees.data.map((m) => convertMemberObject(m));
             instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
             .then(resp => {
-                //const memb = resp.data.filter(e => e.role.type !== 'project_manager').map((m) => convertMemberObject(m));
                 const memb = resp.data.filter(e => e.role.type !== 'project_manager' && project.data.data.attributes.employees.data.map((me) => me.id).includes(e.id)).map((m) => convertMemberObject(m));
                 setMembers(memb);
-            });
-
-            
+            });   
         }
 
     }, [project]);
@@ -146,8 +139,6 @@ const CreateProject = ({ edit }) => {
                             name: projectData.projectName,
                             description: projectData.projectDescription,
                             logo: resp.data[0].id,
-                            // employees: members.map(m => m.id),
-                            // manager: loggedUser.data.id
                             employees: [...[loggedUser.data.id], ...members.map(m => m.id)]
                         }
                     };
@@ -171,10 +162,7 @@ const CreateProject = ({ edit }) => {
             data: {
                 name: projectData.projectName,
                 description: projectData.projectDescription,
-                // employees: members.map(m => m.id),
-                // manager: loggedUser.data.id
                 employees: [...[loggedUser.data.id], ...members.map(m => m.id)]
-
             }
         }
 

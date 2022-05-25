@@ -47,7 +47,6 @@ const CreateNote = ({ editNote }) => {
             .then(resp => {
                 setAllEmployees(resp.data);
                 setProjectEmployees(resp.data.filter(e => e.role.type !== 'project_manager'));
-                //console.log(resp.data.filter(e => e.role.type !== 'project_manager'));
             });
     }, []);
 
