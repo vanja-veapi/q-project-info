@@ -23,6 +23,8 @@ const ProjectView = () => {
     const [categories, setCategories] = useState([]);
     const [searchNote, setSearchNote] = useState('');
     const [sortFlag, setSortFlag] = useState(1);
+    const [projectEmployees, setProjectEmployees] = useState([]);
+    const [allEmployees, setAllEmployees] = useState([]);
 
 	const { data: loggedUser } = useLoggedUser();
 
@@ -52,6 +54,13 @@ const ProjectView = () => {
             setNotes(resp.data.data);
         });
 
+        instance.get(`/api/users?filters[project][id][$eq]=${projectId}&populate=*`)
+            .then(resp => {
+                setAllEmployees(resp.data);
+                const memb = resp.data.filter(e => e.role.type !== 'project_manager' && data.data.data.attributes.employees.data.map((me) => me.id).includes(e.id));
+                setProjectEmployees(memb);
+            });
+
 	}, [data]);
 
 	if (isLoading) {
@@ -77,7 +86,7 @@ const ProjectView = () => {
                 navigate(`/projects`);
             });
     }
-
+    
     return (
         <div className='col-xs-12'>
             <div className='container-top'>
@@ -110,17 +119,18 @@ const ProjectView = () => {
                         <div className='members'>
                             <h6>Project Menager</h6>
                             <p className='mt-3'>
-                                {project?.attributes?.manager?.data && <span className='profile-img'>{project?.attributes?.manager?.data?.attributes.username[0].toUpperCase()}</span>}
-                                {!project?.attributes?.manager?.data && <span className='description-text'>Unknown</span>}
+                                {allEmployees.find(p => p.role.type === 'project_manager') && allEmployees.find(p => p.role.type === 'project_manager').profileImage && <img className='img-icon' src={'http://localhost:1337' + allEmployees.find(p => p.role.type === 'project_manager').profileImage.formats.thumbnail.url} />}
+                                {allEmployees.find(p => p.role.type === 'project_manager') && !allEmployees.find(p => p.role.type === 'project_manager').profileImage && <span className='profile-img'>{allEmployees.find(p => p.role.type === 'project_manager').username[0].toUpperCase()}</span>}
+                                {!allEmployees.find(p => p.role.type === 'project_manager') && <span className='description-text'>Unknown</span>}
                             </p>
                         </div>
                         <div className='members'>
                             <h6>Employees</h6>
-                            <p className='mt-3 pl-17'>
-                                {project?.attributes?.employees?.data.length > 0 && project?.attributes?.employees?.data.slice(0, 3).map((emp) => <span className='profile-img ml-17' key={emp.id}>{emp?.attributes?.username[0].toUpperCase()}</span>)}
-                                {project?.attributes?.employees?.data.length < 1 && <span className='description-text ml-17'>No employees</span>}
-                                {project?.attributes?.employees?.data.length > 3 && <span className='description-text pl-8'>+ {project?.attributes?.employees?.data.length - 3} more</span>}
-                            </p>
+                            <div className='mt-3 pl-17'>
+                                {projectEmployees.length > 0 && projectEmployees.slice(0, 3).map((emp) => (emp.profileImage ? <img className='img-icon ml-17' src={'http://localhost:1337' + emp.profileImage.formats.thumbnail.url} /> : <span className='profile-img ml-17' key={emp.id}>{emp?.username[0].toUpperCase()}</span>))}
+                                {projectEmployees.length < 1 && <p className='description-text ml-17 mt-4'>No employees</p>}
+                                {projectEmployees.length > 3 && <span className='description-text pl-8'>+ {projectEmployees.length - 3} more</span>}
+                            </div>
                         </div>
                     </div>
                 </div>

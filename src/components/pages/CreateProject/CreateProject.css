@@ -6,6 +6,7 @@
 
 .rocket-img {
     width: 96px;
+    height: 96px;
     display: inline-block;
     margin-right: 16px;
     border-radius: 50%;
@@ -45,6 +46,15 @@
     width: 13px;
     float: right;
     margin-top: 8px;
+}
+
+.width-20 {
+    width: 22px;
+    height: 22px;
+}
+
+.mr-22 {
+    margin-right: -22px;
 }
 
 .error-message {
