@@ -64,7 +64,7 @@ input {
     border-radius: 3px;
     background-color: white;
     padding: 5px;
-    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .icon-delete {
@@ -75,6 +75,14 @@ input {
 
 .ml-20 {
     margin-left: 20px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.fz-11 {
+    font-size: 11px;
 }
 
 /* =============== Bootstrap overrides =============== */
