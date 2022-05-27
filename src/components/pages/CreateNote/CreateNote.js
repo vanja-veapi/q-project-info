@@ -85,8 +85,11 @@ const CreateNote = ({ editNote }) => {
 
         if (noteData.files.length > 0) {
             const noteF = new FormData();
-		    noteF.append("files", noteData.files[0]);
+            for (let i = 0; i < noteData.files.length; i++) {
+		        noteF.append("files", noteData.files[i]);
+            }
             setNoteFiles(noteF);
+
             await instance.post('/api/upload', noteF)
                 .then(resp => {
                     const data = {
@@ -94,7 +97,7 @@ const CreateNote = ({ editNote }) => {
                             title: noteData.noteTitle,
                             description : noteData.noteDescription,
                             category: Number.parseInt(noteData.category),
-                            files: [resp.data[0].id],
+                            files: resp.data.map(d => d.id),
                             project: Number.parseInt(projectId),
                             author: loggedUser?.data.id
                         }
@@ -247,23 +250,33 @@ const CreateNote = ({ editNote }) => {
                                 {noteFiles.length > 0 &&
                                     <>
                                     <div>
-                                        <p className='note-label mb-1'>Current files:</p>
+                                        <p className='note-label mb-2'>Current files:</p>
                                         {noteFiles.map((file) => (
-                                            <span key={file?.id} className='note-label note-file mb-1'>{file?.attributes?.name} 
-                                                <img className="icon-delete" src={iconX} onClick={() => deleteFile(file)} />
-                                            </span>
+                                            <>
+                                            <p className='m-0 mb-2'>
+                                                <a className='btn btn-outline-secondary btn-sm fz-11' href={'http://localhost:1337' + file?.attributes.url} target='_blank'>Preview</a>
+                                                <span key={file?.id} className='note-label note-file'>{file?.attributes?.name} 
+                                                    <img className="icon-delete" src={iconX} onClick={() => deleteFile(file)} />
+                                                </span>
+                                            </p>
+                                            </>
                                         ))}
                                     </div>
                                     <br />
                                     </>
                                 }
                                 <button className='btn btn-outline-secondary btn-upload' onClick={() => fileRef.current.click()}>UPLOAD FILES</button>
-                                <input className='d-none' ref={fileRef} type='file' onChange={(e) => setNoteData({ ...noteData, files: e.target.files })}></input>
+                                <input className='d-none' ref={fileRef} type='file' multiple onChange={(e) => {setNoteData({ ...noteData, files: e.target.files })}}></input>
                                 {noteData.files.length > 0 &&
                                     <div className='file-msg'>
-                                        <strong>New Files: </strong>
+                                        <p className='note-label mt-3 mb-2'>New Files: </p>
                                         {Array.prototype.slice.call(noteData.files).map((nf) => (
-                                            <p key={nf.name}>{nf.name}</p>
+                                            <>
+                                            <p className='m-0 mb-2'>
+                                                <a className='btn btn-outline-secondary btn-sm mr-10 fz-11' href={URL.createObjectURL(nf)} target='_blank'>Preview</a>
+                                                <span key={nf.name}>{nf.name}</span>
+                                            </p>
+                                            </>
                                         ))}
                                     </div>
                                 }

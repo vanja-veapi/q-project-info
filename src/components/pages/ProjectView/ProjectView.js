@@ -86,6 +86,17 @@ const ProjectView = () => {
                 navigate(`/projects`);
             });
     }
+
+    const showFiles = (e) => {
+        const fileEl = e.target.parentElement.parentElement.querySelector('.file-list');
+
+        if (fileEl.className.includes('d-none')) {
+            fileEl.className = fileEl.className.replace('d-none', 'd-block');
+        }
+        else {
+            fileEl.className = fileEl.className.replace('d-block', 'd-none');
+        }
+    }
     
     return (
         <div className='col-xs-12'>
@@ -174,7 +185,7 @@ const ProjectView = () => {
                                                 <p className='card-text override-text'>{n.attributes.description}</p>
                                                 <div className='row mt-3'>
                                                     <div className='col-6'>
-                                                        <img className='note-img' src={iconNote} />
+                                                        <img className='note-img' src={iconNote} onClick={(e) => showFiles(e)} />  
                                                     </div>
                                                     <div className='col-6'>
                                                         <span className='profile-img smal-img'>{n.attributes.author.data.attributes.username[0].toUpperCase()}</span>
@@ -182,6 +193,20 @@ const ProjectView = () => {
                                                             <p className='member-name'>{n.attributes.author.data.attributes.username}</p>
                                                         </div>
                                                     </div>
+                                                    {n?.attributes?.files?.data &&
+                                                        <div className='col-12 mt-3 d-none file-list'>
+                                                            {n.attributes.files.data.map(f =>
+                                                            <>
+                                                            <p className='m-0 mb-2'>
+                                                                <a className='btn btn-outline-secondary btn-sm mr-10 fz-10' href={'http://localhost:1337' + f.attributes.url} target='_blank'>Preview</a>
+                                                                <span className='note-label'>{f.attributes.name}</span>
+                                                            </p>
+                                                            
+                                                            </>    
+                                                            )}
+                                                        </div>
+                                                    }
+                                                    {!n?.attributes?.files?.data && <p className='text-danger error-message mt-2 d-none file-list'>No files!</p>}
                                                 </div>
                                             </div>
                                         </div>
@@ -205,7 +230,7 @@ const ProjectView = () => {
                                                 <p className='card-text override-text'>{n.attributes.description}</p>
                                                 <div className='row mt-3'>
                                                     <div className='col-6'>
-                                                        <img className='note-img' src={iconNote} />
+                                                        <img className='note-img' src={iconNote} onClick={(e) => showFiles(e)} />
                                                     </div>
                                                     <div className='col-6'>
                                                         <span className='profile-img smal-img'>{n.attributes.author.data.attributes.username[0].toUpperCase()}</span>
@@ -213,6 +238,20 @@ const ProjectView = () => {
                                                             <p className='member-name'>{n.attributes.author.data.attributes.username}</p>
                                                         </div>
                                                     </div>
+                                                    {n?.attributes?.files?.data &&
+                                                        <div className='col-12 mt-3 d-none file-list'>
+                                                            {n.attributes.files.data.map(f =>
+                                                            <>
+                                                            <p className='m-0 mb-2'>
+                                                                <a className='btn btn-outline-secondary btn-sm mr-10 fz-10' href={'http://localhost:1337' + f.attributes.url} target='_blank'>Preview</a>
+                                                                <span className='note-label'>{f.attributes.name}</span>
+                                                            </p>
+                                                            
+                                                            </>    
+                                                            )}
+                                                        </div>
+                                                    }
+                                                    {!n?.attributes?.files?.data && <p className='text-danger error-message mt-2 d-none file-list'>No files!</p>}
                                                 </div>
                                             </div>
                                         </div>
@@ -236,7 +275,7 @@ const ProjectView = () => {
                                                 <p className='card-text override-text'>{n.attributes.description}</p>
                                                 <div className='row mt-3'>
                                                     <div className='col-6'>
-                                                        <img className='note-img' src={iconNote} />
+                                                        <img className='note-img' src={iconNote} onClick={(e) => showFiles(e)} />
                                                     </div>
                                                     <div className='col-6'>
                                                         <span className='profile-img smal-img'>{n.attributes.author.data.attributes.username[0].toUpperCase()}</span>
@@ -244,6 +283,20 @@ const ProjectView = () => {
                                                             <p className='member-name'>{n.attributes.author.data.attributes.username}</p>
                                                         </div>
                                                     </div>
+                                                    {n?.attributes?.files?.data &&
+                                                        <div className='col-12 mt-3 d-none file-list'>
+                                                            {n.attributes.files.data.map(f =>
+                                                            <>
+                                                            <p className='m-0 mb-2'>
+                                                                <a className='btn btn-outline-secondary btn-sm mr-10 fz-10' href={'http://localhost:1337' + f.attributes.url} target='_blank'>Preview</a>
+                                                                <span className='note-label'>{f.attributes.name}</span>
+                                                            </p>
+                                                            
+                                                            </>    
+                                                            )}
+                                                        </div>
+                                                    }
+                                                    {!n?.attributes?.files?.data && <p className='text-danger error-message mt-2 d-none file-list'>No files!</p>}
                                                 </div>
                                             </div>
                                         </div>
